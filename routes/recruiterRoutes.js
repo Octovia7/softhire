@@ -1,32 +1,43 @@
 const express = require("express");
-const { authenticate } = require("../middlewares/authMiddleware");
+const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
 const {
     getRecruiterDashboard,
     createJobPost,
     updateJobPost,
     deleteJobPost,
     getApplicants,
-    updateApplicationStatus,
     sponsorVisa,
     getVisaApplications,
+    updateVisaStatus,
+    assignVisaToRecruiter,
+    getRecruiterProfile,
+    updateRecruiterProfile
 } = require("../controllers/recruiterController");
 
 const router = express.Router();
 
-// Dashboard Overview
-router.get("/dashboard", authenticate, getRecruiterDashboard);
+// ✅ Middleware: Ensure only authenticated recruiters can access these routes
+router.use(authenticate, authorizeRecruiter);
 
-// Job Management
-router.post("/jobs", authenticate, createJobPost);
-router.put("/jobs/:jobId", authenticate, updateJobPost);
-router.delete("/jobs/:jobId", authenticate, deleteJobPost);
+// ✅ Recruiter Dashboard
+router.get("/dashboard", getRecruiterDashboard);
 
-// Applicant Management
-router.get("/applicants/:jobId", authenticate, getApplicants);
-router.put("/applications/:applicationId", authenticate, updateApplicationStatus);
+// ✅ Job Management
+router.post("/jobs", createJobPost);
+router.put("/jobs/:jobId", updateJobPost);
+router.delete("/jobs/:jobId", deleteJobPost);
 
-// Visa Management
-router.post("/visa/sponsor", authenticate, sponsorVisa);
-router.get("/visa/applications", authenticate, getVisaApplications);
+// ✅ Applicant Management
+router.get("/jobs/:jobId/applicants", getApplicants);
+
+// ✅ Visa Management
+router.post("/visa/sponsor", sponsorVisa);
+router.get("/visa/applications", getVisaApplications);
+router.put("/visa/applications/:applicationId/status", updateVisaStatus);
+router.put("/visa/applications/:applicationId/assign", assignVisaToRecruiter);
+
+// ✅ Recruiter Profile
+router.get("/profile", getRecruiterProfile);
+router.put("/profile", updateRecruiterProfile);
 
 module.exports = router;

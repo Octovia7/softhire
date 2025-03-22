@@ -2,30 +2,25 @@ const mongoose = require("mongoose");
 
 const organizationSchema = new mongoose.Schema(
     {
-        name: { type: String, required: true, unique: true },
-        website: { type: String }, // Optional company website
-        industry: { type: String }, // e.g., IT, Healthcare, Finance
-
-        sponsorLicense: { type: String, required: true }, // Mandatory for compliance
-        complianceDocs: [
-            {
-                docType: { type: String }, // e.g., "Tax Certificate", "Business License"
-                url: { type: String, required: true }, // Link to document storage
-            },
-        ],
-
-        location: {
-            address: { type: String },
-            city: { type: String },
-            country: { type: String },
+        name: { 
+            type: String, 
+            required: [true, "Organization name is required"], 
+            trim: true, 
+            maxlength: [100, "Organization name cannot exceed 100 characters"] 
         },
-
-        recruiters: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-        jobListings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }], // Track job postings
-
+        website: { 
+            type: String, 
+            validate: [validator.isURL, "Please provide a valid URL"] 
+        },
+        industry: { 
+            type: String, 
+            trim: true, 
+            maxlength: [50, "Industry cannot exceed 50 characters"] 
+        },
     },
     { timestamps: true }
 );
 
+module.exports = mongoose.model("Organization", organizationSchema);
 module.exports = mongoose.model("Organization", organizationSchema);
 

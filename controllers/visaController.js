@@ -20,7 +20,7 @@ exports.requestVisa = async (req, res) => {
 
         // Create a new visa application (to be approved by a recruiter)
         const newVisa = new VisaApplication({
-            candidate: userId,
+            candidate: userId, // Updated field name
             visaType,
             expirationDate,
             status: "Pending",
