@@ -10,8 +10,8 @@ const {
     getVisaApplications,
     updateVisaStatus,
     assignVisaToRecruiter,
-    getRecruiterProfile,
-    updateRecruiterProfile
+    // getRecruiterProfile,
+    // updateRecruiterProfile
 } = require("../controllers/recruiterController");
 
 const router = express.Router();
@@ -37,7 +37,7 @@ router.put("/visa/applications/:applicationId/status", updateVisaStatus);
 router.put("/visa/applications/:applicationId/assign", assignVisaToRecruiter);
 
 // ✅ Recruiter Profile
-router.get("/profile", getRecruiterProfile);
-router.put("/profile", updateRecruiterProfile);
+// router.get("/profile", getRecruiterProfile);
+// router.put("/profile", updateRecruiterProfile);
 
 module.exports = router;

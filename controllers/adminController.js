@@ -144,4 +144,4 @@ exports.updateVisaStatus = async (req, res) => {
         console.error("Error updating visa status:", error);
         res.status(500).json({ message: "Internal server error" });
     }
-};
+};  

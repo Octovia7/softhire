@@ -3,7 +3,7 @@ const Application = require("../models/Application");
 const Interview = require("../models/Interview");
 const Job = require("../models/Job");
 const VisaApplication = require("../models/VisaApplication");
-const upload = require("../middlewares/upload"); // Import the multer config
+const upload = require("../middleware/upload"); // Import the multer config
 const validator = require("validator");
 
 // Upload Resume
@@ -135,4 +135,4 @@ exports.getVisaApplications = async (req, res) => {
         console.error("Fetch Visa Applications Error:", error);
         res.status(500).json({ success: false, message: "Server Error" });
     }
-};
+}; 

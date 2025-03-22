@@ -8,11 +8,10 @@ const {
     applyForJob,
     getInterviews,
     getVisaApplications,
-    getJobDetails,
-    getRecommendedJobs
+    
 } = require("../controllers/userController");
 const { authenticate } = require("../middleware/authMiddleware");
-const upload = require("../middlewares/upload");
+const upload = require("../middleware/upload");
 
 // Get user profile
 router.get("/profile", authenticate, getProfile);
@@ -36,9 +35,9 @@ router.get("/interviews", authenticate, getInterviews);
 router.get("/visa-applications", authenticate, getVisaApplications);
 
 // Get job details
-router.get("/jobs/:jobId", authenticate, getJobDetails);
+// router.get("/jobs/:jobId", authenticate, getJobDetails);
 
 // Get recommended jobs
-router.get("/jobs/recommended", authenticate, getRecommendedJobs);
+// router.get("/jobs/recommended", authenticate, getRecommendedJobs);
 
 module.exports = router;

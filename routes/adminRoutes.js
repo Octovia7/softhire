@@ -8,9 +8,9 @@ const {
     deleteJob,
     getAllVisaApplications,
     updateVisaStatus,
-    getUserDetails,
-    updateUserDetails,
-    getAnalytics
+    // getUserDetails,
+    // updateUserDetails,
+    // getAnalytics
 } = require("../controllers/adminController");
 
 const router = express.Router();
@@ -23,8 +23,8 @@ router.get("/dashboard", getAdminDashboard);
 
 // ✅ User Management
 router.get("/users", getAllUsers);
-router.get("/users/:userId", getUserDetails);
-router.put("/users/:userId", updateUserDetails);
+// router.get("/users/:userId", getUserDetails);
+// router.put("/users/:userId", updateUserDetails);
 router.delete("/users/:userId", deleteUser);
 
 // ✅ Job Management
@@ -36,6 +36,6 @@ router.get("/visa-applications", getAllVisaApplications);
 router.put("/visa-applications/:applicationId", updateVisaStatus);
 
 // ✅ Analytics
-router.get("/analytics", getAnalytics);
+// router.get("/analytics", getAnalytics);
 
 module.exports = router;
