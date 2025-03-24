@@ -22,20 +22,17 @@ const transporter = nodemailer.createTransport({
 });
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
+
 exports.signup = async (req, res) => {
     const { fullName, email, password, role, organizationName, website, industry } = req.body;
 
-    // Validate fullName
     if (!fullName) {
         return res.status(400).json({ message: "Full name is required" });
     }
-
     if (!validator.isEmail(email)) return res.status(400).json({ message: "Invalid email format" });
     if (!validator.isStrongPassword(password, { minLength: 8, minNumbers: 1, minUppercase: 1 })) {
         return res.status(400).json({ message: "Weak password. Must have 8 chars, 1 number, 1 uppercase" });
     }
-
-    // Validate recruiter-specific fields
     if (role === "recruiter" && (!organizationName || !website || !industry)) {
         return res.status(400).json({ message: "Organization name, website, and industry are required for recruiters" });
     }
@@ -56,6 +53,7 @@ exports.signup = async (req, res) => {
             password: hashedPassword,
             role,
             otpData: { otp: hashedOTP, expires: Date.now() + 10 * 60 * 1000 },
+            isVerified: false,
         });
 
         await user.save();
@@ -66,25 +64,16 @@ exports.signup = async (req, res) => {
             to: email,
             subject: "Verify Your Email - OTP",
             text: `Your OTP is ${otp}. It expires in 10 minutes.`,
-        }, (err, info) => {
-            if (err) {
-                console.error("❌ Error sending email:", err);
-            } else {
-                console.log("✅ OTP Email sent:", info.response);
-            }
         });
+
+        // Generate temporary token for OTP verification
+        const tempToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "10m" });
 
         // Create organization if the user is a recruiter
         if (role === "recruiter") {
-            const organization = new Organization({
-                name: organizationName,
-                website,
-                industry,
-            });
+            const organization = new Organization({ name: organizationName, website, industry });
             await organization.save();
-            console.log("✅ Organization created:", organization);
 
-            // Create recruiter profile
             await Recruiter.create({
                 userId: user._id,
                 organization: organization._id,
@@ -92,10 +81,11 @@ exports.signup = async (req, res) => {
                 website,
                 position: "Recruiter",
             });
+
             console.log("✅ Recruiter profile created");
         }
 
-        res.status(200).json({ message: "OTP sent to your email" });
+        res.status(200).json({ message: "OTP sent to your email", tempToken });
     } catch (error) {
         console.error("❌ Signup Error:", error);
         res.status(500).json({ error: "Internal server error" });
@@ -105,54 +95,54 @@ exports.signup = async (req, res) => {
 exports.verifyOTP = async (req, res) => {
     console.log("📩 Received verify-otp request:", req.body);
 
-    const { email, otp } = req.body;
+    const { tempToken, otp } = req.body;
 
-    // ✅ Check if email and OTP are provided
-    if (!email || !otp) {
-        return res.status(400).json({ message: "Email and OTP are required" });
+    if (!tempToken || !otp) {
+        return res.status(400).json({ message: "Temp token and OTP are required" });
     }
 
     try {
-        const user = await User.findOne({ email });
+        // Decode temp token to get email
+        const decoded = jwt.verify(tempToken, process.env.JWT_SECRET);
+        const email = decoded.email;
 
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: "User not found" });
         }
 
-        // ✅ Ensure OTP data exists before comparing
         if (!user.otpData || !user.otpData.otp) {
             return res.status(400).json({ message: "No OTP found. Please request a new OTP." });
         }
 
-        // ✅ Check if OTP has expired
         if (Date.now() > user.otpData.expires) {
             return res.status(400).json({ message: "OTP expired" });
         }
 
-        // ✅ Compare OTP
         const isMatch = await bcrypt.compare(otp, user.otpData.otp);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid OTP" });
         }
 
-        // ✅ Mark user as verified
+        // Mark user as verified
         user.isVerified = true;
-        user.otpData = undefined; // OTP should be removed AFTER successful verification
+        user.otpData = undefined;
         await user.save();
 
-        // ✅ Create candidate profile if user is a candidate
         if (user.role === "candidate") {
             console.log("📝 Creating candidate profile...");
             await Candidate.create({ userId: user._id, skills: [] });
         }
 
-        res.status(200).json({ message: "Account verified successfully" });
+        // Generate login token
+        const loginToken = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" });
+
+        res.status(200).json({ message: "Account verified successfully", token: loginToken });
     } catch (error) {
         console.error("🚨 Verify OTP Error:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
-
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
