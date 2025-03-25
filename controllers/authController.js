@@ -44,13 +44,13 @@ exports.signup = async (req, res) => {
         if (user) return res.status(400).json({ message: "User already exists" });
 
         const otp = generateOTP();
-        console.log(`Generated OTP for ${role}:`, otp);
+        console.log(`📩 Generated OTP for ${role}:`, otp);
 
         const hashedOTP = await bcrypt.hash(otp, 10);
         const hashedPassword = await bcrypt.hash(password, 10);
 
         user = new User({
-            fullName, 
+            fullName,
             email,
             password: hashedPassword,
             role,
@@ -59,7 +59,7 @@ exports.signup = async (req, res) => {
         });
 
         await user.save();
-        console.log("✅ User saved:", user);
+        console.log("✅ User saved:", user.email);
 
         await transporter.sendMail({
             from: process.env.EMAIL,
@@ -68,8 +68,15 @@ exports.signup = async (req, res) => {
             text: `Your OTP is ${otp}. It expires in 10 minutes.`,
         });
 
+        // 🔹 Ensure JWT_SECRET is set
+        if (!process.env.JWT_SECRET) {
+            console.error("❌ ERROR: JWT_SECRET is not defined in environment variables.");
+            return res.status(500).json({ error: "Internal server error: Missing JWT_SECRET" });
+        }
+
         // Generate temporary token for OTP verification
         const tempToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "10m" });
+        console.log("🔑 Generated Temp Token:", tempToken);
 
         // Create organization if the user is a recruiter
         if (role === "recruiter") {
@@ -87,12 +94,15 @@ exports.signup = async (req, res) => {
             console.log("✅ Recruiter profile created");
         }
 
+        console.log("📨 Sending response with tempToken...");
         res.status(200).json({ message: "OTP sent to your email", tempToken });
+
     } catch (error) {
         console.error("❌ Signup Error:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
 
 exports.verifyOTP = async (req, res) => {
     console.log("📩 Received verify-otp request:", req.body);
