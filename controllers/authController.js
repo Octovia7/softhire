@@ -26,9 +26,7 @@ const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString()
 exports.signup = async (req, res) => {
     const { fullName, email, password, role, organizationName, website, industry } = req.body;
 
-    if (!fullName) {
-        return res.status(400).json({ message: "Full name is required" });
-    }
+    if (!fullName) return res.status(400).json({ message: "Full name is required" });
     if (!validator.isEmail(email)) return res.status(400).json({ message: "Invalid email format" });
     if (!validator.isStrongPassword(password, { minLength: 8, minNumbers: 1, minUppercase: 1 })) {
         return res.status(400).json({ message: "Weak password. Must have 8 chars, 1 number, 1 uppercase" });
@@ -66,17 +64,6 @@ exports.signup = async (req, res) => {
             text: `Your OTP is ${otp}. It expires in 10 minutes.`,
         });
 
-        // 🔹 Ensure JWT_SECRET is set
-        if (!process.env.JWT_SECRET) {
-            console.error("❌ ERROR: JWT_SECRET is not defined in environment variables.");
-            return res.status(500).json({ error: "Internal server error: Missing JWT_SECRET" });
-        }
-
-        // Generate temporary token for OTP verification
-        const tempToken = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "10m" });
-        console.log("🔑 Generated Temp Token:", tempToken);
-
-        // Create organization if the user is a recruiter
         if (role === "recruiter") {
             const organization = new Organization({ name: organizationName, website, industry });
             await organization.save();
@@ -92,8 +79,7 @@ exports.signup = async (req, res) => {
             console.log("✅ Recruiter profile created");
         }
 
-        console.log("📨 Sending response with tempToken...");
-        res.status(200).json({ message: "OTP sent to your email", tempToken });
+        res.status(200).json({ message: "OTP sent to your email" });
 
     } catch (error) {
         console.error("❌ Signup Error:", error);
@@ -105,21 +91,15 @@ exports.signup = async (req, res) => {
 exports.verifyOTP = async (req, res) => {
     console.log("📩 Received verify-otp request:", req.body);
 
-    const { tempToken, otp } = req.body;
+    const { email, otp } = req.body;
 
-    if (!tempToken || !otp) {
-        return res.status(400).json({ message: "Temp token and OTP are required" });
+    if (!email || !otp) {
+        return res.status(400).json({ message: "Email and OTP are required" });
     }
 
     try {
-        // Decode temp token to get email
-        const decoded = jwt.verify(tempToken, process.env.JWT_SECRET);
-        const email = decoded.email;
-
         const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ message: "User not found" });
-        }
+        if (!user) return res.status(400).json({ message: "User not found" });
 
         if (!user.otpData || !user.otpData.otp) {
             return res.status(400).json({ message: "No OTP found. Please request a new OTP." });
@@ -130,9 +110,7 @@ exports.verifyOTP = async (req, res) => {
         }
 
         const isMatch = await bcrypt.compare(otp, user.otpData.otp);
-        if (!isMatch) {
-            return res.status(400).json({ message: "Invalid OTP" });
-        }
+        if (!isMatch) return res.status(400).json({ message: "Invalid OTP" });
 
         // Mark user as verified
         user.isVerified = true;
@@ -144,7 +122,7 @@ exports.verifyOTP = async (req, res) => {
             await Candidate.create({ userId: user._id, skills: [] });
         }
 
-        // Generate login token
+        // Generate login token immediately
         const loginToken = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
         res.status(200).json({ message: "Account verified successfully", token: loginToken });
