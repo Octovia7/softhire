@@ -23,8 +23,6 @@ const transporter = nodemailer.createTransport({
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
-const jwt = require("jsonwebtoken");
-
 exports.signup = async (req, res) => {
     const { fullName, email, password, role, organizationName, website, industry } = req.body;
 
