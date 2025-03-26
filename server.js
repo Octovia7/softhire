@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const session = require("express-session"); // ✅ Added session middleware for OAuth
+const MongoStore = require("connect-mongo"); // ✅ Use MongoDB for session storage
 const passport = require("passport"); // ✅ Import Passport
 require("./config/passport"); // ✅ Configure Passport with Google OAuth
 
@@ -17,6 +18,12 @@ const googleAuthRoutes = require("./routes/googleAuthRoutes"); // ✅ Added Goog
 
 const app = express();
 
+// ✅ Ensure required environment variables are set
+if (!process.env.MONGO_URI || !process.env.SESSION_SECRET || !process.env.CLIENT_URL) {
+    console.error("❌ Missing required environment variables. Check your .env file.");
+    process.exit(1);
+}
+
 // Middleware
 app.use(express.json()); // Parse JSON requests
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL })); // Enable CORS
@@ -28,6 +35,8 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
+        store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }), // ✅ Fix session storage warning
+        cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 * 24 }, // 1-day expiration
     })
 );
 
@@ -39,7 +48,10 @@ app.use(passport.session());
 mongoose
     .connect(process.env.MONGO_URI)
     .then(() => console.log("✅ MongoDB Connected"))
-    .catch((err) => console.error("❌ MongoDB Connection Error:", err));
+    .catch((err) => {
+        console.error("❌ MongoDB Connection Error:", err);
+        process.exit(1);
+    });
 
 // Routes
 app.use("/api/auth", authRoutes); // Signup, Login, OTP verification
@@ -49,6 +61,9 @@ app.use("/api/recruiter", recruiterRoutes); // Recruiter dashboard APIs
 // app.use("/api/visa", visaRoutes); // Visa management APIs
 app.use("/api/admin", adminRoutes); // ✅ Admin-only APIs
 app.use("/api/auth/google", googleAuthRoutes); // ✅ Google OAuth Routes
+
+// ✅ Health check route for deployment monitoring
+app.get("/health", (req, res) => res.json({ status: "ok" }));
 
 // Default Route
 app.get("/", (req, res) => {
