@@ -60,7 +60,7 @@ app.use("/api/recruiter", recruiterRoutes); // Recruiter dashboard APIs
 // app.use("/api/jobs", jobRoutes); // Job-related APIs
 // app.use("/api/visa", visaRoutes); // Visa management APIs
 app.use("/api/admin", adminRoutes); // ✅ Admin-only APIs
-app.use("/api/auth/google", googleAuthRoutes); // ✅ Google OAuth Routes
+app.use("/auth/google", googleAuthRoutes); // ✅ Google OAuth Routes
 
 // ✅ Health check route for deployment monitoring
 app.get("/health", (req, res) => res.json({ status: "ok" }));
