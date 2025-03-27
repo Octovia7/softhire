@@ -11,21 +11,28 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await User.findOne({ googleId: profile.id });
+        const email = profile.emails?.[0]?.value || null; // Extract email
+        let user = await User.findOne({ email });
 
-        if (!user) {
+        if (user) {
+          // If user exists but has no Google ID, update it
+          if (!user.googleId) {
+            user.googleId = profile.id;
+            await user.save();
+          }
+        } else {
+          // If user does not exist, create a new one
           user = new User({
             googleId: profile.id,
             fullName: profile.displayName || "Google User",
-            email: profile.emails?.[0]?.value || null, // Handle missing email
-            avatar: profile.photos?.[0]?.value || null, // Handle missing avatar
+            email,
+            avatar: profile.photos?.[0]?.value || null,
             isOAuthUser: true,
           });
-
           await user.save();
         }
 
-        // Prevent redirecting with undefined
+        // Ensure the user ID is present
         if (!user._id) {
           return done(new Error("User ID is missing"), null);
         }
