@@ -1,7 +1,7 @@
 const Job = require("../models/Job");
 const Application = require("../models/Application");
 const VisaApplication = require("../models/VisaApplication");
-const Recruiter = require("../models/recruiter");
+const Recruiter = require("../models/Recruiter");
 const Candidate = require("../models/Candidate");
 
 // ✅ Recruiter Dashboard Overview

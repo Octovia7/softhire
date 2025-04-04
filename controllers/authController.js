@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const Candidate = require("../models/Candidate");
-const Recruiter = require("../models/recruiter");
+const Recruiter = require("../models/Recruiter");
 const Organization = require("../models/Organization");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
