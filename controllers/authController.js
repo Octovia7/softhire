@@ -23,39 +23,36 @@ const transporter = nodemailer.createTransport({
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
+const PendingUser = require("../models/PendingUser");
+
 exports.signup = async (req, res) => {
     const { fullName, email, password, role, organizationName, website, industry } = req.body;
 
-    if (!fullName) return res.status(400).json({ message: "Full name is required" });
-    if (!validator.isEmail(email)) return res.status(400).json({ message: "Invalid email format" });
-    if (!validator.isStrongPassword(password, { minLength: 8, minNumbers: 1, minUppercase: 1 })) {
-        return res.status(400).json({ message: "Weak password. Must have 8 chars, 1 number, 1 uppercase" });
-    }
-    if (role === "recruiter" && (!organizationName || !website || !industry)) {
-        return res.status(400).json({ message: "Organization name, website, and industry are required for recruiters" });
-    }
+    // validations...
 
     try {
-        let user = await User.findOne({ email });
-        if (user) return res.status(400).json({ message: "User already exists" });
+        const existingUser = await User.findOne({ email });
+        if (existingUser) return res.status(400).json({ message: "User already exists" });
+
+        const existingPending = await PendingUser.findOne({ email });
+        if (existingPending) await PendingUser.deleteOne({ email });
 
         const otp = generateOTP();
-        console.log(`📩 Generated OTP for ${role}:`, otp);
-
         const hashedOTP = await bcrypt.hash(otp, 10);
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        user = new User({
+        const pendingUser = new PendingUser({
             fullName,
             email,
             password: hashedPassword,
             role,
             otpData: { otp: hashedOTP, expires: Date.now() + 10 * 60 * 1000 },
-            isVerified: false,
+            organizationName,
+            website,
+            industry,
         });
 
-        await user.save();
-        console.log("✅ User saved:", user.email);
+        await pendingUser.save();
 
         await transporter.sendMail({
             from: process.env.EMAIL,
@@ -64,68 +61,77 @@ exports.signup = async (req, res) => {
             text: `Your OTP is ${otp}. It expires in 10 minutes.`,
         });
 
-        if (role === "recruiter") {
-            const organization = new Organization({ name: organizationName, website, industry });
-            await organization.save();
-
-            await Recruiter.create({
-                userId: user._id,
-                organization: organization._id,
-                companyName: organizationName,
-                website,
-                position: "Recruiter",
-            });
-
-            console.log("✅ Recruiter profile created");
-        }
-
         res.status(200).json({ message: "OTP sent to your email" });
-
     } catch (error) {
         console.error("❌ Signup Error:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
 
-
 exports.verifyOTP = async (req, res) => {
-    console.log("📩 Received verify-otp request:", req.body);
-
     const { email, otp } = req.body;
 
-    if (!email || !otp) {
-        return res.status(400).json({ message: "Email and OTP are required" });
-    }
-
     try {
-        const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ message: "User not found" });
-
-        if (!user.otpData || !user.otpData.otp) {
-            return res.status(400).json({ message: "No OTP found. Please request a new OTP." });
+        const pendingUser = await PendingUser.findOne({ email });
+        if (!pendingUser) {
+            return res.status(400).json({ message: "No signup found. Please register first." });
         }
 
-        if (Date.now() > user.otpData.expires) {
-            return res.status(400).json({ message: "OTP expired" });
+        if (!pendingUser.otpData || !pendingUser.otpData.expires) {
+            await PendingUser.deleteOne({ email });
+            return res.status(400).json({ message: "OTP not found or invalid. Please sign up again." });
         }
 
-        const isMatch = await bcrypt.compare(otp, user.otpData.otp);
-        if (!isMatch) return res.status(400).json({ message: "Invalid OTP" });
-
-        // Mark user as verified
-        user.isVerified = true;
-        user.otpData = undefined;
-        await user.save();
-
-        if (user.role === "candidate") {
-            console.log("📝 Creating candidate profile...");
-            await Candidate.create({ userId: user._id, skills: [] });
+        if (Date.now() > pendingUser.otpData.expires) {
+            await PendingUser.deleteOne({ email });
+            return res.status(400).json({ message: "OTP expired. Please sign up again." });
         }
 
-        // Generate login token immediately
-        const loginToken = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "7d" });
+        const isMatch = await bcrypt.compare(otp, pendingUser.otpData.otp);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Invalid OTP" });
+        }
 
-        res.status(200).json({ message: "Account verified successfully", token: loginToken });
+        const newUser = new User({
+            fullName: pendingUser.fullName,
+            email: pendingUser.email,
+            password: pendingUser.password,
+            role: pendingUser.role,
+            isVerified: true,
+        });
+
+        await newUser.save();
+
+        if (pendingUser.role === "recruiter") {
+            const organization = new Organization({
+                name: pendingUser.organizationName,
+                website: pendingUser.website,
+                industry: pendingUser.industry,
+            });
+            await organization.save();
+
+            await Recruiter.create({
+                userId: newUser._id,
+                organization: organization._id,
+                companyName: pendingUser.organizationName,
+                website: pendingUser.website,
+                position: "Recruiter",
+            });
+        }
+
+        if (pendingUser.role === "candidate") {
+            await Candidate.create({ userId: newUser._id, skills: [] });
+        }
+
+        await PendingUser.deleteOne({ email });
+
+        const token = jwt.sign(
+            { userId: newUser._id, role: newUser.role },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        res.status(200).json({ message: "Account verified successfully", token });
     } catch (error) {
         console.error("🚨 Verify OTP Error:", error);
         res.status(500).json({ error: "Internal server error" });

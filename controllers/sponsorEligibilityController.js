@@ -1,11 +1,14 @@
 const SponsorEligibility = require("../models/SponsorEligibility");
 const Organization = require("../models/Organization");
+const Salary = require("../models/Salary");
+const Recruiter = require("../models/Recruiter");
+const User = require("../models/User"); // ✅ Import the User model
+const getMinSalary = require("../utils/getMinSalary");
+const sendAssessmentEmails = require("../utils/mailer");
 
-// Submit Sponsor Eligibility Assessment
 exports.submitSponsorAssessment = async (req, res) => {
     try {
         const {
-            organizationId,
             isUKRegistered,
             documentsSubmitted,
             jobRole,
@@ -14,15 +17,27 @@ exports.submitSponsorAssessment = async (req, res) => {
             authorizingOfficerAvailable
         } = req.body;
 
-        // Validate Organization
-        const organization = await Organization.findById(organizationId);
-        if (!organization) {
-            return res.status(400).json({ error: "Invalid Organization ID" });
+        // Fetch the recruiter with their organization
+        const recruiter = await Recruiter.findOne({ userId: req.user.id }).populate("organization");
+
+        if (!recruiter || !recruiter.organization) {
+            return res.status(400).json({ error: "Recruiter does not belong to any organization" });
         }
 
-        // Check Salary Requirement (Assume a function that fetches min salary)
-        const minSalary = getMinSalary(jobCode); // Implement this function
-        const salaryMeetsRequirement = salaryOffered >= minSalary;
+        const organizationId = recruiter.organization._id;
+        const organizationName = recruiter.organization.name;
+
+        // Fetch the email from the User schema using the recruiter's userId
+        const user = await User.findById(req.user.id);
+        const recruiterEmail = user.email;
+
+        const minSalary = await getMinSalary(String(jobCode));
+
+        if (!minSalary) {
+            return res.status(400).json({ error: "Job code not found in salary data" });
+        }
+
+        const salaryMeetsRequirement = Number(salaryOffered) >= minSalary;
 
         const assessment = new SponsorEligibility({
             organization: organizationId,
@@ -36,28 +51,22 @@ exports.submitSponsorAssessment = async (req, res) => {
         });
 
         await assessment.save();
+
+        // Send email to recruiter and SoftHire team
+        await sendAssessmentEmails({
+            organizationName,
+            recruiterEmail,
+            jobRole,
+            jobCode,
+            salaryOffered,
+            salaryMeetsRequirement,
+            authorizingOfficerAvailable,
+            documentsSubmitted
+        });
+
         res.status(201).json({ message: "Assessment Submitted Successfully", assessment });
     } catch (error) {
+        console.error("Assessment submission error:", error);
         res.status(500).json({ error: error.message });
     }
 };
-
-// Fetch All Assessments
-exports.getAllAssessments = async (req, res) => {
-    try {
-        const assessments = await SponsorEligibility.find().populate("organization");
-        res.status(200).json(assessments);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-// Dummy Function for Salary Validation
-function getMinSalary(jobCode) {
-    // You need to fetch actual data from https://www.gov.uk/government/publications/skilled-worker-visa-going-rates-for-eligible-occupations
-    const jobSalaries = {
-        "1234": 30000, // Example jobCode -> minSalary mapping
-        "5678": 45000,
-    };
-    return jobSalaries[jobCode] || 0;
-}

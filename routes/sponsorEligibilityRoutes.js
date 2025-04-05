@@ -1,8 +1,11 @@
 const express = require("express");
-const { submitSponsorAssessment, getAllAssessments } = require("../controllers/sponsorEligibilityController");
-const router = express.Router();
+const { submitSponsorAssessment} = require("../controllers/sponsorEligibilityController");
 
-router.post("/submit", submitSponsorAssessment);
-router.get("/all", getAllAssessments);
+const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
+
+const router = express.Router();
+router.post("/assessment", authenticate, authorizeRecruiter, submitSponsorAssessment);
+// router.post("/submit", submitSponsorAssessment);
+// router.get("/all", getAllAssessments);
 
 module.exports = router;

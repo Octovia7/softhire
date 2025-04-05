@@ -1,0 +1,5035 @@
+[
+  {
+    "occupationCode": "1111",
+    "jobType": "Chief executives and senior officials",
+    "relatedJobTitles": [
+      "Chairman",
+      "Chief executive",
+      "Civil servant (grade 5 & above)",
+      "Diplomat",
+      "Vice President"
+    ],
+    "standardRate": {
+      "annual": 84100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 54700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1121",
+    "jobType": "Production managers and directors in manufacturing",
+    "relatedJobTitles": [
+      "Engineering manager",
+      "Managing director (engineering)",
+      "Operations manager (manufacturing)",
+      "Production manager",
+      "Technical manager"
+    ],
+    "standardRate": {
+      "annual": 51500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 37100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1122",
+    "jobType": "Production managers and directors in construction",
+    "relatedJobTitles": [
+      "Building services manager",
+      "Construction manager",
+      "Director (building construction)",
+      "Owner (electrical contracting)",
+      "Site manager"
+    ],
+    "standardRate": {
+      "annual": 50100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 38200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1123",
+    "jobType": "Production managers and directors in mining and energy",
+    "relatedJobTitles": [
+      "Operations manager (mining, water & energy)",
+      "Quarry manager",
+      "Service manager (public utilities)"
+    ],
+    "standardRate": {
+      "annual": 51600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 40900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1131",
+    "jobType": "Financial managers and directors",
+    "relatedJobTitles": [
+      "Bank Manager",
+      "Finance Director",
+      "Insurance Manager",
+      "Investment banker",
+      "Treasury manager"
+    ],
+    "standardRate": {
+      "annual": 70000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 45000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1132",
+    "jobType": "Marketing, sales and advertising directors",
+    "relatedJobTitles": [
+      "Account director (advertising)",
+      "Commercial director",
+      "Marketing director",
+      "Media director",
+      "Sales director"
+    ],
+    "standardRate": {
+      "annual": 83000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 55600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1133",
+    "jobType": "Public relations and communications directors",
+    "relatedJobTitles": [
+      "Head of communications",
+      "Head of public relations"
+    ],
+    "standardRate": {
+      "annual": 79900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 62800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1134",
+    "jobType": "Purchasing managers and directors",
+    "relatedJobTitles": [
+      "Bid production manager",
+      "Director of contracts",
+      "Head of buying",
+      "Purchasing manager"
+    ],
+    "standardRate": {
+      "annual": 50300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 37000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1135",
+    "jobType": "Charitable organisation managers and directors",
+    "relatedJobTitles": [
+      "Charity director",
+      "Manager (charitable organisation)"
+    ],
+    "standardRate": {
+      "annual": 40900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1136",
+    "jobType": "Human resource managers and directors",
+    "relatedJobTitles": [
+      "Human resources business partner",
+      "Human resources director",
+      "Personnel manager",
+      "Recruitment manager",
+      "Training director"
+    ],
+    "standardRate": {
+      "annual": 49400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 39400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1137",
+    "jobType": "Information technology directors",
+    "relatedJobTitles": [
+      "Chief Information officer",
+      "IT Director",
+      "Managing director (computer services)",
+      "Programme manager (computing)",
+      "Technical director (computer services)"
+    ],
+    "standardRate": {
+      "annual": 80000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 58800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1139",
+    "jobType": "Functional managers and directors not elsewhere classified",
+    "relatedJobTitles": [
+      "Area secretary (trade association)",
+      "Chief officer (local government)",
+      "Clerk to the county council",
+      "General Secretary (trade union)",
+      "Town Clerk"
+    ],
+    "standardRate": {
+      "annual": 69900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 48800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1140",
+    "jobType": "Directors in logistics, warehousing and transport",
+    "relatedJobTitles": [
+      "Airport director",
+      "Head of logistics",
+      "Owner (delivery service)",
+      "Supply chain director",
+      "Traffic director (transport)"
+    ],
+    "standardRate": {
+      "annual": 72200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 45300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1150",
+    "jobType": "Managers and directors in retail and wholesale",
+    "relatedJobTitles": [
+      "Car sales manager",
+      "Manager (garden centre)",
+      "Managing director (wholesale, retail trade)",
+      "Retail manager",
+      "Shop manager (charitable organisation)",
+      "Wholesale manager"
+    ],
+    "standardRate": {
+      "annual": 33100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1162",
+    "jobType": "Senior police officers",
+    "relatedJobTitles": [
+      "Chief superintendent (police service)",
+      "CID officer",
+      "Detective inspector",
+      "Police inspector"
+    ],
+    "standardRate": {
+      "annual": 59100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 55300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1163",
+    "jobType": "Senior officers in fire, ambulance, prison and related services",
+    "relatedJobTitles": [
+      "Chief immigration officer (HM Revenue and Customs)",
+      "Fire service officer (government)",
+      "Prison governor",
+      "Station officer (ambulance service)"
+    ],
+    "standardRate": {
+      "annual": 53700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 46300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1171",
+    "jobType": "Health services and public health managers and directors",
+    "relatedJobTitles": [
+      "Clinical manager",
+      "Director of nursing",
+      "Health service manager",
+      "Information manager (health authority: hospital service)"
+    ],
+    "standardRate": {
+      "annual": 50500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 43100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1172",
+    "jobType": "Social services managers and directors",
+    "relatedJobTitles": [
+      "Children’s centre manager",
+      "Commissioner (local government: social services)",
+      "Community services manager",
+      "Service manager (welfare services)",
+      "Social work manager"
+    ],
+    "standardRate": {
+      "annual": 41000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1211",
+    "jobType": "Managers and proprietors in agriculture and horticulture",
+    "relatedJobTitles": [
+      "Farm manager",
+      "Farm owner",
+      "Nursery manager (horticulture)",
+      "Stock manager (farming)"
+    ],
+    "standardRate": {
+      "annual": 36000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1212",
+    "jobType": "Managers and proprietors in forestry, fishing and related services",
+    "relatedJobTitles": [
+      "Cattery owner",
+      "Fish farm owner",
+      "Forest manager",
+      "Owner (landscape gardening)",
+      "Racehorse trainer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1221",
+    "jobType": "Hotel and accommodation managers and proprietors",
+    "relatedJobTitles": [
+      "Caravan park owner",
+      "Hotel manager",
+      "Manager (passenger ships)",
+      "Service flats manager"
+    ],
+    "standardRate": {
+      "annual": 32700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1222",
+    "jobType": "Restaurant and catering establishment managers and proprietors",
+    "relatedJobTitles": [
+      "Café owner",
+      "Operations manager (catering)",
+      "Restaurant manager",
+      "Shop manager (take-away food shop)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1223",
+    "jobType": "Publicans and managers of licensed premises",
+    "relatedJobTitles": [
+      "Landlady (public house) Licensee",
+      "Manager (wine bar)",
+      "Publican"
+    ],
+    "standardRate": {
+      "annual": 33500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1224",
+    "jobType": "Leisure and sports managers and proprietors",
+    "relatedJobTitles": [
+      "Amusement arcade owner",
+      "Cinema manager",
+      "Football ground manager",
+      "Leisure centre manager",
+      "Theatre manager"
+    ],
+    "standardRate": {
+      "annual": 33100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1225",
+    "jobType": "Travel agency managers and proprietors",
+    "relatedJobTitles": [
+      "Branch manager (travel agents)",
+      "Tourist information manager",
+      "Travel agency owner",
+      "Travel manager"
+    ],
+    "standardRate": {
+      "annual": 34200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1231",
+    "jobType": "Health care practice managers",
+    "relatedJobTitles": [
+      "Clinic manager",
+      "Dental practice manager",
+      "GP practice manager",
+      "Patient services manager",
+      "Veterinary practice manager"
+    ],
+    "standardRate": {
+      "annual": 43000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1232",
+    "jobType": "Residential, day and domiciliary care managers and proprietors",
+    "relatedJobTitles": [
+      "Care manager",
+      "Community centre manager",
+      "Day centre manager",
+      "Nursing home owner",
+      "Manager (sheltered housing)",
+      "Residential manager (care/residential home)"
+    ],
+    "standardRate": {
+      "annual": 40900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1233",
+    "jobType": "Early education and childcare services proprietors",
+    "relatedJobTitles": [
+      "Director (children’s nursery)",
+      "Owner (nursery: children’s)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1241",
+    "jobType": "Managers in transport and distribution",
+    "relatedJobTitles": [
+      "Distribution service manager",
+      "Fleet manager",
+      "Operations manager (transport)",
+      "Shipping manager",
+      "Transport manager"
+    ],
+    "standardRate": {
+      "annual": 41500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1242",
+    "jobType": "Managers in storage and warehousing",
+    "relatedJobTitles": [
+      "Cellar manager (brewery)",
+      "Inventory manager",
+      "Operations manager",
+      "Stock manager",
+      "Warehouse manager"
+    ],
+    "standardRate": {
+      "annual": 32000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1243",
+    "jobType": "Managers in logistics",
+    "relatedJobTitles": [
+      "Logistics manager",
+      "Supply chain manager"
+    ],
+    "standardRate": {
+      "annual": 42400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 34500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1251",
+    "jobType": "Property, housing and estate managers",
+    "relatedJobTitles": [
+      "Estate manager",
+      "Facilities manager",
+      "Housing manager",
+      "Landlord (property management)",
+      "Property manager"
+    ],
+    "standardRate": {
+      "annual": 38400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1252",
+    "jobType": "Garage managers and proprietors",
+    "relatedJobTitles": [
+      "Bodyshop manager (vehicle trades)",
+      "Garage director",
+      "Garage owner",
+      "Tyre depot manager"
+    ],
+    "standardRate": {
+      "annual": 43700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1253",
+    "jobType": "Hairdressing and beauty salon managers and proprietors",
+    "relatedJobTitles": [
+      "Hairdressing salon owner",
+      "Manager (beauty salon)",
+      "Manager (nail salon)",
+      "Owner (pet grooming salon)",
+      "Owner (tanning studio)",
+      "Spa manager"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1254",
+    "jobType": "Waste disposal and environmental services managers",
+    "relatedJobTitles": [
+      "Environmental manager (refuse disposal)",
+      "Manager (local government: cleansing dept.)",
+      "Recycling plant manager",
+      "Scrap metal dealer"
+    ],
+    "standardRate": {
+      "annual": 48800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1255",
+    "jobType": "Managers and directors in the creative industries",
+    "relatedJobTitles": [
+      "Art gallery owner",
+      "Artist manager",
+      "Director (architectural service)",
+      "Graphic design manager",
+      "Gallery Manager",
+      "Production manager (entertainment)",
+      "Publisher",
+      "Radio station manager"
+    ],
+    "standardRate": {
+      "annual": 42000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1256",
+    "jobType": "Betting shop and gambling establishment managers",
+    "relatedJobTitles": [
+      "Betting shop manager",
+      "Bingo hall manager",
+      "Casino manager"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1257",
+    "jobType": "Hire services managers and proprietors",
+    "relatedJobTitles": [
+      "Hire manager",
+      "Plant hire manager",
+      "Rental service manager",
+      "Tool hire manager"
+    ],
+    "standardRate": {
+      "annual": 34700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1258",
+    "jobType": "Directors in consultancy services",
+    "relatedJobTitles": [
+      "Director (environmental consultancy)",
+      "Owner (design consultancy)",
+      "Owner (management consultancy)"
+    ],
+    "standardRate": {
+      "annual": 57500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "1259",
+    "jobType": "Managers and proprietors in other services not elsewhere classified",
+    "relatedJobTitles": [
+      "Director (private detective agency)",
+      "Car park manager",
+      "Cemetery Manager",
+      "Library manager",
+      "Owner (cleaning services)",
+      "Training centre manager",
+      "Driving school owner"
+    ],
+    "standardRate": {
+      "annual": 34400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2111",
+    "jobType": "Chemical scientists",
+    "relatedJobTitles": [
+      "Analytical chemist",
+      "Chemist",
+      "Development chemist",
+      "Industrial chemist",
+      "Laboratory analyst",
+      "Research scientist (chemical)"
+    ],
+    "standardRate": {
+      "annual": 35200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2112",
+    "jobType": "Biological scientists",
+    "relatedJobTitles": [
+      "Agricultural consultant",
+      "Forensic scientist",
+      "Horticulturist (professional)",
+      "Microbiologist",
+      "Pathologist"
+    ],
+    "standardRate": {
+      "annual": 38000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2113",
+    "jobType": "Biochemists and biomedical scientists",
+    "relatedJobTitles": [
+      "Clinical technologist",
+      "Endocrinologist",
+      "Histopathologist",
+      "Medical technologist",
+      "Medical researcher"
+    ],
+    "standardRate": {
+      "annual": 44800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 36700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2114",
+    "jobType": "Physical scientists",
+    "relatedJobTitles": [
+      "Geologist",
+      "Geophysicist",
+      "Medical physicist",
+      "Meteorologist",
+      "Oceanographer",
+      "Physicist",
+      "Seismologist"
+    ],
+    "standardRate": {
+      "annual": 47300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 37000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2115",
+    "jobType": "Social and humanities scientists",
+    "relatedJobTitles": [
+      "Anthropologist",
+      "Archaeologist",
+      "Criminologist",
+      "Epidemiologist",
+      "Geographer",
+      "GIS analyst",
+      "Historian",
+      "Political researcher",
+      "Social scientist"
+    ],
+    "standardRate": {
+      "annual": 36400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2119",
+    "jobType": "Natural and social science professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Operational research scientist",
+      "Scientific officer",
+      "Scientist",
+      "Sports scientist",
+      "Technical officer (laboratory)",
+      "University research fellow (sciences)"
+    ],
+    "standardRate": {
+      "annual": 41200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2121",
+    "jobType": "Civil engineers",
+    "relatedJobTitles": [
+      "Building engineer",
+      "Civil engineer (professional)",
+      "Highways engineer",
+      "Petroleum engineer",
+      "Public health engineer",
+      "Site engineer (building construction)",
+      "Structural engineer"
+    ],
+    "standardRate": {
+      "annual": 45500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 35300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2122",
+    "jobType": "Mechanical engineers",
+    "relatedJobTitles": [
+      "Automotive engineer (professional)",
+      "Design engineer (mechanical)",
+      "Marine engineer (professional)",
+      "Mechanical engineer (professional)"
+    ],
+    "standardRate": {
+      "annual": 42500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 35600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2123",
+    "jobType": "Electrical engineers",
+    "relatedJobTitles": [
+      "Electrical design engineer",
+      "Electrical engineer (professional)",
+      "Electrical surveyor",
+      "Equipment engineer",
+      "Power engineer",
+      "Signal engineer (professional, railways)"
+    ],
+    "standardRate": {
+      "annual": 53500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 43900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2124",
+    "jobType": "Electronics engineers",
+    "relatedJobTitles": [
+      "Broadcasting engineer (professional)",
+      "Electronics designer",
+      "Electronics engineer (professional)",
+      "Microwave engineer (professional)"
+    ],
+    "standardRate": {
+      "annual": 49900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 41900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2125",
+    "jobType": "Production and process engineers",
+    "relatedJobTitles": [
+      "Chemical engineer",
+      "Industrial engineer",
+      "Pharmaceutical engineer",
+      "Process engineer",
+      "Production consultant",
+      "Production engineer"
+    ],
+    "standardRate": {
+      "annual": 43700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 35700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2126",
+    "jobType": "Aerospace engineers",
+    "relatedJobTitles": [
+      "Aeronautical engineer (professional)",
+      "Aerospace engineer",
+      "Aircraft designer",
+      "Avionics engineer"
+    ],
+    "standardRate": {
+      "annual": 46400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 38400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2127",
+    "jobType": "Engineering project managers and project engineers",
+    "relatedJobTitles": [
+      "Contracts manager (manufacturing)",
+      "Project engineer",
+      "Project manager (manufacturing)"
+    ],
+    "standardRate": {
+      "annual": 48800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 39400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2129",
+    "jobType": "Engineering professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Acoustician (professional)",
+      "Food technologist",
+      "Metallurgist",
+      "Scientific consultant",
+      "Technical engineer",
+      "Technologist",
+      "Traffic engineer"
+    ],
+    "standardRate": {
+      "annual": 42900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 34400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2131",
+    "jobType": "IT project managers",
+    "relatedJobTitles": [
+      "Change manager (computing)",
+      "Implementation manager (computing)",
+      "IT project manager",
+      "Project leader (software design)"
+    ],
+    "standardRate": {
+      "annual": 51900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 41300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2132",
+    "jobType": "IT managers",
+    "relatedJobTitles": [
+      "Data centre manager",
+      "Data visualisation manager",
+      "IT manager",
+      "Network operations manager (computer services)",
+      "Product manager",
+      "Service delivery manager",
+      "Telecoms manager",
+      "UX manager"
+    ],
+    "standardRate": {
+      "annual": 50900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 40900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2133",
+    "jobType": "IT business analysts, architects and systems designers",
+    "relatedJobTitles": [
+      "Business analyst (computing)",
+      "Data communications analyst",
+      "Change analyst (computing)",
+      "Systems analyst",
+      "Systems consultant",
+      "Technical analyst (computing)",
+      "Technical architect",
+      "User experience architect"
+    ],
+    "standardRate": {
+      "annual": 51700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 39300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2134",
+    "jobType": "Programmers and software development professionals",
+    "relatedJobTitles": [
+      "Analyst-programmer",
+      "Database developer",
+      "Games designer",
+      "Interactive designer",
+      "Mobile app developer",
+      "Programmer",
+      "Software engineer",
+      "Website builder"
+    ],
+    "standardRate": {
+      "annual": 49400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 36300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2135",
+    "jobType": "Cyber security professionals",
+    "relatedJobTitles": [
+      "Data security manager",
+      "Ethical hacker",
+      "Forensic computer investigator",
+      "IT security analyst",
+      "Technical security consultant"
+    ],
+    "standardRate": {
+      "annual": 45300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 35100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2136",
+    "jobType": "IT quality and testing professionals",
+    "relatedJobTitles": [
+      "IT auditor",
+      "Quality analyst (computing)",
+      "Software testing consultant",
+      "Systems tester (computing)",
+      "Test analyst (computing)",
+      "Test engineer (professional, software)"
+    ],
+    "standardRate": {
+      "annual": 39900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2137",
+    "jobType": "IT network professionals",
+    "relatedJobTitles": [
+      "Network consultant",
+      "Network designer",
+      "Network installation engineer",
+      "Network planner"
+    ],
+    "standardRate": {
+      "annual": 42800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 36000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2139",
+    "jobType": "Information technology professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Account manager (computing)",
+      "Internet engineer (professional)",
+      "IT planner",
+      "IT consultant",
+      "Technical evangelist",
+      "Webmaster",
+      "Web manager"
+    ],
+    "standardRate": {
+      "annual": 44200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2141",
+    "jobType": "Web design professionals",
+    "relatedJobTitles": [
+      "Desktop publisher",
+      "User interface designer",
+      "UX designer (computing)",
+      "Web designer",
+      "Web producer"
+    ],
+    "standardRate": {
+      "annual": 41300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2142",
+    "jobType": "Graphic and multimedia designers",
+    "relatedJobTitles": [
+      "3D artist",
+      "Animator (computing)",
+      "Compositor (special effects)",
+      "Creative design assistant",
+      "Graphic artist",
+      "Graphic designer",
+      "Visual effects supervisor"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2151",
+    "jobType": "Conservation professionals",
+    "relatedJobTitles": [
+      "Conservation officer",
+      "Countryside officer",
+      "Ecologist",
+      "Heritage manager",
+      "Land management adviser",
+      "Landscape scientist",
+      "Marine conservationist"
+    ],
+    "standardRate": {
+      "annual": 36600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2152",
+    "jobType": "Environment professionals",
+    "relatedJobTitles": [
+      "Energy manager",
+      "Environmental consultant",
+      "Environmental engineer",
+      "Environmental protection officer",
+      "Environmental technician",
+      "Flood risk manager",
+      "Water quality scientist"
+    ],
+    "standardRate": {
+      "annual": 36100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2161",
+    "jobType": "Research and development (r&d) managers",
+    "relatedJobTitles": [
+      "Clinical trials manager",
+      "Consumer insights manager",
+      "Creative manager (research and development)",
+      "Design manager",
+      "Market research manager",
+      "Research manager (broadcasting)"
+    ],
+    "standardRate": {
+      "annual": 49200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 38400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2162",
+    "jobType": "Other researchers, unspecified discipline",
+    "relatedJobTitles": [
+      "Postdoctoral researcher",
+      "Research assistant (university)",
+      "Research fellow (university)",
+      "University researcher"
+    ],
+    "standardRate": {
+      "annual": 40800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 35000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2240",
+    "jobType": "Veterinarians",
+    "relatedJobTitles": [
+      "Veterinarian",
+      "Veterinary practitioner",
+      "Veterinary surgeon"
+    ],
+    "standardRate": {
+      "annual": 48100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 39600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2311",
+    "jobType": "Higher education teaching professionals",
+    "relatedJobTitles": [
+      "Fellow (university)",
+      "Lecturer (higher education, university)",
+      "Professor (higher education, university)",
+      "Tutor (higher education, university)",
+      "University lecturer",
+      "University teaching assistant"
+    ],
+    "standardRate": {
+      "annual": 47700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 38100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2317",
+    "jobType": "Teachers of English as a foreign language",
+    "relatedJobTitles": [
+      "TEFL",
+      "English as a second language teacher",
+      "ESOL tutor"
+    ],
+    "standardRate": {
+      "annual": 36600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2319",
+    "jobType": "Teaching professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Adult education tutor",
+      "Ballet teacher (qualified)",
+      "Music teacher",
+      "Private tutor",
+      "Voice coach"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2322",
+    "jobType": "Education managers",
+    "relatedJobTitles": [
+      "Business school manager",
+      "Dean (further education)",
+      "Provost (higher education, university)",
+      "Registrar (educational establishments)",
+      "Vice chancellor (university)"
+    ],
+    "standardRate": {
+      "annual": 40700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2323",
+    "jobType": "Education advisers and school inspectors",
+    "relatedJobTitles": [
+      "Advisory teacher",
+      "Assessor (further, higher education)",
+      "Curriculum adviser",
+      "Early years adviser",
+      "Education officer",
+      "School inspector"
+    ],
+    "standardRate": {
+      "annual": 37500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2324",
+    "jobType": "Early education and childcare services managers",
+    "relatedJobTitles": [
+      "After school club manager",
+      "Childcare manager (day nursery)",
+      "Nursery manager (day nursery)",
+      "Pre-school manager"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2329",
+    "jobType": "Other educational professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Active schools coordinator",
+      "Education administrator (further, higher education)",
+      "Exam marker",
+      "International recruitment officer (university)"
+    ],
+    "standardRate": {
+      "annual": 43100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2411",
+    "jobType": "Barristers and judges",
+    "relatedJobTitles": [
+      "Advocate",
+      "Barrister",
+      "Chairman (appeals tribunal, inquiry)",
+      "Coroner",
+      "Crown prosecutor",
+      "District judge",
+      "Legal advocate",
+      "Sherriff (Scottish Courts)"
+    ],
+    "standardRate": {
+      "annual": 52400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2412",
+    "jobType": "Solicitors and lawyers",
+    "relatedJobTitles": [
+      "Lawyer",
+      "Managing clerk (qualified solicitor)",
+      "Solicitor",
+      "Solicitor-partner",
+      "Solicitor to the council"
+    ],
+    "standardRate": {
+      "annual": 52300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 37700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2419",
+    "jobType": "Legal professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Attorney",
+      "Conveyancer",
+      "Justice’s clerk",
+      "Legal adviser",
+      "Legal consultant",
+      "Legal counsel",
+      "Paralegal",
+      "Patent agent",
+      "Patent attorney",
+      "Solicitor’s clerk (articled)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2421",
+    "jobType": "Chartered and certified accountants",
+    "relatedJobTitles": [
+      "Accountant (qualified)",
+      "Auditor (qualified)",
+      "Chartered accountant",
+      "Company accountant",
+      "Cost accountant (qualified)",
+      "Financial controller (qualified accountant)",
+      "Management accountant (qualified)"
+    ],
+    "standardRate": {
+      "annual": 46800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2422",
+    "jobType": "Finance and investment analysts and advisers",
+    "relatedJobTitles": [
+      "Credit risk analyst",
+      "Financial adviser",
+      "Financial consultant",
+      "Mortgage adviser",
+      "Pensions consultant"
+    ],
+    "standardRate": {
+      "annual": 40600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2423",
+    "jobType": "Taxation experts",
+    "relatedJobTitles": [
+      "Investigator (HM Revenue and Customs)",
+      "Tax adviser",
+      "Tax consultant",
+      "Tax inspector",
+      "Tax manager",
+      "axation specialist"
+    ],
+    "standardRate": {
+      "annual": 46300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2431",
+    "jobType": "Management consultants and business analysts",
+    "relatedJobTitles": [
+      "Business adviser",
+      "Business consultant",
+      "Business continuity manager",
+      "Digital business analyst",
+      "Financial risk analyst",
+      "Management consultant"
+    ],
+    "standardRate": {
+      "annual": 48000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 36200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2432",
+    "jobType": "Marketing and commercial managers",
+    "relatedJobTitles": [
+      "Commercial manager",
+      "Client services manager (marketing)",
+      "Marketing development manager",
+      "Online marketing manager",
+      "Production manager (marketing)"
+    ],
+    "standardRate": {
+      "annual": 46500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 37000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2433",
+    "jobType": "Actuaries, economists and statisticians",
+    "relatedJobTitles": [
+      "Actuarial consultant Actuary Bioinformatician Economist Financial engineer Statistician Statistical analyst Web analyst"
+    ],
+    "standardRate": {
+      "annual": 48000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 37300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2434",
+    "jobType": "Business and related research professionals",
+    "relatedJobTitles": [
+      "Crime analyst",
+      "Fellow (research)",
+      "Games researcher (broadcasting)",
+      "Inventor",
+      "Digital marketing analyst",
+      "Market research analyst",
+      "Social media analyst"
+    ],
+    "standardRate": {
+      "annual": 36500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2435",
+    "jobType": "Professional/chartered company secretaries",
+    "relatedJobTitles": [
+      "Assistant company secretary (qualified)",
+      "Chartered secretary",
+      "Company secretary (qualified)"
+    ],
+    "standardRate": {
+      "annual": 49500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2439",
+    "jobType": "Business, research and administrative professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Civil servant (grade 6, 7)",
+      "Governance officer",
+      "Information compliance officer",
+      "Parliamentary assistant",
+      "Policy adviser (government)",
+      "Private secretary (government)",
+      "Registrar (government)",
+      "Service manager (government)"
+    ],
+    "standardRate": {
+      "annual": 52200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 41000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2440",
+    "jobType": "Business and financial project management professionals",
+    "relatedJobTitles": [
+      "Chief knowledge officer",
+      "Contracts manager (security services)",
+      "Project delivery officer",
+      "Project manager",
+      "Research support officer",
+      "Scrum master",
+      "Work package manager (professional)"
+    ],
+    "standardRate": {
+      "annual": 52900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 41100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2451",
+    "jobType": "Architects",
+    "relatedJobTitles": [
+      "Architect",
+      "Chartered architect",
+      "Landscape architect"
+    ],
+    "standardRate": {
+      "annual": 45900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 38800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2452",
+    "jobType": "Chartered architectural technologists, planning officers and consultants",
+    "relatedJobTitles": [
+      "Architectural consultant",
+      "Chartered architectural technologist",
+      "Construction planner",
+      "Planning officer (building construction)",
+      "Town planner"
+    ],
+    "standardRate": {
+      "annual": 36600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2453",
+    "jobType": "Quantity surveyors",
+    "relatedJobTitles": [
+      "Quantity surveyor",
+      "Survey technician",
+      "Surveyor (quantity surveying)"
+    ],
+    "standardRate": {
+      "annual": 45500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 34000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2454",
+    "jobType": "Chartered surveyors",
+    "relatedJobTitles": [
+      "Building surveyor",
+      "Chartered surveyor",
+      "Hydrographic surveyor",
+      "Land surveyor",
+      "Topographer"
+    ],
+    "standardRate": {
+      "annual": 41600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 34300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2455",
+    "jobType": "Construction project managers and related professionals",
+    "relatedJobTitles": [
+      "Contract manager (building construction)",
+      "Project manager (building construction)",
+      "Transport modeller",
+      "Transport planner"
+    ],
+    "standardRate": {
+      "annual": 40500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 34200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2462",
+    "jobType": "Probation officers",
+    "relatedJobTitles": [
+      "Inspector (National Probation Service)",
+      "Probation officer",
+      "Youth justice officer"
+    ],
+    "standardRate": {
+      "annual": 36500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2464",
+    "jobType": "Youth work professionals",
+    "relatedJobTitles": [
+      "Youth and community officer",
+      "Youth worker (professional)"
+    ],
+    "standardRate": {
+      "annual": 36100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2469",
+    "jobType": "Welfare professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Child protection adviser",
+      "Children’s guardian",
+      "Family court adviser",
+      "Rehabilitation officer",
+      "Restorative justice manager",
+      "Social services officer"
+    ],
+    "standardRate": {
+      "annual": 33400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2471",
+    "jobType": "Librarians",
+    "relatedJobTitles": [
+      "Chartered librarian",
+      "Librarian",
+      "Technical librarian",
+      "University librarian"
+    ],
+    "standardRate": {
+      "annual": 31700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2472",
+    "jobType": "Archivists, conservators and curators",
+    "relatedJobTitles": [
+      "Archivist",
+      "Conservator",
+      "Curator Keeper (art gallery)",
+      "Museum officer"
+    ],
+    "standardRate": {
+      "annual": 33600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2481",
+    "jobType": "Quality control and planning engineers",
+    "relatedJobTitles": [
+      "Planning engineer",
+      "Quality assurance engineer",
+      "Quality control officer (professional)",
+      "Quality engineer"
+    ],
+    "standardRate": {
+      "annual": 40000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2482",
+    "jobType": "Quality assurance and regulatory professionals",
+    "relatedJobTitles": [
+      "Compliance manager",
+      "Financial regulator",
+      "Quality assurance manager",
+      "Quality manager"
+    ],
+    "standardRate": {
+      "annual": 42500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 35000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2483",
+    "jobType": "Environmental health professionals",
+    "relatedJobTitles": [
+      "Air pollution inspector",
+      "Environmental health officer",
+      "Food inspector",
+      "Public health inspector",
+      "Technical officer (environmental health)"
+    ],
+    "standardRate": {
+      "annual": 38900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2491",
+    "jobType": "Newspaper, periodical and broadcast editors",
+    "relatedJobTitles": [
+      "Editor",
+      "Content editor (newspapers, magazines)",
+      "Digital editor",
+      "Online editor"
+    ],
+    "standardRate": {
+      "annual": 40400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2492",
+    "jobType": "Newspaper and periodical broadcast journalists and reporters",
+    "relatedJobTitles": [
+      "Broadcast journalist",
+      "Digital journalist",
+      "Journalist",
+      "Online journalist",
+      "Radio journalist",
+      "Reporter",
+      "Writer (newspaper publishing)"
+    ],
+    "standardRate": {
+      "annual": 40800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2493",
+    "jobType": "Public relations professionals",
+    "relatedJobTitles": [
+      "Account manager (public relations)",
+      "Communications manager (public relations)",
+      "Public relations consultant",
+      "Press officer",
+      "Public relations officer",
+      "Social media manager"
+    ],
+    "standardRate": {
+      "annual": 35400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "2494",
+    "jobType": "Advertising accounts managers and creative directors",
+    "relatedJobTitles": [
+      "Account manager (advertising)",
+      "Advertising Manager",
+      "Campaign Manager",
+      "Creative Director",
+      "Projects Manager (advertising)"
+    ],
+    "standardRate": {
+      "annual": 43700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 35000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3111",
+    "jobType": "Laboratory technicians",
+    "relatedJobTitles": [
+      "Assistant scientist (laboratory)",
+      "Associate practitioner (laboratory)",
+      "Cytoscreener",
+      "Hospital technician",
+      "Laboratory technician",
+      "Scientific technician"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3112",
+    "jobType": "Electrical and electronics technicians",
+    "relatedJobTitles": [
+      "Avionics technician",
+      "Electrical technician",
+      "Electronics technician",
+      "Installation engineer (electricity supplier)"
+    ],
+    "standardRate": {
+      "annual": 34300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3113",
+    "jobType": "Engineering technicians",
+    "relatedJobTitles": [
+      "Aircraft engineer (licensed)",
+      "Aircraft technician",
+      "Commissioning engineer",
+      "Engineering technician",
+      "Manufacturing engineer",
+      "Mechanical technician",
+      "Wind turbine technician (construction)"
+    ],
+    "standardRate": {
+      "annual": 39800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3114",
+    "jobType": "Building and civil engineering technicians",
+    "relatedJobTitles": [
+      "Building services consultant",
+      "Civil engineering technician",
+      "Survey technician",
+      "Technical assistant (civil engineering)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3115",
+    "jobType": "Quality assurance technicians",
+    "relatedJobTitles": [
+      "Quality analyst",
+      "Quality assurance coordinator",
+      "Quality control technician",
+      "Quality officer",
+      "Quality technician",
+      "Test technician"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3116",
+    "jobType": "Planning, process and production technicians",
+    "relatedJobTitles": [
+      "Process technician",
+      "Production controller",
+      "Production planner",
+      "Production technician"
+    ],
+    "standardRate": {
+      "annual": 33700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3119",
+    "jobType": "Science, engineering and production technicians not elsewhere classified",
+    "relatedJobTitles": [
+      "School technician",
+      "Technical assistant",
+      "Technician",
+      "Textile consultant",
+      "Workshop technician"
+    ],
+    "standardRate": {
+      "annual": 32100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3120",
+    "jobType": "CAD, drawing and architectural technicians",
+    "relatedJobTitles": [
+      "3D Printing Technician",
+      "Architect’s assistant",
+      "Architectural design assistant",
+      "Architectural technician",
+      "CAD designer",
+      "Cartographer",
+      "Design technician",
+      "Draughtsman"
+    ],
+    "standardRate": {
+      "annual": 31200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3131",
+    "jobType": "IT operations technicians",
+    "relatedJobTitles": [
+      "Computer games tester",
+      "Digital administrator",
+      "IT technician",
+      "Network administrator",
+      "Systems administrator"
+    ],
+    "standardRate": {
+      "annual": 31100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3132",
+    "jobType": "IT user support technicians",
+    "relatedJobTitles": [
+      "Business support analyst (computing)",
+      "Customer support analyst",
+      "Help desk operator (computing)",
+      "IT support technician",
+      "Systems support officer"
+    ],
+    "standardRate": {
+      "annual": 32400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3133",
+    "jobType": "Database administrators and web content technicians",
+    "relatedJobTitles": [
+      "Database administrator",
+      "Digital content editor",
+      "Intranet coordinator",
+      "Website moderator"
+    ],
+    "standardRate": {
+      "annual": 31500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3211",
+    "jobType": "Dispensing opticians",
+    "relatedJobTitles": [
+      "Dispensing optician",
+      "Optical dispenser"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3212",
+    "jobType": "Pharmaceutical technicians",
+    "relatedJobTitles": [
+      "Dispensing technician",
+      "Pharmaceutical technician",
+      "Pharmacy technician"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3214",
+    "jobType": "Complementary health associate professionals",
+    "relatedJobTitles": [
+      "Colour therapist",
+      "Holistic therapist",
+      "Homeopath",
+      "Hypnotherapist",
+      "Massage therapist",
+      "Reflexologist\tNot eligible for standard rate applications\t£23,400 (£12.00 per hour)",
+      "3221\tYouth and community workers\tCommunity development officer",
+      "Family support worker",
+      "Youth and community worker",
+      "Youth project coordinator",
+      "Youth worker"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3222",
+    "jobType": "Child and early years officers",
+    "relatedJobTitles": [
+      "Child protection officer",
+      "Education welfare officer",
+      "Family liaison officer",
+      "Learning mentor (early years)",
+      "Parent support adviser",
+      "Portage worker (educational establishments)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3223",
+    "jobType": "Housing officers",
+    "relatedJobTitles": [
+      "Accommodation officer",
+      "Housing adviser",
+      "Housing officer",
+      "Housing support officer"
+    ],
+    "standardRate": {
+      "annual": 31400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3224",
+    "jobType": "Counsellors",
+    "relatedJobTitles": [
+      "Counsellor (welfare services)",
+      "Debt adviser",
+      "Drugs and alcohol worker",
+      "Life coach",
+      "Stop smoking counsellor"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3229",
+    "jobType": "Welfare and housing associate professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Advocacy worker",
+      "Health coordinator",
+      "Homeless prevention officer",
+      "Key worker (welfare services)",
+      "Outreach worker (welfare services)",
+      "Probation services officer",
+      "Project worker (welfare services)",
+      "Student support officer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3232",
+    "jobType": "Early education and childcare practitioners",
+    "relatedJobTitles": [
+      "Childcare practitioner",
+      "Early years practitioner",
+      "Pre-school practitioner"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3240",
+    "jobType": "Veterinary nurses",
+    "relatedJobTitles": [
+      "Animal nurse",
+      "Veterinary nurse"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3312",
+    "jobType": "Police officers (sergeant and below)",
+    "relatedJobTitles": [
+      "Detective (police service)",
+      "Police constable",
+      "Police officer",
+      "Sergeant",
+      "Transport police officer"
+    ],
+    "standardRate": {
+      "annual": 44800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 36400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3313",
+    "jobType": "Fire service officers (watch manager and below)",
+    "relatedJobTitles": [
+      "Fire engineer",
+      "Fire safety officer",
+      "Firefighter",
+      "Watch manager (fire service)"
+    ],
+    "standardRate": {
+      "annual": 39500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 35200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3314",
+    "jobType": "Prison service officers (below principal officer)",
+    "relatedJobTitles": [
+      "Custodial manager",
+      "Prison custodial officer",
+      "Prison escort officer",
+      "Prison officer",
+      "Prison warden"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3319",
+    "jobType": "Protective service associate professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Crime scene investigator",
+      "Customs officer",
+      "Immigration officer",
+      "Investigation officer (police service)",
+      "Fingerprint expert",
+      "Fraud analyst",
+      "Operations manager (security services)",
+      "Private investigator",
+      "Security manager"
+    ],
+    "standardRate": {
+      "annual": 39200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3411",
+    "jobType": "Artists",
+    "relatedJobTitles": [
+      "Animator (hand drawn)",
+      "Artist",
+      "Illustrator",
+      "Portrait painter",
+      "Sculptor"
+    ],
+    "standardRate": {
+      "annual": 32800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3412",
+    "jobType": "Authors, writers and translators",
+    "relatedJobTitles": [
+      "Copywriter",
+      "Editor (books)",
+      "Interpreter",
+      "Technical author",
+      "Translator",
+      "Writer"
+    ],
+    "standardRate": {
+      "annual": 33800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3413",
+    "jobType": "Actors, entertainers and presenters",
+    "relatedJobTitles": [
+      "Actor",
+      "Commentator (broadcasting)",
+      "Costumed interpreter",
+      "Disc jockey",
+      "Entertainer",
+      "Presenter (broadcasting)",
+      "Singer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3414",
+    "jobType": "Dancers and choreographers",
+    "relatedJobTitles": [
+      "Ballet dancer",
+      "Choreographer",
+      "Dance coach",
+      "Dancer",
+      "Dance teacher"
+    ],
+    "standardRate": {
+      "annual": 31200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3415",
+    "jobType": "Musicians",
+    "relatedJobTitles": [
+      "Composer",
+      "Musician",
+      "Organist",
+      "Pianist",
+      "Song writer",
+      "Violinist"
+    ],
+    "standardRate": {
+      "annual": 35300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3416",
+    "jobType": "Arts officers, producers and directors",
+    "relatedJobTitles": [
+      "Broadcast editor",
+      "Film editor",
+      "Production assistant (broadcasting)",
+      "Studio manager",
+      "Television producer",
+      "Video production assistant"
+    ],
+    "standardRate": {
+      "annual": 37500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3417",
+    "jobType": "Photographers, audio-visual and broadcasting equipment operators",
+    "relatedJobTitles": [
+      "Audio visual technician",
+      "Cameraman",
+      "Commercial drone pilot",
+      "Digital imaging technician",
+      "Lighting designer",
+      "Photographer",
+      "Projectionist",
+      "Sound engineer",
+      "Theatre technician (entertainment)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3421",
+    "jobType": "Interior designers",
+    "relatedJobTitles": [
+      "Design consultant (interior design)",
+      "Interior decorator",
+      "Interior stylist",
+      "Kitchen designer"
+    ],
+    "standardRate": {
+      "annual": 33300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3422",
+    "jobType": "Clothing, fashion and accessories designers",
+    "relatedJobTitles": [
+      "Bridalwear designer",
+      "Fashion designer",
+      "Footwear designer",
+      "Jewellery designer"
+    ],
+    "standardRate": {
+      "annual": 40500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3429",
+    "jobType": "Design occupations not elsewhere classified",
+    "relatedJobTitles": [
+      "Design consultant",
+      "Craft designer",
+      "Make-up artist (films)",
+      "Production designer (film, television production)",
+      "Visual merchandiser (design)"
+    ],
+    "standardRate": {
+      "annual": 31800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3433",
+    "jobType": "Fitness and wellbeing instructors",
+    "relatedJobTitles": [
+      "Aerobics instructor",
+      "Fitness instructor",
+      "Gym instructor",
+      "Lifestyle consultant",
+      "Personal trainer",
+      "Pilates instructor",
+      "Yoga teacher"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3511",
+    "jobType": "Aircraft pilots and air traffic controllers",
+    "relatedJobTitles": [
+      "Airline pilot",
+      "Air traffic controller",
+      "First officer (airlines)",
+      "Flight engineer",
+      "Flight planner",
+      "Flying instructor",
+      "Helicopter pilot"
+    ],
+    "standardRate": {
+      "annual": 71700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 54300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3512",
+    "jobType": "Ship and hovercraft officers",
+    "relatedJobTitles": [
+      "Chief engineer (shipping)",
+      "Marine engineer (shipping)",
+      "Merchant navy officer",
+      "Petty officer",
+      "Tug master",
+      "Yacht skipper"
+    ],
+    "standardRate": {
+      "annual": 50200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 35400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3520",
+    "jobType": "Legal associate professionals",
+    "relatedJobTitles": [
+      "Barrister’s clerk",
+      "Compliance officer (legal services)",
+      "Law costs draftsman",
+      "Legal assistant",
+      "Litigator",
+      "Paralegal assistant"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3531",
+    "jobType": "Brokers",
+    "relatedJobTitles": [
+      "Foreign exchange dealer",
+      "Insurance broker",
+      "Investment administrator",
+      "Stockbroker",
+      "Trader (stock exchange)"
+    ],
+    "standardRate": {
+      "annual": 50400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3532",
+    "jobType": "Insurance underwriters",
+    "relatedJobTitles": [
+      "Account handler (insurance)",
+      "Commercial underwriter",
+      "Insurance inspector",
+      "Mortgage underwriter",
+      "Underwriter"
+    ],
+    "standardRate": {
+      "annual": 35200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3533",
+    "jobType": "Financial and accounting technicians",
+    "relatedJobTitles": [
+      "Accounting technician",
+      "Business associate (banking)",
+      "Financial controller",
+      "Fund administrator",
+      "Insolvency administrator",
+      "Managing clerk (accountancy)"
+    ],
+    "standardRate": {
+      "annual": 47700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 36000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3534",
+    "jobType": "Financial accounts managers",
+    "relatedJobTitles": [
+      "Accounts manager",
+      "Audit manager",
+      "Credit manager",
+      "Fund manager Mortgage unit manager",
+      "Relationship manager (bank)"
+    ],
+    "standardRate": {
+      "annual": 41600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3541",
+    "jobType": "Estimators, valuers and assessors",
+    "relatedJobTitles": [
+      "Claims assessor",
+      "Claims investigator",
+      "Engineering surveyor",
+      "Estimator",
+      "Loss adjuster",
+      "PPI case handler",
+      "Valuer"
+    ],
+    "standardRate": {
+      "annual": 34900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3542",
+    "jobType": "Importers and exporters",
+    "relatedJobTitles": [
+      "Export coordinator",
+      "Exporter",
+      "Import agent",
+      "Importer",
+      "Shipping agent"
+    ],
+    "standardRate": {
+      "annual": 32700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3543",
+    "jobType": "Project support officers",
+    "relatedJobTitles": [
+      "Planning assistant",
+      "Project administrator",
+      "Project analyst",
+      "Project coordinator",
+      "Project officer",
+      "Service delivery coordinator"
+    ],
+    "standardRate": {
+      "annual": 32000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3544",
+    "jobType": "Data analysts",
+    "relatedJobTitles": [
+      "Data analyst",
+      "Data officer",
+      "Data quality analyst",
+      "Information management analyst",
+      "Organisation and methods analyst"
+    ],
+    "standardRate": {
+      "annual": 33200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3549",
+    "jobType": "Business associate professionals not elsewhere classified",
+    "relatedJobTitles": [
+      "Business support officer",
+      "Marine consultant",
+      "Methods engineer",
+      "O&M consultant",
+      "Party agent (political party)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3551",
+    "jobType": "Buyers and procurement officers",
+    "relatedJobTitles": [
+      "Bid writer",
+      "Buyer",
+      "Procurement officer",
+      "Purchasing consultant",
+      "Supply planner"
+    ],
+    "standardRate": {
+      "annual": 33000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3552",
+    "jobType": "Business sales executives",
+    "relatedJobTitles": [
+      "Corporate account executive",
+      "Sales agent",
+      "Sales consultant",
+      "Sales executive",
+      "Technical representative"
+    ],
+    "standardRate": {
+      "annual": 34500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3553",
+    "jobType": "Merchandisers",
+    "relatedJobTitles": [
+      "Demand planner",
+      "Merchandiser",
+      "Sales merchandiser",
+      "Supply chain analyst"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3554",
+    "jobType": "Advertising and marketing associate professionals",
+    "relatedJobTitles": [
+      "Brand ambassador",
+      "Business development executive",
+      "Fundraiser",
+      "Marketing consultant",
+      "Marketing executive"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3555",
+    "jobType": "Estate agents and auctioneers",
+    "relatedJobTitles": [
+      "Auctioneer",
+      "Auctioneer and valuer",
+      "Estate agent",
+      "Letting agent",
+      "Property consultant",
+      "Sales negotiator"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3556",
+    "jobType": "Sales accounts and business development managers",
+    "relatedJobTitles": [
+      "Account manager (sales)",
+      "Area sales manager",
+      "Business development manager",
+      "Product development manager",
+      "Sales manager"
+    ],
+    "standardRate": {
+      "annual": 52500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 39100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3557",
+    "jobType": "Events managers and organisers",
+    "relatedJobTitles": [
+      "Conference coordinator",
+      "Event organiser Events manager",
+      "Exhibition organiser",
+      "Hospitality manager",
+      "Production manager (corporate hospitality)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3560",
+    "jobType": "Public services associate professionals",
+    "relatedJobTitles": [
+      "Civil servant (HEO, SEO)",
+      "Higher executive officer (government)",
+      "Principle revenue officer (local government)",
+      "Senior executive officer (government)",
+      "Team leader (local government)"
+    ],
+    "standardRate": {
+      "annual": 38000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3571",
+    "jobType": "Human resources and industrial relations officers",
+    "relatedJobTitles": [
+      "Employment consultant",
+      "Human resources advisor",
+      "Human resources analyst",
+      "Recruitment consultant",
+      "Talent attraction consultant"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3572",
+    "jobType": "Careers advisers and vocational guidance specialists",
+    "relatedJobTitles": [
+      "Careers adviser",
+      "Careers consultant",
+      "Careers teacher",
+      "Personal advisor",
+      "Placement officer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3573",
+    "jobType": "Information technology trainers",
+    "relatedJobTitles": [
+      "E-learning manager",
+      "IT trainer",
+      "IT tutor",
+      "Software trainer"
+    ],
+    "standardRate": {
+      "annual": 34600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3574",
+    "jobType": "Other vocational and industrial trainers",
+    "relatedJobTitles": [
+      "NVQ assessor",
+      "Technical instructor",
+      "Training consultant",
+      "Training manager"
+    ],
+    "standardRate": {
+      "annual": 32000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3581",
+    "jobType": "Inspectors of standards and regulations",
+    "relatedJobTitles": [
+      "Building inspector",
+      "Driving examiner",
+      "Housing inspector",
+      "Meat hygiene inspector",
+      "Trading standards officer"
+    ],
+    "standardRate": {
+      "annual": 35300,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "3582",
+    "jobType": "Health and safety managers and officers",
+    "relatedJobTitles": [
+      "Asbestos surveyor",
+      "Health and safety officer",
+      "Occupational hygienist",
+      "Safety consultant",
+      "Safety officer"
+    ],
+    "standardRate": {
+      "annual": 40900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 34500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4111",
+    "jobType": "National government administrative occupations",
+    "relatedJobTitles": [
+      "Administrative assistant (courts of justice)",
+      "Administrative officer (government) Civil servant (grades AA, AO & EO)",
+      "Clerk (government)",
+      "Revenue officer (government)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4112",
+    "jobType": "Local government administrative occupations",
+    "relatedJobTitles": [
+      "Administrative assistant (local government)",
+      "Administrative officer (police service)",
+      "Benefits assistant (local government)",
+      "Clerical officer (local government)",
+      "Local government officer",
+      "Parish clerk"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4113",
+    "jobType": "Officers of non-governmental organisations",
+    "relatedJobTitles": [
+      "Administrator (charitable organisation)",
+      "Clerk to school governors",
+      "Organiser (trade union)",
+      "Secretary (research association)",
+      "Trade union official"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4121",
+    "jobType": "Credit controllers",
+    "relatedJobTitles": [
+      "Credit control clerk",
+      "Credit controller",
+      "Debt management associate",
+      "Loans administrator"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4122",
+    "jobType": "Book-keepers, payroll managers and wages clerks",
+    "relatedJobTitles": [
+      "Accounts administrator",
+      "Accounts assistant",
+      "Accounts clerk",
+      "Auditor",
+      "Bookkeeper",
+      "Payroll manager"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4124",
+    "jobType": "Finance officers",
+    "relatedJobTitles": [
+      "Finance officer",
+      "Financial officer (local government)",
+      "Regional finance officer (PO)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4129",
+    "jobType": "Financial administrative occupations not elsewhere classified",
+    "relatedJobTitles": [
+      "Cashier",
+      "Finance administrator",
+      "Finance assistant",
+      "Legal cashier",
+      "Tax assistant",
+      "Treasurer",
+      "Valuation assistant"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4132",
+    "jobType": "Pensions and insurance clerks and assistants",
+    "relatedJobTitles": [
+      "Administrator (insurance)",
+      "Claims handler",
+      "Clerical assistant (insurance)",
+      "Insurance clerk",
+      "Pensions administrator"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4134",
+    "jobType": "Transport and distribution clerks and assistants",
+    "relatedJobTitles": [
+      "Cargo agent",
+      "Export clerk",
+      "Freight administrator",
+      "Logistics coordinator",
+      "Shipping clerk",
+      "Transport clerk"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4141",
+    "jobType": "Office managers",
+    "relatedJobTitles": [
+      "Business support manager",
+      "Office manager",
+      "Practice manager",
+      "Sales administration manager",
+      "Sales office manager"
+    ],
+    "standardRate": {
+      "annual": 35000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4143",
+    "jobType": "Customer service managers",
+    "relatedJobTitles": [
+      "After sales manager",
+      "Call centre manager",
+      "Customer care manager",
+      "Customer service manager"
+    ],
+    "standardRate": {
+      "annual": 33400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4151",
+    "jobType": "Sales administrators",
+    "relatedJobTitles": [
+      "Online sales assistant",
+      "Marketing administrator",
+      "Sales administrator",
+      "Sales coordinator"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4159",
+    "jobType": "Other administrative occupations not elsewhere classified",
+    "relatedJobTitles": [
+      "Administrator",
+      "Administrative assistant",
+      "Clerical assistant",
+      "Clerk",
+      "Facilities coordinator",
+      "Office assistant",
+      "Proof reader"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4214",
+    "jobType": "Company secretaries and administrators",
+    "relatedJobTitles": [
+      "Assistant secretary",
+      "Club secretary",
+      "Company administrator",
+      "Company secretary"
+    ],
+    "standardRate": {
+      "annual": 31000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "4215",
+    "jobType": "Personal assistants and other secretaries",
+    "relatedJobTitles": [
+      "Executive assistant",
+      "PA-secretary",
+      "Personal assistant",
+      "Personal secretary",
+      "Secretary"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5111",
+    "jobType": "Farmers",
+    "relatedJobTitles": [
+      "Agricultural contractor Agricultural technician (farming)",
+      "Crofter (farming)",
+      "Farmer",
+      "Herd manager"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5112",
+    "jobType": "Horticultural trades",
+    "relatedJobTitles": [
+      "Grower",
+      "Horticulturalist",
+      "Market Gardener",
+      "Nursery Assistant (agriculture)",
+      "Nurseryman"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5113",
+    "jobType": "Gardeners and landscape gardeners",
+    "relatedJobTitles": [
+      "Garden designer",
+      "Gardener",
+      "Gardener-handyman",
+      "Landscape gardener"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5114",
+    "jobType": "Groundsmen and greenkeepers",
+    "relatedJobTitles": [
+      "Greenkeeper",
+      "Groundsman",
+      "Groundsperson"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5119",
+    "jobType": "Agricultural and fishing trades not elsewhere classified",
+    "relatedJobTitles": [
+      "Arboricultural consultant",
+      "Bee farmer",
+      "Countryside ranger",
+      "Gamekeeper",
+      "National park warden",
+      "Share fisherman",
+      "Trawler skipper",
+      "Tree surgeon"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5211",
+    "jobType": "Sheet metal workers",
+    "relatedJobTitles": [
+      "Coppersmith",
+      "Metal fabricator",
+      "Panel beater (metal trades)",
+      "Sheet metal fabricator",
+      "Sheet metal worker"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5212",
+    "jobType": "Metal plate workers, smiths, moulders and related occupations",
+    "relatedJobTitles": [
+      "Boiler maker",
+      "Core Maker (metal trades)",
+      "Die Caster",
+      "Chain repairer",
+      "Farrier",
+      "Moulder and coremaker",
+      "Pewtersmith",
+      "Pipe Maker (foundry)",
+      "Steel presser"
+    ],
+    "standardRate": {
+      "annual": 31200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5213",
+    "jobType": "Welding trades",
+    "relatedJobTitles": [
+      "Fabricator-welder",
+      "Fitter-welder",
+      "Spot welder",
+      "Welder",
+      "Welding technician"
+    ],
+    "standardRate": {
+      "annual": 31700,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5214",
+    "jobType": "Pipe fitters",
+    "relatedJobTitles": [
+      "Pipe engineer",
+      "Pipe fitter",
+      "Pipe welder-fitter"
+    ],
+    "standardRate": {
+      "annual": 38500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5221",
+    "jobType": "Metal machining setters and setter-operators",
+    "relatedJobTitles": [
+      "CNC machinist",
+      "CNC programmer",
+      "Centre lathe turner",
+      "Miller (metal trades)",
+      "Tool setter",
+      "Turner"
+    ],
+    "standardRate": {
+      "annual": 32600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5222",
+    "jobType": "Tool makers, tool fitters and markers-out",
+    "relatedJobTitles": [
+      "Die maker",
+      "Engineer-toolmaker",
+      "Jig maker",
+      "Marker-out (engineering)",
+      "Tool engineer",
+      "Tool fitter",
+      "Tool maker"
+    ],
+    "standardRate": {
+      "annual": 36400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5223",
+    "jobType": "Metal working production and maintenance fitters",
+    "relatedJobTitles": [
+      "Agricultural engineer",
+      "Bench fitter",
+      "Engineering machinist",
+      "Fabricator",
+      "Installation engineer",
+      "Maintenance fitter",
+      "Mechanical engineer"
+    ],
+    "standardRate": {
+      "annual": 36400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5224",
+    "jobType": "Precision instrument makers and repairers",
+    "relatedJobTitles": [
+      "Calibration engineer",
+      "Horologist",
+      "Instrument maker",
+      "Instrument mechanic",
+      "Instrument technician",
+      "Optical technician",
+      "Precision engineer",
+      "Watchmaker"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5225",
+    "jobType": "Air-conditioning and refrigeration installers and repairers",
+    "relatedJobTitles": [
+      "Air conditioning engineer",
+      "Air conditioning fitter",
+      "Refrigeration engineer",
+      "Refrigeration technician",
+      "Service engineer (refrigeration)"
+    ],
+    "standardRate": {
+      "annual": 39800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5231",
+    "jobType": "Vehicle technicians, mechanics and electricians",
+    "relatedJobTitles": [
+      "Auto electrician",
+      "Car mechanic",
+      "HGV mechanic",
+      "Mechanic (garage)",
+      "MOT tester",
+      "Motor mechanic",
+      "Motor vehicle technician",
+      "Technician (vehicles)",
+      "Vehicle technician"
+    ],
+    "standardRate": {
+      "annual": 32000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5232",
+    "jobType": "Vehicle body builders and repairers",
+    "relatedJobTitles": [
+      "Bodyshop technician",
+      "Car body repairer",
+      "Coach builder",
+      "Panel beater",
+      "Restoration technician (vehicles)",
+      "Vehicle builder"
+    ],
+    "standardRate": {
+      "annual": 31200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5233",
+    "jobType": "Vehicle paint technicians",
+    "relatedJobTitles": [
+      "Car paint sprayer",
+      "Coach painter",
+      "Graphic applicator (vehicles)",
+      "Paint technician (vehicles)",
+      "Sprayer (vehicle trades)",
+      "Vehicle refinisher",
+      "Vehicle wrapper"
+    ],
+    "standardRate": {
+      "annual": 31100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5234",
+    "jobType": "Aircraft maintenance and related trades",
+    "relatedJobTitles": [
+      "Aeronautical engineer",
+      "Aircraft electrician",
+      "Aircraft engineer",
+      "Aircraft fitter",
+      "Aircraft mechanic",
+      "Maintenance engineer (aircraft)"
+    ],
+    "standardRate": {
+      "annual": 44500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 37300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5235",
+    "jobType": "Boat and ship builders and repairers",
+    "relatedJobTitles": [
+      "Boat builder",
+      "Fitter (boat building)",
+      "Frame turner (ship building)",
+      "Laminator (boat building and repairing)",
+      "Marine engineer",
+      "Ship’s joiner",
+      "Shipwright"
+    ],
+    "standardRate": {
+      "annual": 34100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5236",
+    "jobType": "Rail and rolling stock builders and repairers",
+    "relatedJobTitles": [
+      "Coach repairer (railways)",
+      "Mechanical fitter (railway and rolling stock)",
+      "Railway engineer",
+      "Rolling stock technician",
+      "Service engineer (railway, rolling stock maintenance)"
+    ],
+    "standardRate": {
+      "annual": 48200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5241",
+    "jobType": "Electricians and electrical fitters",
+    "relatedJobTitles": [
+      "Electrical contractor",
+      "Electrical engineer",
+      "Electrical fitter",
+      "Electrician"
+    ],
+    "standardRate": {
+      "annual": 35500,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5242",
+    "jobType": "Telecoms and related network installers and repairers",
+    "relatedJobTitles": [
+      "Cable jointer",
+      "Customer service engineer (telecoms)",
+      "Installation engineer (telecoms)",
+      "Network officer (telecoms)",
+      "Telecom engineer",
+      "Telephone engineer"
+    ],
+    "standardRate": {
+      "annual": 35000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5243",
+    "jobType": "Tv, video and audio servicers and repairers",
+    "relatedJobTitles": [
+      "Installation engineer (radio, television and video)",
+      "Satellite engineer",
+      "Service engineer (radio, television and video)",
+      "Technician (radio, television and video servicing)",
+      "Television engineer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5244",
+    "jobType": "Computer system and equipment installers and servicers",
+    "relatedJobTitles": [
+      "Computer repairer",
+      "Computer service engineer",
+      "Hardware engineer (computer)",
+      "IT engineer",
+      "Maintenance engineer (computer servicing)"
+    ],
+    "standardRate": {
+      "annual": 31000,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5245",
+    "jobType": "Security system installers and repairers",
+    "relatedJobTitles": [
+      "Alarm engineer",
+      "CCTV engineer",
+      "Installation engineer (alarms)",
+      "Service engineer (alarms)",
+      "Security engineer"
+    ],
+    "standardRate": {
+      "annual": 35800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5246",
+    "jobType": "Electrical service and maintenance mechanics and repairers",
+    "relatedJobTitles": [
+      "Domestic appliance engineer",
+      "Maintenance man (electricity supplier)",
+      "Machine repairer (office machinery)",
+      "Repairer (electrical machinery)",
+      "Service engineer (domestic electrical appliances)"
+    ],
+    "standardRate": {
+      "annual": 36100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 31700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5249",
+    "jobType": "Electrical and electronic trades not elsewhere classified",
+    "relatedJobTitles": [
+      "Communication engineer",
+      "Electronics engineer",
+      "Field engineer",
+      "Linesman"
+    ],
+    "standardRate": {
+      "annual": 40400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 33200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5250",
+    "jobType": "Skilled metal, electrical and electronic trades supervisors",
+    "relatedJobTitles": [
+      "Electrical supervisor",
+      "Maintenance supervisor (manufacturing)",
+      "Service manager (garage) Workshop manager"
+    ],
+    "standardRate": {
+      "annual": 38400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5311",
+    "jobType": "Steel erectors",
+    "relatedJobTitles": [
+      "Steel erector",
+      "Steel fabricator",
+      "Steel worker (structural engineering)"
+    ],
+    "standardRate": {
+      "annual": 34800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5312",
+    "jobType": "Stonemasons and related trades",
+    "relatedJobTitles": [
+      "Dry stone waller",
+      "Monumental mason",
+      "Stone mason"
+    ],
+    "standardRate": {
+      "annual": 32400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5313",
+    "jobType": "Bricklayers",
+    "relatedJobTitles": [
+      "Bricklayer",
+      "Block setter",
+      "Chimney builder",
+      "Floor stone Layer",
+      "Kiln repairer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5314",
+    "jobType": "Roofers, roof tilers and slaters",
+    "relatedJobTitles": [
+      "Mastic asphalt spreader",
+      "Roof tiler",
+      "Roofer",
+      "Roofing contractor",
+      "Slater",
+      "Thatcher"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5315",
+    "jobType": "Plumbers and heating and ventilating installers and repairers",
+    "relatedJobTitles": [
+      "Gas engineer",
+      "Heating and ventilating engineer",
+      "Heat pump installer",
+      "Meter installer (water)",
+      "Plumber",
+      "Plumbing and heating engineer",
+      "Stove repairer (gas stoves)",
+      "Ventilation fitter"
+    ],
+    "standardRate": {
+      "annual": 35200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28800,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5316",
+    "jobType": "Carpenters and joiners",
+    "relatedJobTitles": [
+      "Carpenter",
+      "Carpenter and joiner",
+      "Joiner",
+      "Kitchen fitter",
+      "Shop fitter"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5317",
+    "jobType": "Glaziers, window fabricators and fitters",
+    "relatedJobTitles": [
+      "Glass Cutter",
+      "Glazier",
+      "Installer (double glazing)",
+      "Service engineer (windows)",
+      "Window fabricator",
+      "Window fitter"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5319",
+    "jobType": "Construction and building trades not elsewhere classified",
+    "relatedJobTitles": [
+      "Builder",
+      "Building contractor",
+      "Fencer",
+      "Fireplace fitter",
+      "Maintenance manager (buildings and other structures)",
+      "Property developer (building construction)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5321",
+    "jobType": "Plasterers",
+    "relatedJobTitles": [
+      "Dry liner",
+      "Fibrous plasterer",
+      "Plasterer",
+      "Plastering contractor"
+    ],
+    "standardRate": {
+      "annual": 32400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5322",
+    "jobType": "Floorers and wall tilers",
+    "relatedJobTitles": [
+      "Carpet fitter",
+      "Ceramic tiler",
+      "Flooring contractor",
+      "Mosaic floor layer"
+    ],
+    "standardRate": {
+      "annual": 32600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26300,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5323",
+    "jobType": "Painters and decorators",
+    "relatedJobTitles": [
+      "Artexer",
+      "French polisher",
+      "Paper hanger",
+      "Ship sprayer",
+      "Wood stainer"
+    ],
+    "standardRate": {
+      "annual": 38100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5330",
+    "jobType": "Construction and building trades supervisors",
+    "relatedJobTitles": [
+      "Builder’s foreman",
+      "Construction foreman",
+      "Construction supervisor",
+      "Maintenance supervisor",
+      "Site foreman"
+    ],
+    "standardRate": {
+      "annual": 38100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 32000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5411",
+    "jobType": "Upholsterers",
+    "relatedJobTitles": [
+      "Curtain fitter",
+      "Curtain maker",
+      "Soft furnisher",
+      "Trimmer (furniture mfr)",
+      "Upholsterer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5412",
+    "jobType": "Footwear and leather working trades",
+    "relatedJobTitles": [
+      "Cobbler",
+      "Leather worker (leather goods mfr)",
+      "Machinist (leather goods mfr)",
+      "Shoe machinist",
+      "Shoe repairer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5413",
+    "jobType": "Tailors and dressmakers",
+    "relatedJobTitles": [
+      "Costume maker",
+      "Cutter (hosiery, knitwear mfr)",
+      "Dressmaker",
+      "Pattern Cutter",
+      "Tailor",
+      "Tailoress"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5419",
+    "jobType": "Textiles, garments and related trades not elsewhere classified",
+    "relatedJobTitles": [
+      "Clothing manufacturer",
+      "Embroiderer",
+      "Hand sewer",
+      "Knitter",
+      "Sail maker",
+      "Weaver",
+      "Upholstery cutter"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5421",
+    "jobType": "Pre-press technicians",
+    "relatedJobTitles": [
+      "Compositor",
+      "Plate maker",
+      "Pre-press manager",
+      "Pre-press technician",
+      "Type setter"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5422",
+    "jobType": "Printers",
+    "relatedJobTitles": [
+      "Digital printer",
+      "Lithographic printer",
+      "Machine minder (printing)",
+      "Print technician",
+      "Screen printer",
+      "Wallpaper printer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5423",
+    "jobType": "Print finishing and binding workers",
+    "relatedJobTitles": [
+      "Binder’s assistant",
+      "Book binder",
+      "Finishing supervisor (printing)",
+      "Print finisher",
+      "Retoucher (film processing)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5431",
+    "jobType": "Butchers",
+    "relatedJobTitles": [
+      "Butcher Butcher’s assistant",
+      "Butchery manager",
+      "Master butcher",
+      "Slaughterman"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5432",
+    "jobType": "Bakers and flour confectioners",
+    "relatedJobTitles": [
+      "Baker",
+      "Baker’s assistant",
+      "Bakery manager",
+      "Cake decorator",
+      "Confectioner"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5433",
+    "jobType": "Fishmongers and poultry dressers",
+    "relatedJobTitles": [
+      "Butcher (fish, poultry)",
+      "Filleter (fish)",
+      "Fish processor",
+      "Fishmonger",
+      "Poultry processor",
+      "Process worker (fish, poultry)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5434",
+    "jobType": "Chefs",
+    "relatedJobTitles": [
+      "Chef",
+      "Chef-manager",
+      "Food stylist",
+      "Head chef",
+      "Pastry chef"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5436",
+    "jobType": "Catering and bar managers",
+    "relatedJobTitles": [
+      "Bar manager",
+      "Catering manager",
+      "Floor manager (restaurant)",
+      "Kitchen manager",
+      "Steward (club)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5441",
+    "jobType": "Glass and ceramics makers, decorators and finishers",
+    "relatedJobTitles": [
+      "Ceramic artist",
+      "Glass blower",
+      "Potter (ceramics mfr)",
+      "Pottery worker",
+      "Sprayer (ceramics mfr)",
+      "Stained glass artist"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5442",
+    "jobType": "Furniture makers and other craft woodworkers",
+    "relatedJobTitles": [
+      "Antiques restorer",
+      "Cabinet maker",
+      "Coffin maker",
+      "Furniture restorer",
+      "Joiner (cabinet making)",
+      "Picture framer",
+      "Sprayer (furniture mfr)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5443",
+    "jobType": "Florists",
+    "relatedJobTitles": [
+      "Floral assistant",
+      "Floral designer",
+      "Florist",
+      "Flower arranger"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "5449",
+    "jobType": "Other skilled trades not elsewhere classified",
+    "relatedJobTitles": [
+      "Diamond mounter",
+      "Engraver",
+      "Goldsmith",
+      "Paint sprayer",
+      "Piano tuner",
+      "Sign maker (electric signs)",
+      "Silversmith",
+      "Wig maker"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6111",
+    "jobType": "Early education and childcare assistants",
+    "relatedJobTitles": [
+      "Child care assistant",
+      "Crèche assistant",
+      "Nursery assistant",
+      "Nursery nurse",
+      "Playgroup assistant",
+      "Pre-school assistant"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6114",
+    "jobType": "Childminders",
+    "relatedJobTitles": [
+      "Baby sitter",
+      "Childminder",
+      "Mother’s help",
+      "Nurse maid"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6116",
+    "jobType": "Nannies and au pairs",
+    "relatedJobTitles": [
+      "Au pair",
+      "Nanny\tNot eligible for standard rate applications\t£23,200 (£11.90 per hour)",
+      "6117\tPlayworkers\tAfterschool club coordinator",
+      "Play leader",
+      "Playworker",
+      "School club leader"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6129",
+    "jobType": "Animal care services occupations not elsewhere classified",
+    "relatedJobTitles": [
+      "Animal technician",
+      "Canine beautician",
+      "Dog walker",
+      "Groom",
+      "Kennel assistant",
+      "Stable hand",
+      "Veterinary nursing assistant"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6134",
+    "jobType": "Houseparents and residential wardens",
+    "relatedJobTitles": [
+      "Foster carer",
+      "House matron",
+      "House parent",
+      "Residential care officer",
+      "Warden (care/residential home)"
+    ],
+    "standardRate": {
+      "annual": 31200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6135",
+    "jobType": "Care workers and home carers",
+    "relatedJobTitles": [
+      "Care assistant",
+      "Carer",
+      "Child care worker",
+      "Home care assistant",
+      "Home carer",
+      "Support worker (nursing home)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6136",
+    "jobType": "Senior care workers",
+    "relatedJobTitles": [
+      "Care coordinator (care/residential home)",
+      "Senior care assistant",
+      "Senior carer",
+      "Senior support worker (local government: welfare services) Team leader (nursing home)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6213",
+    "jobType": "Air travel assistants",
+    "relatedJobTitles": [
+      "Air hostess",
+      "Cabin crew",
+      "Customer service agent (travel)",
+      "Flight attendant",
+      "Passenger service agent"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6214",
+    "jobType": "Rail travel assistants",
+    "relatedJobTitles": [
+      "Conductor (railways)",
+      "Station assistant (underground railway)",
+      "Station supervisor",
+      "Ticket inspector (railways)",
+      "Train conductor",
+      "Train manager"
+    ],
+    "standardRate": {
+      "annual": 36100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 29900,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "6232",
+    "jobType": "Caretakers",
+    "relatedJobTitles": [
+      "Caretaker",
+      "Concierge",
+      "Janitor",
+      "Porter (college)",
+      "School premises manager",
+      "Site manager (educational establishments)\tNot eligible for standard rate applications\t£23,200 (£11.90 per hour)",
+      "6250\tBed and breakfast and guest house owners and proprietors\tGuest house owner",
+      "Landlady (guest house)\tNot eligible for standard rate applications\t£23,200 (£11.90 per hour)",
+      "6311\tPolice community support officers\tCivilian support officer (police service)",
+      "Community support officer (police service)",
+      "Police community support officer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "7115",
+    "jobType": "Vehicle and parts salespersons and advisers",
+    "relatedJobTitles": [
+      "Car sales executive",
+      "Car salesman",
+      "Parts adviser (retail trade)",
+      "Parts technician\tNot eligible for standard rate applications\t£24,200 (£12.41 per hour)",
+      "7124\tMarket and street traders and assistants\tMarket assistant",
+      "Market trader",
+      "Owner (market stall)",
+      "Stall holder",
+      "Street trader"
+    ],
+    "standardRate": {
+      "annual": 31200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30400,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "7125",
+    "jobType": "Visual merchandisers and related occupations",
+    "relatedJobTitles": [
+      "Display representative",
+      "Fashion stylist",
+      "Visual merchandising assistant",
+      "Window dresser\tNot eligible for standard rate applications\t£23,200 (£11.90 per hour)",
+      "7129\tSales related occupations not elsewhere classified\tDemonstrator",
+      "Hire controller",
+      "Insurance salesman",
+      "Promoter (wholesale, retail trade)",
+      "Sales representative (retail trade)\tNot eligible for standard rate applications\t£23,800 (£12.21 per hour)",
+      "7131\tShopkeepers and owners - retail and wholesale\tAntiques dealer",
+      "Fashion retailer",
+      "Greengrocer",
+      "Jeweller (retail trade)",
+      "Newsagent",
+      "Shopkeeper"
+    ],
+    "standardRate": {
+      "annual": 35200,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "7132",
+    "jobType": "Sales supervisors - retail and wholesale",
+    "relatedJobTitles": [
+      "Bakery manager (retail trade)",
+      "Check-out supervisor",
+      "Section manager (retail trade)",
+      "Shop supervisor (retail trade)",
+      "Supervisor (retail, wholesale trade)",
+      "Team leader (retail trade)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "7214",
+    "jobType": "Market research interviewers",
+    "relatedJobTitles": [
+      "Interviewer (market research)",
+      "Market researcher (interviewing)",
+      "Mystery shopper",
+      "Telephone interviewer",
+      "Telephone researcher",
+      "Traffic enumerator"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25000,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "7220",
+    "jobType": "Customer service supervisors",
+    "relatedJobTitles": [
+      "Call centre supervisor",
+      "Communications supervisor (air transport)",
+      "Customer service supervisor",
+      "Team leader (call centre)"
+    ],
+    "standardRate": {
+      "annual": 31800,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "8113",
+    "jobType": "Chemical and related process operatives",
+    "relatedJobTitles": [
+      "Chemical process operator",
+      "Gas producer operator",
+      "Process technician (chemical mfr)",
+      "Process worker (cement mfr)",
+      "Process worker (nuclear fuel production)"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 28100,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "8115",
+    "jobType": "Metal making and treating process operatives",
+    "relatedJobTitles": [
+      "Degreaser (metal trades)",
+      "Electroplater",
+      "Furnaceman (metal trades)",
+      "Process worker (nickel mfr)",
+      "Wire drawer\tNot eligible for standard rate applications\t£24,200 (£12.41 per hour)",
+      "8133\tEnergy plant operatives\tBoilerman",
+      "Control room operator (electric)",
+      "Hydraulic engineman",
+      "Plant operator (electricity supplier)",
+      "Power station operator"
+    ],
+    "standardRate": {
+      "annual": 35100,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23600,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "8134",
+    "jobType": "Water and sewerage plant operatives",
+    "relatedJobTitles": [
+      "Controller (water treatment)",
+      "Plant operator (sewage works)",
+      "Pump attendant",
+      "Water treatment engineer",
+      "Water treatment operator"
+    ],
+    "standardRate": {
+      "annual": 32400,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 27700,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "8143",
+    "jobType": "Routine inspectors and testers",
+    "relatedJobTitles": [
+      "Quality assurance inspector",
+      "Quality auditor Quality controller",
+      "Quality inspector",
+      "Test engineer"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 25200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "8215",
+    "jobType": "Driving instructors",
+    "relatedJobTitles": [
+      "Cycling instructor",
+      "Driving instructor",
+      "HGV instructor",
+      "Instructor (driving school)",
+      "Motorcycle instructor"
+    ],
+    "standardRate": {
+      "annual": 35900,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 30500,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "8232",
+    "jobType": "Marine and waterways transport operatives",
+    "relatedJobTitles": [
+      "Deck hand (shipping)",
+      "Engine room attendant (shipping)",
+      "Engineer(nos: boat, barge)",
+      "Ferryman",
+      "Merchant seaman",
+      "Seaman (shipping)"
+    ],
+    "standardRate": {
+      "annual": 33600,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 24200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "9119",
+    "jobType": "Fishing and other elementary agriculture occupations not elsewhere classified",
+    "relatedJobTitles": [
+      "Vent chick sexer",
+      "Deckhand on large fishing vessel (9 metres and above)",
+      "For both job titles, the job must require 3 or more years’ full-time experience. This experience must not have been gained through illegal working. Other jobs in this occupation are not eligible"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 23200,
+      "hourly": null
+    }
+  },
+  {
+    "occupationCode": "9249",
+    "jobType": "Elementary sales occupations not elsewhere classified",
+    "relatedJobTitles": [
+      "Code controller (wholesale, retail trade)",
+      "Home shopper",
+      "Internet shopper (retail trade)",
+      "Order picker (retail trade)",
+      "Porter (retail trade)",
+      "Trolley assistant"
+    ],
+    "standardRate": {
+      "annual": 30960,
+      "hourly": null
+    },
+    "lowerRate": {
+      "annual": 26400,
+      "hourly": null
+    }
+  }
+]
