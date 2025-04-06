@@ -26,7 +26,7 @@ Job Title: ${data.jobTitle}
 Employees: ${data.numberOfEmployees}
 Mobile: ${data.mobileNumber}
 Sponsored Employees: ${data.numberOfSponsoredEmployees}
-Interests: ${data.interests.join(", ")}
+Goals: ${data.goals.join(", ")}
 Heard about us from: ${data.hearAboutUs}
         `
     };

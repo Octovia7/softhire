@@ -11,7 +11,7 @@ exports.submitConsultForm = async (req, res) => {
             numberOfEmployees,
             mobileNumber,
             numberOfSponsoredEmployees,
-            interests,
+            goals,
             hearAboutUs
         } = req.body;
 
@@ -23,7 +23,7 @@ exports.submitConsultForm = async (req, res) => {
             numberOfEmployees,
             mobileNumber,
             numberOfSponsoredEmployees,
-            interests,
+            goals,
             hearAboutUs
         });
 

@@ -8,7 +8,7 @@ const consultRequestSchema = new mongoose.Schema({
     numberOfEmployees: { type: String, required: true },
     mobileNumber: { type: String, required: true },
     numberOfSponsoredEmployees: { type: String, required: true },
-    interests: { type: [String], required: true },  // Multiple checkboxes
+    goals: { type: [String], required: true },
     hearAboutUs: { type: String, required: true }
 }, { timestamps: true });
 
