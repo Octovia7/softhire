@@ -13,5 +13,6 @@ const SalarySchema = new mongoose.Schema({
     hourly: Number,
   },
 });
+SalarySchema.index({ jobType: 'text', occupationCode: 'text' ,relatedJobTitles: "text" });
 
 module.exports = mongoose.model('Salary', SalarySchema);

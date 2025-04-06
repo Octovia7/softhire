@@ -7,13 +7,14 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 require("./config/passport");
-
+const salaryRoutes = require('./routes/salaryRoutes');
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const recruiterRoutes = require("./routes/recruiterRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const googleAuthRoutes = require("./routes/googleAuthRoutes");
 const sponsorEligibilityRoutes = require("./routes/sponsorEligibilityRoutes");
+const Salary = require('./models/Salary'); // Adjust the path if needed
 
 const app = express();
 
@@ -57,7 +58,8 @@ app.use(passport.session());
 // ✅ Database
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
+  .then(() =>
+  console.log("✅ MongoDB Connected"))
   .catch((err) => {
     console.error("❌ MongoDB Connection Error:", err);
     process.exit(1);
@@ -70,7 +72,7 @@ app.use("/api/recruiter", recruiterRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/auth/google", googleAuthRoutes);
 app.use("/api/sponsor", sponsorEligibilityRoutes);
-
+app.use('/api/salary', salaryRoutes);
 // ✅ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 

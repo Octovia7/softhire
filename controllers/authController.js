@@ -126,7 +126,7 @@ exports.verifyOTP = async (req, res) => {
         await PendingUser.deleteOne({ email });
 
         const token = jwt.sign(
-            { userId: newUser._id, role: newUser.role },
+            { id: newUser._id, role: newUser.role },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );
