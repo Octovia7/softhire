@@ -10,7 +10,7 @@ const { authenticate, authorizeRecruiter } = require("../middleware/authMiddlewa
 const router = express.Router();
 
 // Submit sponsor assessment
-router.post("/assessment", authenticate, authorizeRecruiter, submitSponsorAssessment);
+router.post("/assessment", submitSponsorAssessment);
 
 // Get all job roles + codes for dropdown
 router.get("/jobs", getAllJobs);

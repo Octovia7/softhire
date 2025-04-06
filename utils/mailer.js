@@ -1,35 +1,41 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",  // Gmail service
+    service: "gmail",
     auth: {
-        user: process.env.EMAIL,  // Email from your .env file
-        pass: process.env.EMAIL_PASSWORD,  // App password or email password from your .env file
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
     },
     tls: {
-        rejectUnauthorized: false,  // Allow insecure TLS connections (use cautiously)
+        rejectUnauthorized: false,
     }
 });
 
 const sendAssessmentEmails = async (assessmentData) => {
-    const { organizationName, recruiterEmail, jobRole, jobCode, salaryOffered, salaryMeetsRequirement, authorizingOfficerAvailable, documentsSubmitted } = assessmentData;
+    const {
+        email,
+        isUKRegistered,
+        documentsSubmitted,
+        knowsJobRoleAndCode,
+        meetsSalaryThreshold,
+        authorizingOfficerAvailable
+    } = assessmentData;
 
     const mailOptions = {
-        from: process.env.EMAIL,  // Sender email
-        to: [recruiterEmail, process.env.EMAIL],  // Send email to recruiter and the configured email address
+        from: process.env.EMAIL,
+        to: [email, process.env.EMAIL],
         subject: "New Sponsor License Eligibility Assessment Submitted",
         text: `
 A new Sponsor License Eligibility Assessment has been submitted.
 
-Organization: ${organizationName}
-Recruiter Email: ${recruiterEmail}
-Job Role: ${jobRole} (Code: ${jobCode})
-Salary Offered: £${salaryOffered}
-Salary meets requirement: ${salaryMeetsRequirement ? "✅ Yes" : "❌ No"}
-Documents Submitted: ${documentsSubmitted.join(", ")}
+Submitted by: ${email}
+Is UK Registered: ${isUKRegistered}
+Documents Submitted: ${documentsSubmitted.length ? documentsSubmitted.join(", ") : "None"}
+Knows Job Role & SOC Code: ${knowsJobRoleAndCode}
+Meets Salary Threshold: ${meetsSalaryThreshold}
 Authorizing Officer Available: ${authorizingOfficerAvailable}
 
-You can follow up with the organization for further steps.
+You can follow up with the user for next steps.
         `
     };
 
@@ -42,3 +48,4 @@ You can follow up with the organization for further steps.
 };
 
 module.exports = sendAssessmentEmails;
+

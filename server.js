@@ -15,7 +15,8 @@ const adminRoutes = require("./routes/adminRoutes");
 const googleAuthRoutes = require("./routes/googleAuthRoutes");
 const sponsorEligibilityRoutes = require("./routes/sponsorEligibilityRoutes");
 const Salary = require('./models/Salary'); // Adjust the path if needed
-
+const consultRoutes = require("./routes/consult");
+const contactRoutes = require("./routes/contactRoutes");
 const app = express();
 
 // ✅ Ensure required environment variables are set
@@ -73,6 +74,10 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/auth/google", googleAuthRoutes);
 app.use("/api/sponsor", sponsorEligibilityRoutes);
 app.use('/api/salary', salaryRoutes);
+app.use("/api", consultRoutes);
+app.use("/api", contactRoutes); // Prefix for all routes in contactRoutes.js
+
+
 // ✅ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 

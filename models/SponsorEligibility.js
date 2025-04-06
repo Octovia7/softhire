@@ -2,41 +2,34 @@ const mongoose = require("mongoose");
 
 const sponsorEligibilitySchema = new mongoose.Schema(
     {
-        organization: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Organization",
-            required: true,
+        email: {
+            type: String,
+            required: true
         },
         isUKRegistered: {
             type: String,
             enum: ["Yes", "No - Foreign Company", "No - Planning to Register"],
-            required: true,
+            required: true
         },
         documentsSubmitted: {
             type: [String],
             required: true,
-            default: [],
+            default: []
         },
-        jobRole: {
+        knowsJobRoleAndCode: {
             type: String,
-            required: true,
+            enum: ["Yes", "No"],
+            required: true
         },
-        jobCode: {
+        meetsSalaryThreshold: {
             type: String,
-            required: true,
-        },
-        salaryOffered: {
-            type: Number,
-            required: true,
-        },
-        salaryMeetsRequirement: {
-            type: Boolean,
-            default: false,
+            enum: ["Yes", "No"],
+            required: true
         },
         authorizingOfficerAvailable: {
             type: String,
             enum: ["Yes", "No", "Need More Information"],
-            required: true,
+            required: true
         }
     },
     { timestamps: true }

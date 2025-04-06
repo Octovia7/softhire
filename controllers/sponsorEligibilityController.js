@@ -6,66 +6,66 @@ const User = require("../models/User");
 const getMinSalary = require("../utils/getMinSalary");
 const sendAssessmentEmails = require("../utils/mailer");
 
-// 1️⃣ Submit assessment
+// const SponsorEligibility = require("../models/SponsorEligibility");
+// const sendAssessmentEmails = require("../utils/mailer");
+
 exports.submitSponsorAssessment = async (req, res) => {
     try {
-        const {
-            isUKRegistered,
-            documentsSubmitted,
-            jobRole,
-            jobCode,
-            salaryOffered,
-            authorizingOfficerAvailable
-        } = req.body;
-
-        const recruiter = await Recruiter.findOne({ userId: req.user.id }).populate("organization");
-        if (!recruiter || !recruiter.organization) {
-            return res.status(400).json({ error: "Recruiter does not belong to any organization" });
-        }
-
-        const organizationId = recruiter.organization._id;
-        const organizationName = recruiter.organization.name;
-        const user = await User.findById(req.user.id);
-        const recruiterEmail = user.email;
-
-        const minSalary = await getMinSalary(String(jobCode));
-        if (!minSalary) {
-            return res.status(400).json({ error: "Job code not found in salary data" });
-        }
-
-        const salaryMeetsRequirement = Number(salaryOffered) >= minSalary;
-
-        const assessment = new SponsorEligibility({
-            organization: organizationId,
-            isUKRegistered,
-            documentsSubmitted,
-            jobRole,
-            jobCode,
-            salaryOffered,
-            salaryMeetsRequirement,
-            authorizingOfficerAvailable
+      const {
+        email,
+        isUKRegistered,
+        documentsSubmitted,
+        knowsJobRoleAndCode,
+        meetsSalaryThreshold,
+        authorizingOfficerAvailable,
+      } = req.body;
+  
+      const assessment = new SponsorEligibility({
+        email,
+        isUKRegistered,
+        documentsSubmitted,
+        knowsJobRoleAndCode,
+        meetsSalaryThreshold,
+        authorizingOfficerAvailable,
+      });
+  
+      await assessment.save();
+  
+      await sendAssessmentEmails({
+        email,
+        isUKRegistered,
+        documentsSubmitted,
+        knowsJobRoleAndCode,
+        meetsSalaryThreshold,
+        authorizingOfficerAvailable,
+      });
+  
+      const isEligible =
+        isUKRegistered === "Yes" &&
+        documentsSubmitted.length >= 3 &&
+        knowsJobRoleAndCode === "Yes" &&
+        meetsSalaryThreshold === "Yes" &&
+        authorizingOfficerAvailable === "Yes";
+  
+      if (isEligible) {
+        res.status(201).json({
+          status: "eligible",
+          message:
+            "Great! Your business is ready to apply for a UK Sponsor Licence for £995 + VAT. Our experts can help streamline the process.",
         });
-
-        await assessment.save();
-
-        await sendAssessmentEmails({
-            organizationName,
-            recruiterEmail,
-            jobRole,
-            jobCode,
-            salaryOffered,
-            salaryMeetsRequirement,
-            authorizingOfficerAvailable,
-            documentsSubmitted
+      } else {
+        res.status(200).json({
+          status: "not-eligible",
+          message:
+            "Based on your answers, there are a few things you’ll need to address before applying for a sponsor licence. We can guide you through the steps and ensure your business meets all Home Office requirements.",
         });
-
-        res.status(201).json({ message: "Assessment Submitted Successfully", assessment });
+      }
     } catch (error) {
-        console.error("Assessment submission error:", error);
-        res.status(500).json({ error: error.message });
+      console.error("Assessment submission error:", error);
+      res.status(500).json({ error: error.message });
     }
-};
-
+  };
+  
 // 2️⃣ Get all job roles and codes for dropdown
 exports.getAllJobs = async (req, res) => {
     try {
