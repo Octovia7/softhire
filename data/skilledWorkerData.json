@@ -1,0 +1,4973 @@
+[
+  {
+    "socCode": "1111",
+    "title": "Chief executives and senior officials",
+    "relatedJobs": [
+      "Chairman",
+      "Chief executive",
+      "Civil servant (grade 5 & above)",
+      "Diplomat",
+      "Vice President"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1112",
+    "title": "Elected officers and representatives",
+    "relatedJobs": [
+      "Councillor (local government)",
+      "Member of Parliament"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "1121",
+    "title": "Production managers and directors in manufacturing",
+    "relatedJobs": [
+      "Engineering manager",
+      "Managing director (engineering)",
+      "Operations manager (manufacturing)",
+      "Production manager",
+      "Technical manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1122",
+    "title": "Production managers and directors in construction",
+    "relatedJobs": [
+      "Building services manager",
+      "Construction manager",
+      "Director (building construction)",
+      "Owner (electrical contracting)",
+      "Site manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1123",
+    "title": "Production managers and directors in mining and energy",
+    "relatedJobs": [
+      "Operations manager (mining, water & energy)",
+      "Quarry manager",
+      "Service manager (public utilities)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1131",
+    "title": "Financial managers and directors",
+    "relatedJobs": [
+      "Bank Manager",
+      "Finance Director",
+      "Insurance Manager",
+      "Investment banker",
+      "Treasury manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1132",
+    "title": "Marketing, sales and advertising directors",
+    "relatedJobs": [
+      "Account director (advertising)",
+      "Commercial director",
+      "Marketing director",
+      "Media director",
+      "Sales director"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1133",
+    "title": "Public relations and communications directors",
+    "relatedJobs": [
+      "Head of communications",
+      "Head of public relations"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1134",
+    "title": "Purchasing managers and directors",
+    "relatedJobs": [
+      "Bid production manager",
+      "Director of contracts",
+      "Head of buying",
+      "Purchasing manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1135",
+    "title": "Charitable organisation managers and directors",
+    "relatedJobs": [
+      "Charity director",
+      "Manager (charitable organisation)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1136",
+    "title": "Human resource managers and directors",
+    "relatedJobs": [
+      "Human resources business partner",
+      "Human resources director",
+      "Personnel manager",
+      "Recruitment manager",
+      "Training director"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1137",
+    "title": "Information technology directors",
+    "relatedJobs": [
+      "Chief Information officer",
+      "IT Director",
+      "Managing director (computer services)",
+      "Programme manager (computing)",
+      "Technical director (computer services)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1139",
+    "title": "Functional managers and directors not elsewhere classified",
+    "relatedJobs": [
+      "Area secretary (trade association)",
+      "Chief officer (local government)",
+      "Clerk to the county council",
+      "General Secretary (trade union)",
+      "Town Clerk"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1140",
+    "title": "Directors in logistics, warehousing and transport",
+    "relatedJobs": [
+      "Airport director",
+      "Head of logistics",
+      "Owner (delivery service)",
+      "Supply chain director",
+      "Traffic director (transport)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1150",
+    "title": "Managers and directors in retail and wholesale",
+    "relatedJobs": [
+      "Car sales manager",
+      "Manager (garden centre)",
+      "Managing director (wholesale, retail trade)",
+      "Retail manager",
+      "Shop manager (charitable organisation)",
+      "Wholesale manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1161",
+    "title": "Officers in armed forces",
+    "relatedJobs": [
+      "Army officer",
+      "Commander (armed forces)",
+      "Flight-lieutenant",
+      "Royal Navy officer",
+      "Squadron-leader"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "1162",
+    "title": "Senior police officers",
+    "relatedJobs": [
+      "Chief superintendent (police service)",
+      "CID officer",
+      "Detective inspector",
+      "Police inspector"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1163",
+    "title": "Senior officers in fire, ambulance, prison and related services",
+    "relatedJobs": [
+      "Chief immigration officer (HM Revenue and Customs)",
+      "Fire service officer (government)",
+      "Prison governor",
+      "Station officer (ambulance service)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1171",
+    "title": "Health services and public health managers and directors",
+    "relatedJobs": [
+      "Clinical manager",
+      "Director of nursing",
+      "Health service manager",
+      "Information manager (health authority: hospital service)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1172",
+    "title": "Social services managers and directors",
+    "relatedJobs": [
+      "Children’s centre manager",
+      "Commissioner (local government: social services)",
+      "Community services manager",
+      "Service manager (welfare services)",
+      "Social work manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1211",
+    "title": "Managers and proprietors in agriculture and horticulture",
+    "relatedJobs": [
+      "Farm manager",
+      "Farm owner",
+      "Nursery manager (horticulture)",
+      "Stock manager (farming)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1212",
+    "title": "Managers and proprietors in forestry, fishing and related services",
+    "relatedJobs": [
+      "Cattery owner",
+      "Fish farm owner",
+      "Forest manager",
+      "Owner (landscape gardening)",
+      "Racehorse trainer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1221",
+    "title": "Hotel and accommodation managers and proprietors",
+    "relatedJobs": [
+      "Caravan park owner",
+      "Hotel manager",
+      "Manager (passenger ships)",
+      "Service flats manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1222",
+    "title": "Restaurant and catering establishment managers and proprietors",
+    "relatedJobs": [
+      "Café owner",
+      "Operations manager (catering)",
+      "Restaurant manager",
+      "Shop manager (take-away food shop)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1223",
+    "title": "Publicans and managers of licensed premises",
+    "relatedJobs": [
+      "Landlady (public house)",
+      "Licensee",
+      "Manager (wine bar)",
+      "Publican"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1224",
+    "title": "Leisure and sports managers and proprietors",
+    "relatedJobs": [
+      "Amusement arcade owner",
+      "Cinema manager",
+      "Football ground manager",
+      "Leisure centre manager",
+      "Theatre manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1225",
+    "title": "Travel agency managers and proprietors",
+    "relatedJobs": [
+      "Branch manager (travel agents)",
+      "Tourist information manager",
+      "Travel agency owner",
+      "Travel manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1231",
+    "title": "Health care practice managers",
+    "relatedJobs": [
+      "Clinic manager",
+      "Dental practice manager",
+      "GP practice manager",
+      "Patient services manager",
+      "Veterinary practice manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1232",
+    "title": "Residential, day and domiciliary care managers and proprietors",
+    "relatedJobs": [
+      "Care manager",
+      "Community centre manager",
+      "Day centre manager",
+      "Nursing home owner",
+      "Manager (sheltered housing)",
+      "Residential manager (care/residential home)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1233",
+    "title": "Early education and childcare services proprietors",
+    "relatedJobs": [
+      "Director (children’s nursery)",
+      "Owner (nursery: children’s)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1241",
+    "title": "Managers in transport and distribution",
+    "relatedJobs": [
+      "Distribution service manager",
+      "Fleet manager",
+      "Operations manager (transport)",
+      "Shipping manager Transport manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1242",
+    "title": "Managers in storage and warehousing",
+    "relatedJobs": [
+      "Cellar manager (brewery)",
+      "Inventory manager",
+      "Operations manager",
+      "Stock manager",
+      "Warehouse manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1243",
+    "title": "Managers in logistics",
+    "relatedJobs": [
+      "Logistics manager",
+      "Supply chain manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1251",
+    "title": "Property, housing and estate managers",
+    "relatedJobs": [
+      "Estate manager",
+      "Facilities manager",
+      "Housing manager",
+      "Landlord (property management)",
+      "Property manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1252",
+    "title": "Garage managers and proprietors",
+    "relatedJobs": [
+      "Bodyshop manager (vehicle trades)",
+      "Garage director",
+      "Garage owner",
+      "Tyre depot manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1253",
+    "title": "Hairdressing and beauty salon managers and proprietors",
+    "relatedJobs": [
+      "Hairdressing salon owner",
+      "Manager (beauty salon)",
+      "Manager (nail salon)",
+      "Owner (pet grooming salon)",
+      "Owner (tanning studio)",
+      "Spa manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1254",
+    "title": "Waste disposal and environmental services managers",
+    "relatedJobs": [
+      "Environmental manager (refuse disposal)",
+      "Manager (local government: cleansing dept.)",
+      "Recycling plant manager",
+      "Scrap metal dealer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1255",
+    "title": "Managers and directors in the creative industries",
+    "relatedJobs": [
+      "Art gallery owner",
+      "Artist manager",
+      "Director (architectural service)",
+      "Graphic design manager",
+      "Gallery Manager",
+      "Production manager (entertainment)",
+      "Publisher",
+      "Radio station manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1256",
+    "title": "Betting shop and gambling establishment managers",
+    "relatedJobs": [
+      "Betting shop manager",
+      "Bingo hall manager",
+      "Casino manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1257",
+    "title": "Hire services managers and proprietors",
+    "relatedJobs": [
+      "Hire manager",
+      "Plant hire manager",
+      "Rental service manager",
+      "Tool hire manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1258",
+    "title": "Directors in consultancy services",
+    "relatedJobs": [
+      "Director (environmental consultancy)",
+      "Owner (design consultancy)",
+      "Owner (management consultancy)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "1259",
+    "title": "Managers and proprietors in other services not elsewhere classified",
+    "relatedJobs": [
+      "Director (private detective agency)",
+      "Car park manager",
+      "Cemetery Manager",
+      "Library manager",
+      "Owner (cleaning services)",
+      "Training centre manager",
+      "Driving school owner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2111",
+    "title": "Chemical scientists",
+    "relatedJobs": [
+      "Analytical chemist",
+      "Chemist",
+      "Development chemist",
+      "Industrial chemist",
+      "Laboratory analyst",
+      "Research scientist (chemical)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2112",
+    "title": "Biological scientists",
+    "relatedJobs": [
+      "Agricultural consultant",
+      "Forensic scientist",
+      "Horticulturist (professional)",
+      "Microbiologist",
+      "Pathologist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2113",
+    "title": "Biochemists and biomedical scientists",
+    "relatedJobs": [
+      "Clinical technologist",
+      "Endocrinologist",
+      "Histopathologist",
+      "Medical technologist",
+      "Medical researcher"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2114",
+    "title": "Physical scientists",
+    "relatedJobs": [
+      "Geologist",
+      "Geophysicist",
+      "Medical physicist",
+      "Meteorologist",
+      "Oceanographer",
+      "Physicist",
+      "Seismologist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2115",
+    "title": "Social and humanities scientists",
+    "relatedJobs": [
+      "Anthropologist",
+      "Archaeologist",
+      "Criminologist",
+      "Epidemiologist",
+      "Geographer",
+      "GIS analyst",
+      "Historian",
+      "Political researcher",
+      "Social scientist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2119",
+    "title": "Natural and social science professionals not elsewhere classified",
+    "relatedJobs": [
+      "Operational research scientist",
+      "Scientific officer",
+      "Scientist",
+      "Sports scientist",
+      "Technical officer (laboratory)",
+      "University research fellow (sciences)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2121",
+    "title": "Civil engineers",
+    "relatedJobs": [
+      "Building engineer",
+      "Civil engineer (professional)",
+      "Highways engineer",
+      "Petroleum engineer",
+      "Public health engineer",
+      "Site engineer (building construction)",
+      "Structural engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2122",
+    "title": "Mechanical engineers",
+    "relatedJobs": [
+      "Automotive engineer (professional)",
+      "Design engineer (mechanical)",
+      "Marine engineer (professional)",
+      "Mechanical engineer (professional)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2123",
+    "title": "Electrical engineers",
+    "relatedJobs": [
+      "Electrical design engineer",
+      "Electrical engineer (professional)",
+      "Electrical surveyor",
+      "Equipment engineer",
+      "Power engineer",
+      "Signal engineer (professional, railways)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2124",
+    "title": "Electronics engineers",
+    "relatedJobs": [
+      "Broadcasting engineer (professional)",
+      "Electronics designer",
+      "Electronics engineer (professional)",
+      "Microwave engineer (professional)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2125",
+    "title": "Production and process engineers",
+    "relatedJobs": [
+      "Chemical engineer",
+      "Industrial engineer",
+      "Pharmaceutical engineer",
+      "Process engineer",
+      "Production consultant",
+      "Production engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2126",
+    "title": "Aerospace engineers",
+    "relatedJobs": [
+      "Aeronautical engineer (professional)",
+      "Aerospace engineer",
+      "Aircraft designer",
+      "Avionics engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2127",
+    "title": "Engineering project managers and project engineers",
+    "relatedJobs": [
+      "Contracts manager (manufacturing)",
+      "Project engineer",
+      "Project manager (manufacturing)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2129",
+    "title": "Engineering professionals not elsewhere classified",
+    "relatedJobs": [
+      "Acoustician (professional)",
+      "Food technologist",
+      "Metallurgist",
+      "Scientific consultant",
+      "Technical engineer",
+      "Technologist",
+      "Traffic engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2131",
+    "title": "IT project managers",
+    "relatedJobs": [
+      "Change manager (computing)",
+      "Implementation manager (computing)",
+      "IT project manager",
+      "Project leader (software design)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2132",
+    "title": "IT managers",
+    "relatedJobs": [
+      "Data centre manager",
+      "Data visualisation manager",
+      "IT manager",
+      "Network operations manager (computer services)",
+      "Product manager",
+      "Service delivery manager",
+      "Telecoms manager",
+      "UX manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2133",
+    "title": "IT business analysts, architects and systems designers",
+    "relatedJobs": [
+      "Business analyst (computing)",
+      "Data communications analyst",
+      "Change analyst (computing)",
+      "Systems analyst",
+      "Systems consultant",
+      "Technical analyst (computing)",
+      "Technical architect",
+      "User experience architect"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2134",
+    "title": "Programmers and software development professionals",
+    "relatedJobs": [
+      "Analyst-programmer",
+      "Database developer",
+      "Games designer",
+      "Interactive designer",
+      "Mobile app developer",
+      "Programmer",
+      "Software engineer",
+      "Website builder"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2135",
+    "title": "Cyber security professionals",
+    "relatedJobs": [
+      "Data security manager",
+      "Ethical hacker",
+      "Forensic computer investigator",
+      "IT security analyst",
+      "Technical security consultant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2136",
+    "title": "IT quality and testing professionals",
+    "relatedJobs": [
+      "IT auditor",
+      "Quality analyst (computing)",
+      "Software testing consultant",
+      "Systems tester (computing)",
+      "Test analyst (computing)",
+      "Test engineer (professional, software)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2137",
+    "title": "IT network professionals",
+    "relatedJobs": [
+      "Network consultant",
+      "Network designer",
+      "Network installation engineer",
+      "Network planner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2139",
+    "title": "Information technology professionals not elsewhere classified",
+    "relatedJobs": [
+      "Account manager (computing)",
+      "Internet engineer (professional)",
+      "IT planner",
+      "IT consultant",
+      "Technical evangelist",
+      "Webmaster",
+      "Web manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2141",
+    "title": "Web design professionals",
+    "relatedJobs": [
+      "Desktop publisher",
+      "User interface designer",
+      "UX designer (computing)",
+      "Web designer",
+      "Web producer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2142",
+    "title": "Graphic and multimedia designers",
+    "relatedJobs": [
+      "3D artist",
+      "Animator (computing)",
+      "Compositor (special effects)",
+      "Creative design assistant",
+      "Graphic artist",
+      "Graphic designer",
+      "Visual effects supervisor"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2151",
+    "title": "Conservation professionals",
+    "relatedJobs": [
+      "Conservation officer",
+      "Countryside officer",
+      "Ecologist",
+      "Heritage manager",
+      "Land management adviser",
+      "Landscape scientist",
+      "Marine conservationist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2152",
+    "title": "Environment professionals",
+    "relatedJobs": [
+      "Energy manager",
+      "Environmental consultant",
+      "Environmental engineer",
+      "Environmental protection officer",
+      "Environmental technician",
+      "Flood risk manager",
+      "Water quality scientist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2161",
+    "title": "Research and development (r&d) managers",
+    "relatedJobs": [
+      "Clinical trials manager",
+      "Consumer insights manager",
+      "Creative manager (research and development)",
+      "Design manager",
+      "Market research manager",
+      "Research manager (broadcasting)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2162",
+    "title": "Other researchers, unspecified discipline",
+    "relatedJobs": [
+      "Postdoctoral researcher",
+      "Research assistant (university)",
+      "Research fellow (university)",
+      "University researcher"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2211",
+    "title": "Generalist medical practitioners",
+    "relatedJobs": [
+      "Doctor",
+      "General practitioner",
+      "House officer (hospital service)",
+      "Medical practitioner",
+      "Physician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2212",
+    "title": "Specialist medical practitioners",
+    "relatedJobs": [
+      "Anaesthetist",
+      "Consultant (hospital service)",
+      "Homeopath (medically qualified)",
+      "Medical acupuncturist",
+      "Paediatrician",
+      "Psychiatrist",
+      "Radiologist",
+      "Surgeon"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2221",
+    "title": "Physiotherapists",
+    "relatedJobs": [
+      "Electro-therapist",
+      "Physiotherapist",
+      "Physiotherapy practitioner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2222",
+    "title": "Occupational therapists",
+    "relatedJobs": [
+      "Community occupational therapist",
+      "Occupational therapist",
+      "Paediatric occupational therapist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2223",
+    "title": "Speech and language therapists",
+    "relatedJobs": [
+      "Communication therapist",
+      "Language therapist",
+      "Speech and language therapist",
+      "Speech therapist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2224",
+    "title": "Psychotherapists and cognitive behaviour therapists",
+    "relatedJobs": [
+      "Cognitive behavioural therapist",
+      "Psycho-analyst",
+      "Psychological counsellor",
+      "Psychotherapist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2225",
+    "title": "Clinical psychologists",
+    "relatedJobs": [
+      "Clinical psychologist",
+      "Consultant clinical psychologist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2226",
+    "title": "Other psychologists",
+    "relatedJobs": [
+      "Educational psychologist",
+      "Forensic psychologist",
+      "Occupational psychologist",
+      "Psychologist",
+      "Psychometrist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2229",
+    "title": "Therapy professionals not elsewhere classified",
+    "relatedJobs": [
+      "Acupuncturist",
+      "Art therapist",
+      "Chiropractor",
+      "Dance movement therapist",
+      "Family therapist",
+      "Genetic counsellor",
+      "Nutritionist",
+      "Osteopath",
+      "Sports massage therapist",
+      "Sports therapist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2231",
+    "title": "Midwifery nurses",
+    "relatedJobs": [
+      "Delivery suite manager",
+      "Midwife",
+      "Midwifery manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2232",
+    "title": "Registered community nurses",
+    "relatedJobs": [
+      "Community care nurse",
+      "District nurse",
+      "Health visitor",
+      "Practice nurse"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2233",
+    "title": "Registered specialist nurses",
+    "relatedJobs": [
+      "Advanced primary care nurse",
+      "Intensive care nurse",
+      "Clinical nurse specialist",
+      "Theatre manager (hospital service)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2234",
+    "title": "Registered nurse practitioners",
+    "relatedJobs": [
+      "Health care practitioner",
+      "Mental health practitioner",
+      "Practitioner (nursing)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2235",
+    "title": "Registered mental health nurses",
+    "relatedJobs": [
+      "Community mental health nurse",
+      "Psychiatric nurse"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2236",
+    "title": "Registered children’s nurses",
+    "relatedJobs": [
+      "Community children’s nurse",
+      "Neonatal nurse",
+      "Paediatric nurse",
+      "School nurse"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2237",
+    "title": "Other registered nursing professionals",
+    "relatedJobs": [
+      "Clinical lead nurse",
+      "Matron (care/residential home)",
+      "Nurse",
+      "Nurse educator",
+      "Occupational health nurse",
+      "Staff nurse",
+      "Team leader (nursing)",
+      "Ward manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2240",
+    "title": "Veterinarians",
+    "relatedJobs": [
+      "Veterinarian",
+      "Veterinary practitioner",
+      "Veterinary surgeon"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2251",
+    "title": "Pharmacists",
+    "relatedJobs": [
+      "Chemist (pharmaceutical)",
+      "Dispensary manager",
+      "Pharmaceutical chemist",
+      "Pharmacist",
+      "Pharmacy manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2252",
+    "title": "Optometrists",
+    "relatedJobs": [
+      "Doctor of optometry",
+      "Ophthalmic optician",
+      "Optician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2253",
+    "title": "Dental practitioners",
+    "relatedJobs": [
+      "Dental surgeon",
+      "Dentist",
+      "Orthodontist",
+      "Periodontist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2254",
+    "title": "Medical radiographers",
+    "relatedJobs": [
+      "Medical photographer",
+      "Nuclear medicine practitioner",
+      "Radiographer",
+      "Sonographer",
+      "Therapeutic radiographer",
+      "Vascular technologist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2255",
+    "title": "Paramedics",
+    "relatedJobs": [
+      "Ambulance paramedic",
+      "Emergency care practitioner",
+      "Paramedic",
+      "Paramedic-ECP"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2256",
+    "title": "Podiatrists",
+    "relatedJobs": [
+      "Chiropodist",
+      "Foot health practitioner (qualified)",
+      "Podiatrist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2259",
+    "title": "Other health professionals not elsewhere classified",
+    "relatedJobs": [
+      "Audiologist",
+      "Clinical physiologist",
+      "Dietician-nutritionist",
+      "Family planner",
+      "Occupational health adviser",
+      "Operating theatre practitioner",
+      "Physiologist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2311",
+    "title": "Higher education teaching professionals",
+    "relatedJobs": [
+      "Fellow (university)",
+      "Lecturer (higher education, university)",
+      "Professor (higher education, university)",
+      "Tutor (higher education, university)",
+      "University lecturer",
+      "University teaching assistant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2312",
+    "title": "Further education teaching professionals",
+    "relatedJobs": [
+      "FE College lecturer",
+      "Lecturer (further education)",
+      "Teacher (further education)",
+      "Tutor (further education)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2313",
+    "title": "Secondary education teaching professionals",
+    "relatedJobs": [
+      "Curriculum leader (secondary school)",
+      "Deputy head teacher (secondary school)",
+      "Head of year (secondary school)",
+      "Secondary school teacher",
+      "Sixth form teacher",
+      "Teacher (secondary school)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2314",
+    "title": "Primary education teaching professionals",
+    "relatedJobs": [
+      "Deputy head teacher (primary school)",
+      "Infant teacher",
+      "Junior school teacher",
+      "Primary school teacher"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2315",
+    "title": "Nursery education teaching professionals",
+    "relatedJobs": [
+      "Kindergarten teacher (professional)",
+      "Nursery school teacher",
+      "Pre-school teacher"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2316",
+    "title": "Special and additional needs education teaching professionals",
+    "relatedJobs": [
+      "Behaviour support teacher",
+      "Deputy head teacher (special/additional needs school)",
+      "Learning support teacher",
+      "Special educational needs coordinator",
+      "Special needs teacher"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2317",
+    "title": "Teachers of english as a foreign language",
+    "relatedJobs": [
+      "TEFL",
+      "English as a second language teacher",
+      "ESOL tutor"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2319",
+    "title": "Teaching professionals not elsewhere classified",
+    "relatedJobs": [
+      "Adult education tutor",
+      "Ballet teacher (qualified)",
+      "Music teacher",
+      "Private tutor",
+      "Voice coach"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2321",
+    "title": "Head teachers and principals",
+    "relatedJobs": [
+      "Head master (secondary school)",
+      "Head teacher (primary school)",
+      "Principal (further education)",
+      "Rector (university)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2322",
+    "title": "Education managers",
+    "relatedJobs": [
+      "Business school manager",
+      "Dean (further education)",
+      "Provost (higher education, university)",
+      "Registrar (educational establishments)",
+      "Vice chancellor (university)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2323",
+    "title": "Education advisers and school inspectors",
+    "relatedJobs": [
+      "Advisory teacher",
+      "Assessor (further, higher education)",
+      "Curriculum adviser",
+      "Early years adviser",
+      "Education officer",
+      "School inspector"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2324",
+    "title": "Early education and childcare services managers",
+    "relatedJobs": [
+      "After school club manager",
+      "Childcare manager (day nursery)",
+      "Nursery manager (day nursery)",
+      "Pre-school manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2329",
+    "title": "Other educational professionals not elsewhere classified",
+    "relatedJobs": [
+      "Active schools coordinator",
+      "Education administrator (further, higher education)",
+      "Exam marker",
+      "International recruitment officer (university)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2411",
+    "title": "Barristers and judges",
+    "relatedJobs": [
+      "Advocate",
+      "Barrister",
+      "Chairman (appeals tribunal, inquiry)",
+      "Coroner",
+      "Crown prosecutor",
+      "District judge",
+      "Legal advocate",
+      "Sherriff (Scottish Courts)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2412",
+    "title": "Solicitors and lawyers",
+    "relatedJobs": [
+      "Lawyer",
+      "Managing clerk (qualified solicitor)",
+      "Solicitor",
+      "Solicitor-partner",
+      "Solicitor to the council"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2419",
+    "title": "Legal professionals not elsewhere classified",
+    "relatedJobs": [
+      "Attorney",
+      "Conveyancer",
+      "Justice’s clerk",
+      "Legal adviser",
+      "Legal consultant",
+      "Legal counsel",
+      "Paralegal",
+      "Patent agent",
+      "Patent attorney",
+      "Solicitor’s clerk (articled)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2421",
+    "title": "Chartered and certified accountants",
+    "relatedJobs": [
+      "Accountant (qualified)",
+      "Auditor (qualified)",
+      "Chartered accountant",
+      "Company accountant",
+      "Cost accountant (qualified)",
+      "Financial controller (qualified accountant)",
+      "Management accountant (qualified)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2422",
+    "title": "Finance and investment analysts and advisers",
+    "relatedJobs": [
+      "Credit risk analyst",
+      "Financial adviser",
+      "Financial consultant",
+      "Mortgage adviser",
+      "Pensions consultant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2423",
+    "title": "Taxation experts",
+    "relatedJobs": [
+      "Investigator (HM Revenue and Customs)",
+      "Tax adviser",
+      "Tax consultant",
+      "Tax inspector",
+      "Tax manager",
+      "Taxation specialist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2431",
+    "title": "Management consultants and business analysts",
+    "relatedJobs": [
+      "Business adviser",
+      "Business consultant",
+      "Business continuity manager",
+      "Digital business analyst",
+      "Financial risk analyst",
+      "Management consultant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2432",
+    "title": "Marketing and commercial managers",
+    "relatedJobs": [
+      "Commercial manager",
+      "Client services manager (marketing)",
+      "Marketing development manager",
+      "Online marketing manager",
+      "Production manager (marketing)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2433",
+    "title": "Actuaries, economists and statisticians",
+    "relatedJobs": [
+      "Actuarial consultant",
+      "Actuary",
+      "Bioinformatician",
+      "Economist",
+      "Financial engineer",
+      "Statistician",
+      "Statistical analyst",
+      "Web analyst"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2434",
+    "title": "Business and related research professionals",
+    "relatedJobs": [
+      "Crime analyst",
+      "Fellow (research)",
+      "Games researcher (broadcasting)",
+      "Inventor",
+      "Digital marketing analyst",
+      "Market research analyst",
+      "Social media analyst"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2435",
+    "title": "Professional/chartered company secretaries",
+    "relatedJobs": [
+      "Assistant company secretary (qualified)",
+      "Chartered secretary",
+      "Company secretary (qualified)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2439",
+    "title": "Business, research and administrative professionals not elsewhere classified",
+    "relatedJobs": [
+      "Civil servant (grade 6, 7)",
+      "Governance officer",
+      "Information compliance officer",
+      "Parliamentary assistant",
+      "Policy adviser (government)",
+      "Private secretary (government)",
+      "Registrar (government)",
+      "Service manager (government)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2440",
+    "title": "Business and financial project management professionals",
+    "relatedJobs": [
+      "Chief knowledge officer",
+      "Contracts manager (security services)",
+      "Project delivery officer",
+      "Project manager",
+      "Research support officer",
+      "Scrum master",
+      "Work package manager (professional)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2451",
+    "title": "Architects",
+    "relatedJobs": [
+      "Architect",
+      "Chartered architect",
+      "Landscape architect"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2452",
+    "title": "Chartered architectural technologists, planning officers and consultants",
+    "relatedJobs": [
+      "Architectural consultant",
+      "Chartered architectural technologist",
+      "Construction planner",
+      "Planning officer (building construction )",
+      "Town planner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2453",
+    "title": "Quantity surveyors",
+    "relatedJobs": [
+      "Quantity surveyor",
+      "Survey technician",
+      "Surveyor (quantity surveying)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2454",
+    "title": "Chartered surveyors",
+    "relatedJobs": [
+      "Building surveyor",
+      "Chartered surveyor",
+      "Hydrographic surveyor",
+      "Land surveyor",
+      "Topographer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2455",
+    "title": "Construction project managers and related professionals",
+    "relatedJobs": [
+      "Contract manager (building construction)",
+      "Project manager (building construction)",
+      "Transport modeller",
+      "Transport planner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2461",
+    "title": "Social workers",
+    "relatedJobs": [
+      "Independent review officer (social worker)",
+      "Mental health social worker",
+      "Senior practitioner (local government: social services)",
+      "Social worker",
+      "Team leader (local government: social services)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2462",
+    "title": "Probation officers",
+    "relatedJobs": [
+      "Inspector (National Probation Service)",
+      "Probation officer",
+      "Youth justice officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2463",
+    "title": "Clergy",
+    "relatedJobs": [
+      "Chaplain",
+      "Clergyman",
+      "Minister of religion",
+      "Nun",
+      "Pastor",
+      "Priest",
+      "Vicar"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "2464",
+    "title": "Youth work professionals",
+    "relatedJobs": [
+      "Youth and community officer",
+      "Youth worker (professional)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2469",
+    "title": "Welfare professionals not elsewhere classified",
+    "relatedJobs": [
+      "Child protection adviser",
+      "Children’s guardian",
+      "Family court adviser",
+      "Rehabilitation officer",
+      "Restorative justice manager",
+      "Social services officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2471",
+    "title": "Librarians",
+    "relatedJobs": [
+      "Chartered librarian",
+      "Librarian",
+      "Technical librarian",
+      "University librarian"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2472",
+    "title": "Archivists, conservators and curators",
+    "relatedJobs": [
+      "Archivist",
+      "Conservator",
+      "Curator",
+      "Keeper (art gallery)",
+      "Museum officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2481",
+    "title": "Quality control and planning engineers",
+    "relatedJobs": [
+      "Planning engineer",
+      "Quality assurance engineer",
+      "Quality control officer (professional)",
+      "Quality engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2482",
+    "title": "Quality assurance and regulatory professionals",
+    "relatedJobs": [
+      "Compliance manager",
+      "Financial regulator",
+      "Quality assurance manager",
+      "Quality manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2483",
+    "title": "Environmental health professionals",
+    "relatedJobs": [
+      "Air pollution inspector",
+      "Environmental health officer",
+      "Food inspector",
+      "Public health inspector",
+      "Technical officer (environmental health)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2491",
+    "title": "Newspaper, periodical and broadcast editors",
+    "relatedJobs": [
+      "Editor",
+      "Content editor (newspapers, magazines)",
+      "Digital editor",
+      "Online editor"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2492",
+    "title": "Newspaper and periodical broadcast journalists and reporters",
+    "relatedJobs": [
+      "Broadcast journalist",
+      "Digital journalist",
+      "Journalist",
+      "Online journalist",
+      "Radio journalist",
+      "Reporter",
+      "Writer (newspaper publishing)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2493",
+    "title": "Public relations professionals",
+    "relatedJobs": [
+      "Account manager (public relations)",
+      "Communications manager (public relations)",
+      "Public relations consultant",
+      "Press officer",
+      "Public relations officer",
+      "Social media manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "2494",
+    "title": "Advertising accounts managers and creative directors",
+    "relatedJobs": [
+      "Account manager (advertising)",
+      "Advertising Manager",
+      "Campaign Manager",
+      "Creative Director",
+      "Projects Manager (advertising)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3111",
+    "title": "Laboratory technicians",
+    "relatedJobs": [
+      "Assistant scientist (laboratory)",
+      "Associate practitioner (laboratory)",
+      "Cytoscreener",
+      "Hospital technician",
+      "Laboratory technician",
+      "Scientific technician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3112",
+    "title": "Electrical and electronics technicians",
+    "relatedJobs": [
+      "Avionics technician",
+      "Electrical technician",
+      "Electronics technician",
+      "Installation engineer (electricity supplier)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3113",
+    "title": "Engineering technicians",
+    "relatedJobs": [
+      "Aircraft engineer (licensed)",
+      "Aircraft technician",
+      "Commissioning engineer",
+      "Engineering technician",
+      "Manufacturing engineer",
+      "Mechanical technician",
+      "Wind turbine technician (construction)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3114",
+    "title": "Building and civil engineering technicians",
+    "relatedJobs": [
+      "Building services consultant",
+      "Civil engineering technician",
+      "Survey technician",
+      "Technical assistant (civil engineering)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3115",
+    "title": "Quality assurance technicians",
+    "relatedJobs": [
+      "Quality analyst",
+      "Quality assurance coordinator",
+      "Quality control technician",
+      "Quality officer",
+      "Quality technician",
+      "Test technician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3116",
+    "title": "Planning, process and production technicians",
+    "relatedJobs": [
+      "Process technician",
+      "Production controller",
+      "Production planner",
+      "Production technician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3119",
+    "title": "Science, engineering and production technicians not elsewhere classified",
+    "relatedJobs": [
+      "School technician",
+      "Technical assistant",
+      "Technician",
+      "Textile consultant",
+      "Workshop technician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3120",
+    "title": "CAD, drawing and architectural technicians",
+    "relatedJobs": [
+      "3D Printing Technician",
+      "Architect’s assistant",
+      "Architectural design assistant",
+      "Architectural technician",
+      "CAD designer",
+      "Cartographer",
+      "Design technician",
+      "Draughtsman"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3131",
+    "title": "IT operations technicians",
+    "relatedJobs": [
+      "Computer games tester",
+      "Digital administrator",
+      "IT technician",
+      "Network administrator",
+      "Systems administrator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3132",
+    "title": "IT user support technicians",
+    "relatedJobs": [
+      "Business support analyst (computing)",
+      "Customer support analyst",
+      "Help desk operator (computing)",
+      "IT support technician",
+      "Systems support officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3133",
+    "title": "Database administrators and web content technicians",
+    "relatedJobs": [
+      "Database administrator",
+      "Digital content editor",
+      "Intranet coordinator",
+      "Website moderator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3211",
+    "title": "Dispensing opticians",
+    "relatedJobs": [
+      "Dispensing optician",
+      "Optical dispenser"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3212",
+    "title": "Pharmaceutical technicians",
+    "relatedJobs": [
+      "Dispensing technician",
+      "Pharmaceutical technician",
+      "Pharmacy technician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3213",
+    "title": "Medical and dental technicians",
+    "relatedJobs": [
+      "Cardiographer",
+      "Dental hygienist",
+      "Dental technician",
+      "Medical technical officer",
+      "Ocularist",
+      "Orthopaedic technician",
+      "Radiography assistant practitioner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3214",
+    "title": "Complementary health associate professionals",
+    "relatedJobs": [
+      "Colour therapist",
+      "Holistic therapist",
+      "Homeopath",
+      "Hypnotherapist",
+      "Massage therapist",
+      "Reflexologist\tExtension only"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "3219",
+    "title": "Health associate professionals not elsewhere classified",
+    "relatedJobs": [
+      "Antenatal teacher",
+      "Diet adviser",
+      "Equine dental technician",
+      "Health trainer",
+      "Therapist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3221",
+    "title": "Youth and community workers",
+    "relatedJobs": [
+      "Community development officer",
+      "Family support worker",
+      "Youth and community worker",
+      "Youth project coordinator",
+      "Youth worker"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3222",
+    "title": "Child and early years officers",
+    "relatedJobs": [
+      "Child protection officer",
+      "Education welfare officer",
+      "Family liaison officer",
+      "Learning mentor (early years)",
+      "Parent support adviser",
+      "Portage worker (educational establishments)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3223",
+    "title": "Housing officers",
+    "relatedJobs": [
+      "Accommodation officer",
+      "Housing adviser",
+      "Housing officer",
+      "Housing support officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3224",
+    "title": "Counsellors",
+    "relatedJobs": [
+      "Counsellor (welfare services)",
+      "Debt adviser",
+      "Drugs and alcohol worker",
+      "Life coach",
+      "Stop smoking counsellor"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3229",
+    "title": "Welfare and housing associate professionals not elsewhere classified",
+    "relatedJobs": [
+      "Advocacy worker",
+      "Health coordinator",
+      "Homeless prevention officer",
+      "Key worker (welfare services)",
+      "Outreach worker (welfare services)",
+      "Probation services officer",
+      "Project worker (welfare services)",
+      "Student support officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3231",
+    "title": "Higher level teaching assistants",
+    "relatedJobs": [
+      "Advanced teaching assistant",
+      "HLTA",
+      "Learning support practitioner",
+      "Teaching assistant (qualified)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3232",
+    "title": "Early education and childcare practitioners",
+    "relatedJobs": [
+      "Childcare practitioner",
+      "Early years practitioner",
+      "Pre-school practitioner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3240",
+    "title": "Veterinary nurses",
+    "relatedJobs": [
+      "Animal nurse",
+      "Veterinary nurse"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3311",
+    "title": "Non-commissioned officers and other ranks",
+    "relatedJobs": [
+      "Aircraftman",
+      "Aircraft technician (armed forces)",
+      "Lance-corporal",
+      "Sergeant (armed forces)",
+      "Soldier",
+      "Weapons engineer (armed forces)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "3312",
+    "title": "Police officers (sergeant and below)",
+    "relatedJobs": [
+      "Detective (police service)",
+      "Police constable",
+      "Police officer",
+      "Sergeant",
+      "Transport police officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3313",
+    "title": "Fire service officers (watch manager and below)",
+    "relatedJobs": [
+      "Fire engineer",
+      "Fire safety officer",
+      "Firefighter",
+      "Watch manager (fire service)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3314",
+    "title": "Prison service officers (below principal officer)",
+    "relatedJobs": [
+      "Custodial manager",
+      "Prison custodial officer",
+      "Prison escort officer",
+      "Prison officer",
+      "Prison warden"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3319",
+    "title": "Protective service associate professionals not elsewhere classified",
+    "relatedJobs": [
+      "Crime scene investigator",
+      "Customs officer",
+      "Immigration officer",
+      "Investigation officer (police service)",
+      "Fingerprint expert",
+      "Fraud analyst",
+      "Operations manager (security services)",
+      "Private investigator",
+      "Security manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3411",
+    "title": "Artists",
+    "relatedJobs": [
+      "Animator (hand drawn)",
+      "Artist",
+      "Illustrator",
+      "Portrait painter",
+      "Sculptor"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3412",
+    "title": "Authors, writers and translators",
+    "relatedJobs": [
+      "Copywriter",
+      "Editor (books)",
+      "Interpreter",
+      "Technical author",
+      "Translator",
+      "Writer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3413",
+    "title": "Actors, entertainers and presenters",
+    "relatedJobs": [
+      "Actor",
+      "Commentator (broadcasting)",
+      "Costumed interpreter",
+      "Disc jockey",
+      "Entertainer",
+      "Presenter (broadcasting)",
+      "Singer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3414",
+    "title": "Dancers and choreographers",
+    "relatedJobs": [
+      "Ballet dancer",
+      "Choreographer",
+      "Dance coach",
+      "Dancer",
+      "Dance teacher"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3415",
+    "title": "Musicians",
+    "relatedJobs": [
+      "Composer",
+      "Musician",
+      "Organist",
+      "Pianist",
+      "Song writer",
+      "Violinist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3416",
+    "title": "Arts officers, producers and directors",
+    "relatedJobs": [
+      "Broadcast editor",
+      "Film editor",
+      "Production assistant (broadcasting)",
+      "Studio manager",
+      "Television producer",
+      "Video production assistant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3417",
+    "title": "Photographers, audio-visual and broadcasting equipment operators",
+    "relatedJobs": [
+      "Audio visual technician",
+      "Cameraman",
+      "Commercial drone pilot",
+      "Digital imaging technician",
+      "Lighting designer",
+      "Photographer",
+      "Projectionist",
+      "Sound engineer",
+      "Theatre technician (entertainment)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3421",
+    "title": "Interior designers",
+    "relatedJobs": [
+      "Design consultant (interior design)",
+      "Interior decorator",
+      "Interior stylist",
+      "Kitchen designer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3422",
+    "title": "Clothing, fashion and accessories designers",
+    "relatedJobs": [
+      "Bridalwear designer",
+      "Fashion designer",
+      "Footwear designer",
+      "Jewellery designer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3429",
+    "title": "Design occupations not elsewhere classified",
+    "relatedJobs": [
+      "Design consultant",
+      "Craft designer",
+      "Make-up artist (films)",
+      "Production designer (film, television production)",
+      "Visual merchandiser (design)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3431",
+    "title": "Sports players",
+    "relatedJobs": [
+      "Cricketer",
+      "Footballer",
+      "Jockey",
+      "Golfer"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "3432",
+    "title": "Sports coaches, instructors and officials",
+    "relatedJobs": [
+      "Referee",
+      "Riding instructor",
+      "Sports coach",
+      "Sports development officer",
+      "Swimming teacher"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "3433",
+    "title": "Fitness and wellbeing instructors",
+    "relatedJobs": [
+      "Aerobics instructor",
+      "Fitness instructor",
+      "Gym instructor",
+      "Lifestyle consultant",
+      "Personal trainer",
+      "Pilates instructor",
+      "Yoga teacher"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3511",
+    "title": "Aircraft pilots and air traffic controllers",
+    "relatedJobs": [
+      "Airline pilot",
+      "Air traffic controller",
+      "First officer (airlines)",
+      "Flight engineer",
+      "Flight planner",
+      "Flying instructor",
+      "Helicopter pilot"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3512",
+    "title": "Ship and hovercraft officers",
+    "relatedJobs": [
+      "Chief engineer (shipping)",
+      "Marine engineer (shipping)",
+      "Merchant navy officer",
+      "Petty officer",
+      "Tug master",
+      "Yacht skipper"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3520",
+    "title": "Legal associate professionals",
+    "relatedJobs": [
+      "Barrister’s clerk",
+      "Compliance officer (legal services)",
+      "Law costs draftsman",
+      "Legal assistant",
+      "Litigator",
+      "Paralegal assistant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3531",
+    "title": "Brokers",
+    "relatedJobs": [
+      "Foreign exchange dealer",
+      "Insurance broker",
+      "Investment administrator",
+      "Stockbroker",
+      "Trader (stock exchange)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3532",
+    "title": "Insurance underwriters",
+    "relatedJobs": [
+      "Account handler (insurance)",
+      "Commercial underwriter",
+      "Insurance inspector",
+      "Mortgage underwriter",
+      "Underwriter"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3533",
+    "title": "Financial and accounting technicians",
+    "relatedJobs": [
+      "Accounting technician",
+      "Business associate (banking)",
+      "Financial controller",
+      "Fund administrator",
+      "Insolvency administrator",
+      "Managing clerk (accountancy)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3534",
+    "title": "Financial accounts managers",
+    "relatedJobs": [
+      "Accounts manager",
+      "Audit manager",
+      "Credit manager",
+      "Fund manager",
+      "Mortgage unit manager",
+      "Relationship manager (bank)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3541",
+    "title": "Estimators, valuers and assessors",
+    "relatedJobs": [
+      "Claims assessor",
+      "Claims investigator",
+      "Engineering surveyor",
+      "Estimator",
+      "Loss adjuster",
+      "PPI case handler",
+      "Valuer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3542",
+    "title": "Importers and exporters",
+    "relatedJobs": [
+      "Export coordinator",
+      "Exporter",
+      "Import agent",
+      "Importer",
+      "Shipping agent"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3543",
+    "title": "Project support officers",
+    "relatedJobs": [
+      "Planning assistant",
+      "Project administrator",
+      "Project analyst",
+      "Project coordinator",
+      "Project officer",
+      "Service delivery coordinator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3544",
+    "title": "Data analysts",
+    "relatedJobs": [
+      "Data analyst",
+      "Data officer",
+      "Data quality analyst",
+      "Information management analyst",
+      "Organisation and methods analyst"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3549",
+    "title": "Business associate professionals not elsewhere classified",
+    "relatedJobs": [
+      "Business support officer",
+      "Marine consultant",
+      "Methods engineer",
+      "O&M consultant",
+      "Party agent (political party)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3551",
+    "title": "Buyers and procurement officers",
+    "relatedJobs": [
+      "Bid writer",
+      "Buyer",
+      "Procurement officer",
+      "Purchasing consultant",
+      "Supply planner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3552",
+    "title": "Business sales executives",
+    "relatedJobs": [
+      "Corporate account executive",
+      "Sales agent",
+      "Sales consultant",
+      "Sales executive",
+      "Technical representative"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3553",
+    "title": "Merchandisers",
+    "relatedJobs": [
+      "Demand planner",
+      "Merchandiser",
+      "Sales merchandiser",
+      "Supply chain analyst"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3554",
+    "title": "Advertising and marketing associate professionals",
+    "relatedJobs": [
+      "Brand ambassador",
+      "Business development executive",
+      "Fundraiser",
+      "Marketing consultant",
+      "Marketing executive"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3555",
+    "title": "Estate agents and auctioneers",
+    "relatedJobs": [
+      "Auctioneer",
+      "Auctioneer and valuer",
+      "Estate agent",
+      "Letting agent",
+      "Property consultant",
+      "Sales negotiator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3556",
+    "title": "Sales accounts and business development managers",
+    "relatedJobs": [
+      "Account manager (sales)",
+      "Area sales manager",
+      "Business development manager",
+      "Product development manager",
+      "Sales manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3557",
+    "title": "Events managers and organisers",
+    "relatedJobs": [
+      "Conference coordinator",
+      "Event organiser",
+      "Events manager",
+      "Exhibition organiser",
+      "Hospitality manager",
+      "Production manager (corporate hospitality)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3560",
+    "title": "Public services associate professionals",
+    "relatedJobs": [
+      "Civil servant (HEO, SEO)",
+      "Higher executive officer (government)",
+      "Principle revenue officer (local government)",
+      "Senior executive officer (government)",
+      "Team leader (local government)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3571",
+    "title": "Human resources and industrial relations officers",
+    "relatedJobs": [
+      "Employment consultant",
+      "Human resources advisor",
+      "Human resources analyst",
+      "Recruitment consultant",
+      "Talent attraction consultant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3572",
+    "title": "Careers advisers and vocational guidance specialists",
+    "relatedJobs": [
+      "Careers adviser",
+      "Careers consultant",
+      "Careers teacher",
+      "Personal advisor",
+      "Placement officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3573",
+    "title": "Information technology trainers",
+    "relatedJobs": [
+      "E-learning manager",
+      "IT trainer",
+      "IT tutor",
+      "Software trainer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3574",
+    "title": "Other vocational and industrial trainers",
+    "relatedJobs": [
+      "NVQ assessor",
+      "Technical instructor",
+      "Training consultant",
+      "Training manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3581",
+    "title": "Inspectors of standards and regulations",
+    "relatedJobs": [
+      "Building inspector",
+      "Driving examiner",
+      "Housing inspector",
+      "Meat hygiene inspector",
+      "Trading standards officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "3582",
+    "title": "Health and safety managers and officers",
+    "relatedJobs": [
+      "Asbestos surveyor",
+      "Health and safety officer",
+      "Occupational hygienist",
+      "Safety consultant",
+      "Safety officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4111",
+    "title": "National government administrative occupations",
+    "relatedJobs": [
+      "Administrative assistant (courts of justice)",
+      "Administrative officer (government)",
+      "Civil servant (grades AA, AO & EO)",
+      "Clerk (government)",
+      "Revenue officer (government)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4112",
+    "title": "Local government administrative occupations",
+    "relatedJobs": [
+      "Administrative assistant (local government)",
+      "Administrative officer (police service)",
+      "Benefits assistant (local government)",
+      "Clerical officer (local government)",
+      "Local government officer",
+      "Parish clerk"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4113",
+    "title": "Officers of non-governmental organisations",
+    "relatedJobs": [
+      "Administrator (charitable organisation)",
+      "Clerk to school governors",
+      "Organiser (trade union)",
+      "Secretary (research association)",
+      "Trade union official"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4121",
+    "title": "Credit controllers",
+    "relatedJobs": [
+      "Credit control clerk",
+      "Credit controller",
+      "Debt management associate",
+      "Loans administrator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4122",
+    "title": "Book-keepers, payroll managers and wages clerks",
+    "relatedJobs": [
+      "Accounts administrator",
+      "Accounts assistant",
+      "Accounts clerk",
+      "Auditor",
+      "Bookkeeper",
+      "Payroll manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4123",
+    "title": "Bank and post office clerks",
+    "relatedJobs": [
+      "Bank clerk",
+      "Cashier (banking)",
+      "Customer service adviser (building society)",
+      "Customer service officer (banking)",
+      "Post office clerk"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4124",
+    "title": "Finance officers",
+    "relatedJobs": [
+      "Finance officer",
+      "Financial officer (local government)",
+      "Regional finance officer (PO)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4129",
+    "title": "Financial administrative occupations not elsewhere classified",
+    "relatedJobs": [
+      "Cashier",
+      "Finance administrator",
+      "Finance assistant",
+      "Legal cashier",
+      "Tax assistant",
+      "Treasurer",
+      "Valuation assistant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4131",
+    "title": "Records clerks and assistants",
+    "relatedJobs": [
+      "Admissions officer",
+      "Clerical officer (hospital service)",
+      "Examinations officer (education)",
+      "Filing clerk",
+      "Records clerk",
+      "Ward clerk"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4132",
+    "title": "Pensions and insurance clerks and assistants",
+    "relatedJobs": [
+      "Administrator (insurance)",
+      "Claims handler",
+      "Clerical assistant (insurance)",
+      "Insurance clerk",
+      "Pensions administrator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4133",
+    "title": "Stock control clerks and assistants",
+    "relatedJobs": [
+      "Auditor (stock control)",
+      "Despatch clerk",
+      "Material controller",
+      "Stock controller",
+      "Stores administrator",
+      "Supply chain coordinator"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4134",
+    "title": "Transport and distribution clerks and assistants",
+    "relatedJobs": [
+      "Cargo agent",
+      "Export clerk",
+      "Freight administrator",
+      "Logistics coordinator",
+      "Shipping clerk",
+      "Transport clerk"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4135",
+    "title": "Library clerks and assistants",
+    "relatedJobs": [
+      "Archives assistant (library)",
+      "Information assistant (library)",
+      "Learning resource assistant",
+      "Library assistant",
+      "Library clerk",
+      "Library supervisor"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4136",
+    "title": "Human resources administrative occupations",
+    "relatedJobs": [
+      "Course administrator",
+      "Human resources administrator",
+      "Personnel administrator",
+      "Personnel clerk",
+      "Training administrator"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4141",
+    "title": "Office managers",
+    "relatedJobs": [
+      "Business support manager",
+      "Office manager",
+      "Practice manager",
+      "Sales administration manager",
+      "Sales office manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4142",
+    "title": "Office supervisors",
+    "relatedJobs": [
+      "Administration supervisor",
+      "Clerical supervisor",
+      "Facilities supervisor",
+      "Office supervisor"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4143",
+    "title": "Customer service managers",
+    "relatedJobs": [
+      "After sales manager",
+      "Call centre manager",
+      "Customer care manager",
+      "Customer service manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4151",
+    "title": "Sales administrators",
+    "relatedJobs": [
+      "Online sales assistant",
+      "Marketing administrator",
+      "Sales administrator",
+      "Sales coordinator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4152",
+    "title": "Data entry administrators",
+    "relatedJobs": [
+      "Data administrator",
+      "Database assistant",
+      "Data entry clerk",
+      "Database inputter"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4159",
+    "title": "Other administrative occupations not elsewhere classified",
+    "relatedJobs": [
+      "Administrator",
+      "Administrative assistant",
+      "Clerical assistant",
+      "Clerk",
+      "Facilities coordinator",
+      "Office assistant",
+      "Proof reader"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4211",
+    "title": "Medical secretaries",
+    "relatedJobs": [
+      "Clinic coordinator",
+      "Clinic administrator",
+      "Medical administrator",
+      "Medical secretary",
+      "Secretary (medical practice)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4212",
+    "title": "Legal secretaries",
+    "relatedJobs": [
+      "Legal administrator",
+      "Legal clerk",
+      "Legal secretary",
+      "Secretary (legal services)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4213",
+    "title": "School secretaries",
+    "relatedJobs": [
+      "Administration assistant (schools)",
+      "Clerical assistant (schools)",
+      "School administrator",
+      "School secretary",
+      "Secretary (schools)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4214",
+    "title": "Company secretaries and administrators",
+    "relatedJobs": [
+      "Assistant secretary",
+      "Club secretary",
+      "Company administrator",
+      "Company secretary"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4215",
+    "title": "Personal assistants and other secretaries",
+    "relatedJobs": [
+      "Executive assistant",
+      "PA-secretary",
+      "Personal assistant",
+      "Personal secretary",
+      "Secretary"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "4216",
+    "title": "Receptionists",
+    "relatedJobs": [
+      "Dental receptionist",
+      "Doctor’s receptionist",
+      "Medical receptionist",
+      "Reception manager",
+      "Receptionist",
+      "Receptionist-administrator"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "4217",
+    "title": "Typists and related keyboard occupations",
+    "relatedJobs": [
+      "Audio typist",
+      "Transcriber",
+      "Typist",
+      "Typist-clerk"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "5111",
+    "title": "Farmers",
+    "relatedJobs": [
+      "Agricultural contractor",
+      "Agricultural technician (farming)",
+      "Crofter (farming)",
+      "Farmer",
+      "Herd manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5112",
+    "title": "Horticultural trades",
+    "relatedJobs": [
+      "Grower",
+      "Horticulturalist",
+      "Market Gardener",
+      "Nursery Assistant (agriculture)",
+      "Nurseryman"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5113",
+    "title": "Gardeners and landscape gardeners",
+    "relatedJobs": [
+      "Garden designer",
+      "Gardener",
+      "Gardener-handyman",
+      "Landscape gardener"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5114",
+    "title": "Groundsmen and greenkeepers",
+    "relatedJobs": [
+      "Greenkeeper",
+      "Groundsman",
+      "Groundsperson"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5119",
+    "title": "Agricultural and fishing trades not elsewhere classified",
+    "relatedJobs": [
+      "Arboricultural consultant",
+      "Bee farmer",
+      "Countryside ranger",
+      "Gamekeeper",
+      "National park warden",
+      "Share fisherman",
+      "Trawler skipper",
+      "Tree surgeon"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5211",
+    "title": "Sheet metal workers",
+    "relatedJobs": [
+      "Coppersmith",
+      "Metal fabricator",
+      "Panel beater (metal trades)",
+      "Sheet metal fabricator",
+      "Sheet metal worker"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5212",
+    "title": "Metal plate workers, smiths, moulders and related occupations",
+    "relatedJobs": [
+      "Boiler maker",
+      "Core Maker (metal trades)",
+      "Die Caster",
+      "Chain repairer",
+      "Farrier",
+      "Moulder and coremaker",
+      "Pewtersmith",
+      "Pipe Maker (foundry)",
+      "Steel presser"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5213",
+    "title": "Welding trades",
+    "relatedJobs": [
+      "Fabricator-welder",
+      "Fitter-welder",
+      "Spot welder",
+      "Welder",
+      "Welding technician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5214",
+    "title": "Pipe fitters",
+    "relatedJobs": [
+      "Pipe engineer",
+      "Pipe fitter",
+      "Pipe welder-fitter"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5221",
+    "title": "Metal machining setters and setter-operators",
+    "relatedJobs": [
+      "CNC machinist",
+      "CNC programmer",
+      "Centre lathe turner",
+      "Miller (metal trades)",
+      "Tool setter",
+      "Turner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5222",
+    "title": "Tool makers, tool fitters and markers-out",
+    "relatedJobs": [
+      "Die maker",
+      "Engineer-toolmaker",
+      "Jig maker",
+      "Marker-out (engineering)",
+      "Tool engineer",
+      "Tool fitter",
+      "Tool maker"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5223",
+    "title": "Metal working production and maintenance fitters",
+    "relatedJobs": [
+      "Agricultural engineer",
+      "Bench fitter",
+      "Engineering machinist",
+      "Fabricator",
+      "Installation engineer",
+      "Maintenance fitter",
+      "Mechanical engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5224",
+    "title": "Precision instrument makers and repairers",
+    "relatedJobs": [
+      "Calibration engineer",
+      "Horologist",
+      "Instrument maker",
+      "Instrument mechanic",
+      "Instrument technician",
+      "Optical technician",
+      "Precision engineer",
+      "Watchmaker"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5225",
+    "title": "Air-conditioning and refrigeration installers and repairers",
+    "relatedJobs": [
+      "Air conditioning engineer",
+      "Air conditioning fitter",
+      "Refrigeration engineer",
+      "Refrigeration technician",
+      "Service engineer (refrigeration)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5231",
+    "title": "Vehicle technicians, mechanics and electricians",
+    "relatedJobs": [
+      "Auto electrician",
+      "Car mechanic",
+      "HGV mechanic",
+      "Mechanic (garage)",
+      "MOT tester",
+      "Motor mechanic",
+      "Motor vehicle technician",
+      "Technician (vehicles)",
+      "Vehicle technician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5232",
+    "title": "Vehicle body builders and repairers",
+    "relatedJobs": [
+      "Bodyshop technician",
+      "Car body repairer",
+      "Coach builder",
+      "Panel beater",
+      "Restoration technician (vehicles)",
+      "Vehicle builder"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5233",
+    "title": "Vehicle paint technicians",
+    "relatedJobs": [
+      "Car paint sprayer",
+      "Coach painter",
+      "Graphic applicator (vehicles)",
+      "Paint technician (vehicles)",
+      "Sprayer (vehicle trades)",
+      "Vehicle refinisher",
+      "Vehicle wrapper"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5234",
+    "title": "Aircraft maintenance and related trades",
+    "relatedJobs": [
+      "Aeronautical engineer",
+      "Aircraft electrician",
+      "Aircraft engineer",
+      "Aircraft fitter",
+      "Aircraft mechanic",
+      "Maintenance engineer (aircraft)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5235",
+    "title": "Boat and ship builders and repairers",
+    "relatedJobs": [
+      "Boat builder",
+      "Fitter (boat building)",
+      "Frame turner (ship building)",
+      "Laminator (boat building and repairing)",
+      "Marine engineer",
+      "Ship’s joiner",
+      "Shipwright"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5236",
+    "title": "Rail and rolling stock builders and repairers",
+    "relatedJobs": [
+      "Coach repairer (railways)",
+      "Mechanical fitter (railway and rolling stock)",
+      "Railway engineer",
+      "Rolling stock technician",
+      "Service engineer (railway, rolling stock maintenance)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5241",
+    "title": "Electricians and electrical fitters",
+    "relatedJobs": [
+      "Electrical contractor",
+      "Electrical engineer",
+      "Electrical fitter",
+      "Electrician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5242",
+    "title": "Telecoms and related network installers and repairers",
+    "relatedJobs": [
+      "Cable jointer",
+      "Customer service engineer (telecoms)",
+      "Installation engineer (telecoms)",
+      "Network officer (telecoms)",
+      "Telecom engineer",
+      "Telephone engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5243",
+    "title": "Tv, video and audio servicers and repairers",
+    "relatedJobs": [
+      "Installation engineer (radio, television and video)",
+      "Satellite engineer",
+      "Service engineer (radio, television and video)",
+      "Technician (radio, television and video servicing)",
+      "Television engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5244",
+    "title": "Computer system and equipment installers and servicers",
+    "relatedJobs": [
+      "Computer repairer",
+      "Computer service engineer",
+      "Hardware engineer (computer)",
+      "IT engineer",
+      "Maintenance engineer (computer servicing)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5245",
+    "title": "Security system installers and repairers",
+    "relatedJobs": [
+      "Alarm engineer",
+      "CCTV engineer",
+      "Installation engineer (alarms)",
+      "Service engineer (alarms)",
+      "Security engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5246",
+    "title": "Electrical service and maintenance mechanics and repairers",
+    "relatedJobs": [
+      "Domestic appliance engineer",
+      "Maintenance man (electricity supplier)",
+      "Machine repairer (office machinery)",
+      "Repairer (electrical machinery)",
+      "Service engineer (domestic electrical appliances)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5249",
+    "title": "Electrical and electronic trades not elsewhere classified",
+    "relatedJobs": [
+      "Communication engineer",
+      "Electronics engineer",
+      "Field engineer",
+      "Linesman"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5250",
+    "title": "Skilled metal, electrical and electronic trades supervisors",
+    "relatedJobs": [
+      "Electrical supervisor",
+      "Maintenance supervisor (manufacturing)",
+      "Service manager (garage)",
+      "Workshop manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5311",
+    "title": "Steel erectors",
+    "relatedJobs": [
+      "Steel erector",
+      "Steel fabricator",
+      "Steel worker (structural engineering)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5312",
+    "title": "Stonemasons and related trades",
+    "relatedJobs": [
+      "Dry stone waller",
+      "Monumental mason",
+      "Stone mason"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5313",
+    "title": "Bricklayers",
+    "relatedJobs": [
+      "Bricklayer",
+      "Block setter",
+      "Chimney builder",
+      "Floor stone Layer",
+      "Kiln repairer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5314",
+    "title": "Roofers, roof tilers and slaters",
+    "relatedJobs": [
+      "Mastic asphalt spreader",
+      "Roof tiler",
+      "Roofer",
+      "Roofing contractor",
+      "Slater",
+      "Thatcher"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5315",
+    "title": "Plumbers and heating and ventilating installers and repairers",
+    "relatedJobs": [
+      "Gas engineer",
+      "Heating and ventilating engineer",
+      "Heat pump installer",
+      "Meter installer (water)",
+      "Plumber",
+      "Plumbing and heating engineer",
+      "Stove repairer (gas stoves)",
+      "Ventilation fitter"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5316",
+    "title": "Carpenters and joiners",
+    "relatedJobs": [
+      "Carpenter",
+      "Carpenter and joiner",
+      "Joiner",
+      "Kitchen fitter",
+      "Shop fitter"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5317",
+    "title": "Glaziers, window fabricators and fitters",
+    "relatedJobs": [
+      "Glass Cutter",
+      "Glazier",
+      "Installer (double glazing)",
+      "Service engineer (windows)",
+      "Window fabricator",
+      "Window fitter"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5319",
+    "title": "Construction and building trades not elsewhere classified",
+    "relatedJobs": [
+      "Builder",
+      "Building contractor",
+      "Fencer",
+      "Fireplace fitter",
+      "Maintenance manager (buildings and other structures)",
+      "Property developer (building construction)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5321",
+    "title": "Plasterers",
+    "relatedJobs": [
+      "Dry liner",
+      "Fibrous plasterer",
+      "Plasterer",
+      "Plastering contractor"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5322",
+    "title": "Floorers and wall tilers",
+    "relatedJobs": [
+      "Carpet fitter",
+      "Ceramic tiler",
+      "Flooring contractor",
+      "Mosaic floor layer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5323",
+    "title": "Painters and decorators",
+    "relatedJobs": [
+      "Artexer",
+      "French polisher",
+      "Paper hanger",
+      "Ship sprayer",
+      "Wood stainer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5330",
+    "title": "Construction and building trades supervisors",
+    "relatedJobs": [
+      "Builder’s foreman",
+      "Construction foreman",
+      "Construction supervisor",
+      "Maintenance supervisor",
+      "Site foreman"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5411",
+    "title": "Upholsterers",
+    "relatedJobs": [
+      "Curtain fitter",
+      "Curtain maker",
+      "Soft furnisher",
+      "Trimmer (furniture mfr)",
+      "Upholsterer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5412",
+    "title": "Footwear and leather working trades",
+    "relatedJobs": [
+      "Cobbler",
+      "Leather worker (leather goods mfr)",
+      "Machinist (leather goods mfr)",
+      "Shoe machinist",
+      "Shoe repairer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5413",
+    "title": "Tailors and dressmakers",
+    "relatedJobs": [
+      "Costume maker",
+      "Cutter (hosiery, knitwear mfr)",
+      "Dressmaker",
+      "Pattern Cutter",
+      "Tailor",
+      "Tailoress"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5419",
+    "title": "Textiles, garments and related trades not elsewhere classified",
+    "relatedJobs": [
+      "Clothing manufacturer",
+      "Embroiderer",
+      "Hand sewer",
+      "Knitter",
+      "Sail maker",
+      "Weaver",
+      "Upholstery cutter"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5421",
+    "title": "Pre-press technicians",
+    "relatedJobs": [
+      "Compositor",
+      "Plate maker",
+      "Pre-press manager",
+      "Pre-press technician",
+      "Type setter"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5422",
+    "title": "Printers",
+    "relatedJobs": [
+      "Digital printer",
+      "Lithographic printer",
+      "Machine minder (printing)",
+      "Print technician",
+      "Screen printer",
+      "Wallpaper printer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5423",
+    "title": "Print finishing and binding workers",
+    "relatedJobs": [
+      "Binder’s assistant",
+      "Book binder",
+      "Finishing supervisor (printing)",
+      "Print finisher",
+      "Retoucher (film processing)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5431",
+    "title": "Butchers",
+    "relatedJobs": [
+      "Butcher",
+      "Butcher’s assistant",
+      "Butchery manager",
+      "Master butcher",
+      "Slaughterman"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5432",
+    "title": "Bakers and flour confectioners",
+    "relatedJobs": [
+      "Baker",
+      "Baker’s assistant",
+      "Bakery manager",
+      "Cake decorator",
+      "Confectioner"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5433",
+    "title": "Fishmongers and poultry dressers",
+    "relatedJobs": [
+      "Butcher (fish, poultry)",
+      "Filleter (fish)",
+      "Fish processor",
+      "Fishmonger",
+      "Poultry processor",
+      "Process worker (fish, poultry)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5434",
+    "title": "Chefs",
+    "relatedJobs": [
+      "Chef",
+      "Chef-manager",
+      "Food stylist",
+      "Head chef",
+      "Pastry chef"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5435",
+    "title": "Cooks",
+    "relatedJobs": [
+      "Cook",
+      "Cook-supervisor",
+      "Fish fryer",
+      "Head cook"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "5436",
+    "title": "Catering and bar managers",
+    "relatedJobs": [
+      "Bar manager",
+      "Catering manager",
+      "Floor manager (restaurant)",
+      "Kitchen manager",
+      "Steward (club)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5441",
+    "title": "Glass and ceramics makers, decorators and finishers",
+    "relatedJobs": [
+      "Ceramic artist",
+      "Glass blower",
+      "Potter (ceramics mfr)",
+      "Pottery worker",
+      "Sprayer (ceramics mfr)",
+      "Stained glass artist"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5442",
+    "title": "Furniture makers and other craft woodworkers",
+    "relatedJobs": [
+      "Antiques restorer",
+      "Cabinet maker",
+      "Coffin maker",
+      "Furniture restorer",
+      "Joiner (cabinet making)",
+      "Picture framer",
+      "Sprayer (furniture mfr)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5443",
+    "title": "Florists",
+    "relatedJobs": [
+      "Floral assistant",
+      "Floral designer",
+      "Florist",
+      "Flower arranger"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "5449",
+    "title": "Other skilled trades not elsewhere classified",
+    "relatedJobs": [
+      "Diamond mounter",
+      "Engraver",
+      "Goldsmith",
+      "Paint sprayer",
+      "Piano tuner",
+      "Sign maker (electric signs)",
+      "Silversmith",
+      "Wig maker"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6111",
+    "title": "Early education and childcare assistants",
+    "relatedJobs": [
+      "Child care assistant",
+      "Crèche assistant",
+      "Nursery assistant",
+      "Nursery nurse",
+      "Playgroup assistant",
+      "Pre-school assistant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6112",
+    "title": "Teaching assistants",
+    "relatedJobs": [
+      "Classroom assistant",
+      "School assistant",
+      "Teaching assistant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6113",
+    "title": "Educational support assistants",
+    "relatedJobs": [
+      "Education support assistant",
+      "Learning support assistant",
+      "Non-teaching assistant (schools)",
+      "Special needs assistant",
+      "Support assistant (educational establishments)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6114",
+    "title": "Childminders",
+    "relatedJobs": [
+      "Baby sitter",
+      "Childminder",
+      "Mother’s help",
+      "Nurse maid"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6116",
+    "title": "Nannies and au pairs",
+    "relatedJobs": [
+      "Au pair",
+      "Nanny\tExtension only"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "6117",
+    "title": "Playworkers",
+    "relatedJobs": [
+      "Afterschool club coordinator",
+      "Play leader",
+      "Playworker",
+      "School club leader"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6121",
+    "title": "Pest control officers",
+    "relatedJobs": [
+      "Fumigator",
+      "Pest control officer",
+      "Pest control technician",
+      "Pest controller"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6129",
+    "title": "Animal care services occupations not elsewhere classified",
+    "relatedJobs": [
+      "Animal technician",
+      "Canine beautician",
+      "Dog walker",
+      "Groom",
+      "Kennel assistant",
+      "Stable hand",
+      "Veterinary nursing assistant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6131",
+    "title": "Nursing auxiliaries and assistants",
+    "relatedJobs": [
+      "Auxiliary nurse",
+      "Health care assistant (hospital service)",
+      "Health care support worker",
+      "Nursing assistant",
+      "Nursing auxiliary"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6132",
+    "title": "Ambulance staff (excluding paramedics)",
+    "relatedJobs": [
+      "Ambulance care assistant",
+      "Ambulance driver",
+      "Ambulance service preparation operative",
+      "Ambulance technician",
+      "Emergency medical technician"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6133",
+    "title": "Dental nurses",
+    "relatedJobs": [
+      "Dental assistant",
+      "Dental nurse",
+      "Dental nurse-receptionist",
+      "Dental surgery assistant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6134",
+    "title": "Houseparents and residential wardens",
+    "relatedJobs": [
+      "Foster carer",
+      "House matron",
+      "House parent",
+      "Residential care officer",
+      "Warden (care/residential home)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6135",
+    "title": "Care workers and home carers",
+    "relatedJobs": [
+      "Care assistant",
+      "Carer",
+      "Child care worker",
+      "Home care assistant",
+      "Home carer",
+      "Support worker (nursing home)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6136",
+    "title": "Senior care workers",
+    "relatedJobs": [
+      "Care coordinator (care/residential home)",
+      "Senior care assistant",
+      "Senior carer",
+      "Senior support worker (local government: welfare services)",
+      "Team leader (nursing home)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6137",
+    "title": "Care escorts",
+    "relatedJobs": [
+      "Bus escort",
+      "Escort",
+      "Passenger assistant",
+      "School escort"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6138",
+    "title": "Undertakers, mortuary and crematorium assistants",
+    "relatedJobs": [
+      "Crematorium technician",
+      "Embalmer",
+      "Funeral director",
+      "Pall bearer",
+      "Undertaker"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6211",
+    "title": "Sports and leisure assistants",
+    "relatedJobs": [
+      "Croupier",
+      "Leisure attendant",
+      "Lifeguard",
+      "Runner (broadcasting)",
+      "Sports assistant"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6212",
+    "title": "Travel agents",
+    "relatedJobs": [
+      "Reservations agent",
+      "Sales consultant (travel agents)",
+      "Travel adviser",
+      "Travel agent",
+      "Travel consultant"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6213",
+    "title": "Air travel assistants",
+    "relatedJobs": [
+      "Air hostess",
+      "Cabin crew",
+      "Customer service agent (travel)",
+      "Flight attendant",
+      "Passenger service agent"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6214",
+    "title": "Rail travel assistants",
+    "relatedJobs": [
+      "Conductor (railways)",
+      "Station assistant (underground railway)",
+      "Station supervisor",
+      "Ticket inspector (railways)",
+      "Train conductor",
+      "Train manager"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6219",
+    "title": "Leisure and travel service occupations not elsewhere classified",
+    "relatedJobs": [
+      "Bus conductor",
+      "Holiday representative",
+      "Information assistant (tourism)",
+      "Steward (shipping)",
+      "Tour guide"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6221",
+    "title": "Hairdressers and barbers",
+    "relatedJobs": [
+      "Artistic director (hairdressing)",
+      "Barber",
+      "Colourist (hairdressing)",
+      "Hair designer",
+      "Hair stylist",
+      "Hairdresser"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6222",
+    "title": "Beauticians and related occupations",
+    "relatedJobs": [
+      "Beautician",
+      "Beauty therapist",
+      "Nail technician",
+      "Spa therapist",
+      "Tattoo artist"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6231",
+    "title": "Housekeepers and related occupations",
+    "relatedJobs": [
+      "Chalet host",
+      "House keeper",
+      "Lifestyle manager",
+      "Valet"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6232",
+    "title": "Caretakers",
+    "relatedJobs": [
+      "Caretaker",
+      "Concierge",
+      "Janitor",
+      "Porter (college)",
+      "School premises manager",
+      "Site manager (educational establishments)\tExtension only"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "6240",
+    "title": "Cleaning and housekeeping managers and supervisors",
+    "relatedJobs": [
+      "Butler",
+      "Cleaner-in-charge",
+      "Cleaning supervisor",
+      "Guest service manager",
+      "Hotel services supervisor",
+      "House keeper (hotel)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "6250",
+    "title": "Bed and breakfast and guest house owners and proprietors",
+    "relatedJobs": [
+      "Guest house owner",
+      "Landlady (guest house)\tExtension only"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "6311",
+    "title": "Police community support officers",
+    "relatedJobs": [
+      "Civilian support officer (police service)",
+      "Community support officer (police service)",
+      "Police community support officer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "6312",
+    "title": "Parking and civil enforcement occupations",
+    "relatedJobs": [
+      "Car park attendant",
+      "Civil enforcement officer",
+      "Community warden",
+      "Parking attendant",
+      "Traffic warden"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7111",
+    "title": "Sales and retail assistants",
+    "relatedJobs": [
+      "Retail assistant",
+      "Sales adviser",
+      "Sales assistant",
+      "Sales consultant (retail trade)",
+      "Shop assistant"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7112",
+    "title": "Retail cashiers and check-out operators",
+    "relatedJobs": [
+      "Cashier (wholesale trade)",
+      "Check-out operator",
+      "Customer team member (retail trade)",
+      "Forecourt attendant",
+      "General assistant (check-out: retail trade)",
+      "Till operator"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7113",
+    "title": "Telephone salespersons",
+    "relatedJobs": [
+      "Inbound sales adviser",
+      "Sales adviser (telephone sales)",
+      "Telesales executive",
+      "Telesales operative"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7114",
+    "title": "Pharmacy and optical dispensing assistants",
+    "relatedJobs": [
+      "Dispenser",
+      "Health care assistant (retail pharmacy)",
+      "Optical assistant",
+      "Pharmacy assistant"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7115",
+    "title": "Vehicle and parts salespersons and advisers",
+    "relatedJobs": [
+      "Car sales executive",
+      "Car salesman",
+      "Parts adviser (retail trade)",
+      "Parts technician\tExtension only"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "7121",
+    "title": "Collector salespersons and credit agents",
+    "relatedJobs": [
+      "Agent (insurance)",
+      "Canvasser",
+      "Distributor (door-to-door sales)",
+      "Insurance agent"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7122",
+    "title": "Debt, rent and other cash collectors",
+    "relatedJobs": [
+      "Bailiff",
+      "Collecting agent",
+      "Debt collector",
+      "Meter reader",
+      "Pawn broker",
+      "Vending operator"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7123",
+    "title": "Roundspersons and van salespersons",
+    "relatedJobs": [
+      "Dairyman (retail trade: delivery round)",
+      "Ice-cream salesman",
+      "Milkman (milk retailing)",
+      "Roundsman",
+      "Van salesman"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7124",
+    "title": "Market and street traders and assistants",
+    "relatedJobs": [
+      "Market assistant",
+      "Market trader",
+      "Owner (market stall)",
+      "Stall holder",
+      "Street trader"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "7125",
+    "title": "Visual merchandisers and related occupations",
+    "relatedJobs": [
+      "Display representative",
+      "Fashion stylist",
+      "Visual merchandising assistant",
+      "Window dresser\tExtension only"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "7129",
+    "title": "Sales related occupations not elsewhere classified",
+    "relatedJobs": [
+      "Demonstrator",
+      "Hire controller",
+      "Insurance salesman",
+      "Promoter (wholesale, retail trade)",
+      "Sales representative (retail trade)\tExtension only"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "7131",
+    "title": "Shopkeepers and owners - retail and wholesale",
+    "relatedJobs": [
+      "Antiques dealer",
+      "Fashion retailer",
+      "Greengrocer",
+      "Jeweller (retail trade)",
+      "Newsagent",
+      "Shopkeeper"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "7132",
+    "title": "Sales supervisors - retail and wholesale",
+    "relatedJobs": [
+      "Bakery manager (retail trade)",
+      "Check-out supervisor",
+      "Section manager (retail trade)",
+      "Shop supervisor (retail trade)",
+      "Supervisor (retail, wholesale trade)",
+      "Team leader (retail trade)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "7211",
+    "title": "Call and contact centre occupations",
+    "relatedJobs": [
+      "Call centre agent",
+      "Call centre operator",
+      "Customer service adviser (call centre)",
+      "Customer service operator"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7212",
+    "title": "Telephonists",
+    "relatedJobs": [
+      "Call handler (motoring organisation)",
+      "Operator (telephone)",
+      "Switchboard operator (telephone)",
+      "Telephonist",
+      "Telephonist-receptionist"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7213",
+    "title": "Communication operators",
+    "relatedJobs": [
+      "Call handler (emergency services)",
+      "Communications officer",
+      "Control room operator (emergency services)",
+      "Controller (taxi service)",
+      "Emergency medical despatcher",
+      "Radio operator"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7214",
+    "title": "Market research interviewers",
+    "relatedJobs": [
+      "Interviewer (market research)",
+      "Market researcher (interviewing)",
+      "Mystery shopper",
+      "Telephone interviewer",
+      "Telephone researcher",
+      "Traffic enumerator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "7219",
+    "title": "Customer service occupations not elsewhere classified",
+    "relatedJobs": [
+      "Complaints officer",
+      "Customer adviser",
+      "Customer service administrator",
+      "Customer service adviser",
+      "Customer service assistant",
+      "Customer services representative"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "7220",
+    "title": "Customer service supervisors",
+    "relatedJobs": [
+      "Call centre supervisor",
+      "Communications supervisor (air transport)",
+      "Customer service supervisor",
+      "Team leader (call centre)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "8111",
+    "title": "Food, drink and tobacco process operatives",
+    "relatedJobs": [
+      "Baker (food products mfr)",
+      "Bakery assistant",
+      "Factory worker (food products mfr)",
+      "Meat processor (meat packing)",
+      "Process worker (brewery)",
+      "Process worker (dairy)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8112",
+    "title": "Textile process operatives",
+    "relatedJobs": [
+      "Factory worker (clothing mfr)",
+      "Hosiery worker",
+      "Machinist (rope, twine mfr)",
+      "Process worker (textile mfr)",
+      "Spinner (paper twine mfr)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8113",
+    "title": "Chemical and related process operatives",
+    "relatedJobs": [
+      "Chemical process operator",
+      "Gas producer operator",
+      "Process technician (chemical mfr)",
+      "Process worker (cement mfr)",
+      "Process worker (nuclear fuel production)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "8114",
+    "title": "Plastics process operatives",
+    "relatedJobs": [
+      "Extrusion operator (plastics mfr)",
+      "Fabricator (plastics mfr)",
+      "Injection moulder",
+      "Laminator (fibreglass)",
+      "Process worker (plastic goods mfr)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8115",
+    "title": "Metal making and treating process operatives",
+    "relatedJobs": [
+      "Degreaser (metal trades)",
+      "Electroplater",
+      "Furnaceman (metal trades)",
+      "Process worker (nickel mfr)",
+      "Wire drawer\tExtension only"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "8119",
+    "title": "Process operatives not elsewhere classified",
+    "relatedJobs": [
+      "Glass worker",
+      "Moulder (rubber goods mfr)",
+      "Melting pot assistant (electric cable)",
+      "Process worker (fibreglass mfr)",
+      "Stone finisher (cast concrete products mfr)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8120",
+    "title": "Metal working machine operatives",
+    "relatedJobs": [
+      "Engineer (nos)",
+      "Machinist (metal trades)",
+      "Metal polisher",
+      "Process worker (metal trades)",
+      "Shot blaster"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8131",
+    "title": "Paper and wood machine operatives",
+    "relatedJobs": [
+      "Box maker (cardboard)",
+      "Guillotine operator (printing)",
+      "Machinist (paper goods mfr)",
+      "Sawyer",
+      "Wood machinist"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8132",
+    "title": "Mining and quarry workers and related operatives",
+    "relatedJobs": [
+      "Coal miner",
+      "Derrickman (oil wells)",
+      "Diamond driller (well sinking)",
+      "Plant operator (quarry)",
+      "Quarry operative"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8133",
+    "title": "Energy plant operatives",
+    "relatedJobs": [
+      "Boilerman",
+      "Control room operator (electric)",
+      "Hydraulic engineman",
+      "Plant operator (electricity supplier)",
+      "Power station operator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "8134",
+    "title": "Water and sewerage plant operatives",
+    "relatedJobs": [
+      "Controller (water treatment)",
+      "Plant operator (sewage works)",
+      "Pump attendant",
+      "Water treatment engineer",
+      "Water treatment operator"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "8135",
+    "title": "Printing machine assistants",
+    "relatedJobs": [
+      "Finishing operative (printing)",
+      "Lithographer (printing)",
+      "Machinist (printing)",
+      "Print operator",
+      "Printer’s assistant"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8139",
+    "title": "Plant and machine operatives not elsewhere classified",
+    "relatedJobs": [
+      "Bench hand (metal trades)",
+      "Cable maker (spring mfr)",
+      "Laser operator",
+      "Manufacturer (metal goods mfr)",
+      "Saw doctor"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8141",
+    "title": "Assemblers (electrical and electronic products)",
+    "relatedJobs": [
+      "Assembler (electrical, electronic equipment mfr)",
+      "Line operator (electrical)",
+      "Panel wirer",
+      "Solderer",
+      "Technical operator (circuit board mfr)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8142",
+    "title": "Assemblers (vehicles and metal goods)",
+    "relatedJobs": [
+      "Assembler (metal trades)",
+      "Car worker",
+      "Lineworker (vehicle mfr)",
+      "Manufacturing operator (metal trades)",
+      "Process worker (metal trades: assembly)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8143",
+    "title": "Routine inspectors and testers",
+    "relatedJobs": [
+      "Quality assurance inspector",
+      "Quality auditor",
+      "Quality controller",
+      "Quality inspector",
+      "Test engineer"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "8144",
+    "title": "Weighers, graders and sorters",
+    "relatedJobs": [
+      "Grader (food products mfr)",
+      "Metal sorter",
+      "Selector (ceramics mfr)",
+      "Weighbridge clerk",
+      "Weighbridge operator"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8145",
+    "title": "Tyre, exhaust and windscreen fitters",
+    "relatedJobs": [
+      "Tyre and exhaust fitter",
+      "Tyre fitter",
+      "Tyre technician",
+      "Windscreen fitter"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8146",
+    "title": "Sewing machinists",
+    "relatedJobs": [
+      "Overlocker",
+      "Seamstress",
+      "Sewing machinist",
+      "Stitcher",
+      "Upholstery machinist"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8149",
+    "title": "Assemblers and routine operatives not elsewhere classified",
+    "relatedJobs": [
+      "Assembler",
+      "Gluer (furniture mfr)",
+      "Paint line operator",
+      "Production assistant",
+      "Riveter (soft toy mfr)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8151",
+    "title": "Scaffolders, stagers and riggers",
+    "relatedJobs": [
+      "Bell hanger (church bells)",
+      "Rigger (film, television production)",
+      "Stage rigger (shipbuilding)",
+      "Tackleman (steelworks)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8152",
+    "title": "Road construction operatives",
+    "relatedJobs": [
+      "Asphalter",
+      "Concrete finisher (building construction)",
+      "Highways operative",
+      "Paver",
+      "Road worker",
+      "Tarmacer"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8153",
+    "title": "Rail construction and maintenance operatives",
+    "relatedJobs": [
+      "Line Inspector (railways)",
+      "Maintenance man (railway maintenance and repair)",
+      "Relayer (railways)",
+      "Track maintenance engineer",
+      "Trackman (railways)",
+      "Ultrasonic engineer (railway maintenance and repair)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8159",
+    "title": "Construction operatives not elsewhere classified",
+    "relatedJobs": [
+      "Asbestos remover",
+      "Cable layer",
+      "Demolition worker",
+      "General handyman",
+      "Maintenance man",
+      "Public lighting operative",
+      "Thermal insulation engineer"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8160",
+    "title": "Production, factory and assembly supervisors",
+    "relatedJobs": [
+      "Foreman (plasterboard mfr)",
+      "Leading hand (textile mfr)",
+      "Mill foreman (food products mfr)",
+      "Print room supervisor",
+      "Process supervisor (chemical mfr)",
+      "Production team leader (vehicle mfr)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8211",
+    "title": "Heavy and large goods vehicle drivers",
+    "relatedJobs": [
+      "Haulage contractor",
+      "LGV/HGV driver",
+      "Lorry driver",
+      "Owner (HGV/LGV)",
+      "Tanker driver"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8212",
+    "title": "Bus and coach drivers",
+    "relatedJobs": [
+      "Bus driver",
+      "Coach driver",
+      "Coach operator",
+      "Minibus driver",
+      "PSV driver"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8213",
+    "title": "Taxi and cab drivers and chauffeurs",
+    "relatedJobs": [
+      "Carriage driver",
+      "Chauffeur",
+      "Mini cab driver",
+      "Taxi driver",
+      "Taxi owner"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8214",
+    "title": "Delivery drivers and couriers",
+    "relatedJobs": [
+      "Courier-driver",
+      "Cash in transit driver",
+      "Customer service team member (delivery service)",
+      "Delivery driver",
+      "Meals on wheels driver",
+      "Parcel delivery driver",
+      "Van driver"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8215",
+    "title": "Driving instructors",
+    "relatedJobs": [
+      "Cycling instructor",
+      "Driving instructor",
+      "HGV instructor",
+      "Instructor (driving school)",
+      "Motorcycle instructor"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "8219",
+    "title": "Road transport drivers not elsewhere classified",
+    "relatedJobs": [
+      "Driver",
+      "Driver-cleaner",
+      "Driver-valeter",
+      "Recovery driver",
+      "Test driver (vehicle mfr)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8221",
+    "title": "Crane drivers",
+    "relatedJobs": [
+      "Crane driver",
+      "Crane operator",
+      "Haulage engine driver",
+      "Grab driver",
+      "Winchman"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8222",
+    "title": "Fork-lift truck drivers",
+    "relatedJobs": [
+      "Fork lift driver",
+      "Fork lift truck driver",
+      "Fork truck operator",
+      "Stacker-driver"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8229",
+    "title": "Mobile machine drivers and operatives not elsewhere classified",
+    "relatedJobs": [
+      "Agricultural machinist",
+      "Digger driver",
+      "Dredger",
+      "Excavator driver",
+      "JCB driver",
+      "Plant operator",
+      "Rig operator",
+      "Tractor driver (agriculture)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8231",
+    "title": "Train and tram drivers",
+    "relatedJobs": [
+      "Diesel driver (railways)",
+      "Train driver",
+      "Train operator",
+      "Tram driver",
+      "Shunter driver"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8232",
+    "title": "Marine and waterways transport operatives",
+    "relatedJobs": [
+      "Deck hand (shipping)",
+      "Engine room attendant (shipping)",
+      "Engineer(nos: boat, barge)",
+      "Ferryman",
+      "Merchant seaman",
+      "Seaman (shipping)"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "8233",
+    "title": "Air transport operatives",
+    "relatedJobs": [
+      "Aircraft dispatcher",
+      "Baggage handler",
+      "Cargo handler (airport)",
+      "Controller, airfield",
+      "Ground staff (airport)",
+      "Ramp agent",
+      "Refueller (airport)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8234",
+    "title": "Rail transport operatives",
+    "relatedJobs": [
+      "Protection master",
+      "Railway worker",
+      "Shunter",
+      "Signalman (railways)",
+      "Transport supervisor (railways)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "8239",
+    "title": "Other drivers and transport operatives not elsewhere classified",
+    "relatedJobs": [
+      "Bus inspector",
+      "Marshal (transport)",
+      "Operations assistant (freight handling)",
+      "Test driver (motor vehicle mfr)",
+      "Transport supervisor",
+      "Yard foreman (road transport)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9111",
+    "title": "Farm workers",
+    "relatedJobs": [
+      "Agricultural worker",
+      "Farm labourer",
+      "Farm worker",
+      "Herdsman",
+      "Poultry catcher",
+      "Shepherd"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9112",
+    "title": "Forestry and related workers",
+    "relatedJobs": [
+      "Arboricultural worker",
+      "Forestry contractor",
+      "Forestry worker",
+      "Lumberjack",
+      "Park keeper"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9119",
+    "title": "Fishing and other elementary agriculture occupations not elsewhere classified",
+    "relatedJobs": [
+      "Vent chick sexer",
+      "Deckhand on large fishing vessel (9 metres and above)",
+      "For both job titles, the job must require 3 or more years’ full-time experience. This experience must not have been gained through illegal working. Other jobs in this occupation are not eligible"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "9121",
+    "title": "Groundworkers",
+    "relatedJobs": [
+      "Drainage worker",
+      "Ground worker (building construction)",
+      "Trench digger"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9129",
+    "title": "Elementary construction occupations not elsewhere classified",
+    "relatedJobs": [
+      "Building worker",
+      "Electrician’s mate (building construction)",
+      "Hod carrier",
+      "Labourer (building construction)",
+      "Odd job man",
+      "Sea diver’s assistant"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9131",
+    "title": "Industrial cleaning process occupations",
+    "relatedJobs": [
+      "Cleaner and greaser",
+      "Factory cleaner",
+      "Hygiene operative",
+      "Industrial cleaner",
+      "Pot washer"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9132",
+    "title": "Packers, bottlers, canners and fillers",
+    "relatedJobs": [
+      "Factory worker (packing)",
+      "Packaging operator",
+      "Packer",
+      "Paint filler"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9139",
+    "title": "Elementary process plant occupations not elsewhere classified",
+    "relatedJobs": [
+      "Factory worker",
+      "Fitter’s mate",
+      "Labourer (engineering)",
+      "Material handler"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9211",
+    "title": "Postal workers, mail sorters and messengers",
+    "relatedJobs": [
+      "Leaflet distributor",
+      "Mail sorter",
+      "Messenger",
+      "Paper boy",
+      "Paper girl",
+      "Postman",
+      "Postwoman"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9219",
+    "title": "Elementary administration occupations not elsewhere classified",
+    "relatedJobs": [
+      "General assistant",
+      "Office junior",
+      "Office worker",
+      "Reprographic technician"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9221",
+    "title": "Window cleaners",
+    "relatedJobs": [
+      "Window cleaner",
+      "Window cleaning contractor"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9222",
+    "title": "Street cleaners",
+    "relatedJobs": [
+      "Cleansing operative (street cleaning)",
+      "Litter picker",
+      "Road sweeper",
+      "Street cleaner"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9223",
+    "title": "Cleaners and domestics",
+    "relatedJobs": [
+      "Chambermaid",
+      "Cleaner",
+      "Domestic",
+      "Home help",
+      "School cleaner"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9224",
+    "title": "Launderers, dry cleaners and pressers",
+    "relatedJobs": [
+      "Carpet cleaner",
+      "Dry cleaner",
+      "Garment presser",
+      "Laundry assistant",
+      "Laundry worker",
+      "Presser (laundry, launderette, dry cleaning)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9225",
+    "title": "Refuse and salvage occupations",
+    "relatedJobs": [
+      "Binman (local government: cleansing department)",
+      "Dustman",
+      "Hopper attendant (refuse destruction)",
+      "Recycling operative",
+      "Refuse collector",
+      "Salvage worker"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9226",
+    "title": "Vehicle valeters and cleaners",
+    "relatedJobs": [
+      "Car washer",
+      "Carriage cleaner",
+      "Motor car polisher (garage)",
+      "Vehicle valeter"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9229",
+    "title": "Elementary cleaning occupations not elsewhere classified",
+    "relatedJobs": [
+      "Amenity block attendant",
+      "Bin cleaner",
+      "Chimney sweep",
+      "Toilet cleaner"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9231",
+    "title": "Security guards and related occupations",
+    "relatedJobs": [
+      "CCTV operator",
+      "Court usher",
+      "Door supervisor",
+      "Enforcement officer",
+      "Security guard",
+      "Security officer"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9232",
+    "title": "School midday and crossing patrol occupations",
+    "relatedJobs": [
+      "Dinner lady (schools)",
+      "Lunchtime supervisor",
+      "Midday assistant",
+      "School crossing patrol officer"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9233",
+    "title": "Exam invigilators",
+    "relatedJobs": [
+      "Invigilator"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "9241",
+    "title": "Shelf fillers",
+    "relatedJobs": [
+      "Customer team member (shelf filling)",
+      "Evening merchandiser",
+      "General assistant (retail trade)",
+      "Grocery assistant",
+      "Shelf filler",
+      "Shelf stacker"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9249",
+    "title": "Elementary sales occupations not elsewhere classified",
+    "relatedJobs": [
+      "Code controller (wholesale, retail trade)",
+      "Home shopper",
+      "Internet shopper (retail trade)",
+      "Order picker (retail trade)",
+      "Porter (retail trade)",
+      "Trolley assistant"
+    ],
+    "iscExempt": true
+  },
+  {
+    "socCode": "9251",
+    "title": "Elementary storage supervisors",
+    "relatedJobs": [
+      "Despatch supervisor",
+      "Foreman (docks)",
+      "Warehouse supervisor",
+      "Yard foreman (auctioneers)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9252",
+    "title": "Warehouse operatives",
+    "relatedJobs": [
+      "Order picker",
+      "Storeman",
+      "Team member (warehousing)",
+      "Warehouse operative",
+      "Warehouseman\tExtension only"
+    ],
+    "iscExempt": null
+  },
+  {
+    "socCode": "9253",
+    "title": "Delivery operatives",
+    "relatedJobs": [
+      "Driver’s mate",
+      "Delivery assistant",
+      "Furniture remover",
+      "Porter"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9259",
+    "title": "Elementary storage occupations not elsewhere classified",
+    "relatedJobs": [
+      "Art handler",
+      "Dock worker",
+      "General assistant (wholesale trade)",
+      "Labourer (haulage contractor)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9261",
+    "title": "Bar and catering supervisors",
+    "relatedJobs": [
+      "Bar supervisor",
+      "Catering supervisor",
+      "Foreman (catering)Head waiter",
+      "Restaurant supervisor"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9262",
+    "title": "Hospital porters",
+    "relatedJobs": [
+      "Hospital porter",
+      "Porter (hospital service)",
+      "Portering supervisor (hospital services)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9263",
+    "title": "Kitchen and catering assistants",
+    "relatedJobs": [
+      "Catering assistant",
+      "Crew member (fast food outlet)",
+      "Kitchen assistant",
+      "Kitchen porter",
+      "Sandwich artist"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9264",
+    "title": "Waiters and waitresses",
+    "relatedJobs": [
+      "Food and beverage assistant",
+      "Silver service waiter",
+      "Steward (catering)",
+      "Waiter",
+      "Waitress"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9265",
+    "title": "Bar staff",
+    "relatedJobs": [
+      "Barmaid",
+      "Bar staff",
+      "Bartender",
+      "Glass collector (public house)",
+      "Mixologist (beverages)"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9266",
+    "title": "Coffee shop workers",
+    "relatedJobs": [
+      "Barista",
+      "Coffee shop assistant"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9267",
+    "title": "Leisure and theme park attendants",
+    "relatedJobs": [
+      "Arcade assistant",
+      "Art gallery assistant",
+      "Cinema attendant",
+      "Museum attendant",
+      "Ride operator",
+      "Steward (sports ground)",
+      "Usher"
+    ],
+    "iscExempt": false
+  },
+  {
+    "socCode": "9269",
+    "title": "Other elementary services occupations not elsewhere classified",
+    "relatedJobs": [
+      "Bingo caller",
+      "Cloak room attendant",
+      "Hotel assistant",
+      "Night porter",
+      "Porter (residential buildings)",
+      "Stage hand (entertainment)"
+    ],
+    "iscExempt": false
+  }
+]

@@ -17,6 +17,7 @@ const sponsorEligibilityRoutes = require("./routes/sponsorEligibilityRoutes");
 const Salary = require('./models/Salary'); // Adjust the path if needed
 const consultRoutes = require("./routes/consult");
 const contactRoutes = require("./routes/contactRoutes");
+const iscRoutes= require("./routes/isc");
 const app = express();
 
 // ✅ Ensure required environment variables are set
@@ -76,7 +77,7 @@ app.use("/api/sponsor", sponsorEligibilityRoutes);
 app.use('/api/salary', salaryRoutes);
 app.use("/api", consultRoutes);
 app.use("/api", contactRoutes); // Prefix for all routes in contactRoutes.js
-
+app.use("/api/isc",iscRoutes);
 
 // ✅ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
