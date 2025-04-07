@@ -18,6 +18,9 @@ const Salary = require('./models/Salary'); // Adjust the path if needed
 const consultRoutes = require("./routes/consult");
 const contactRoutes = require("./routes/contactRoutes");
 const iscRoutes= require("./routes/isc");
+const sponsorLicenceRoutes = require("./routes/sponsorLicenceRoutes");
+
+
 const app = express();
 
 // ✅ Ensure required environment variables are set
@@ -78,7 +81,7 @@ app.use('/api/salary', salaryRoutes);
 app.use("/api", consultRoutes);
 app.use("/api", contactRoutes); // Prefix for all routes in contactRoutes.js
 app.use("/api/isc",iscRoutes);
-
+app.use("/api", sponsorLicenceRoutes);
 // ✅ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
