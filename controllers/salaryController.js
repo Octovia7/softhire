@@ -47,7 +47,11 @@ exports.searchSalary = async (req, res) => {
 // @desc   Get detailed salary info by occupation code
 // @route  GET /api/salary/details/:occupationCode
 exports.getSalaryDetails = async (req, res) => {
-    const { occupationCode } = req.params;
+    const { occupationCode } = req.body;
+
+    if (!occupationCode) {
+        return res.status(400).json({ message: "Occupation code is required" });
+    }
 
     try {
         const salary = await Salary.findOne({ occupationCode });
@@ -70,3 +74,4 @@ exports.getSalaryDetails = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
