@@ -15,7 +15,7 @@ const sendAssessmentEmails = async (assessmentData) => {
     const {
         email,
         isUKRegistered,
-        documentsSubmitted,
+        documentsSubmitted, // now a string ("Yes"/"No")
         knowsJobRoleAndCode,
         meetsSalaryThreshold,
         authorizingOfficerAvailable
@@ -30,7 +30,7 @@ A new Sponsor License Eligibility Assessment has been submitted.
 
 Submitted by: ${email}
 Is UK Registered: ${isUKRegistered}
-Documents Submitted: ${documentsSubmitted.length ? documentsSubmitted.join(", ") : "None"}
+Documents Submitted: ${documentsSubmitted === "Yes" ? "Yes (sufficient)" : "No or insufficient"}
 Knows Job Role & SOC Code: ${knowsJobRoleAndCode}
 Meets Salary Threshold: ${meetsSalaryThreshold}
 Authorizing Officer Available: ${authorizingOfficerAvailable}
@@ -48,4 +48,3 @@ You can follow up with the user for next steps.
 };
 
 module.exports = sendAssessmentEmails;
-

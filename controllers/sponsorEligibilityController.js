@@ -10,62 +10,62 @@ const sendAssessmentEmails = require("../utils/mailer");
 // const sendAssessmentEmails = require("../utils/mailer");
 
 exports.submitSponsorAssessment = async (req, res) => {
-    try {
-      const {
-        email,
-        isUKRegistered,
-        documentsSubmitted,
-        knowsJobRoleAndCode,
-        meetsSalaryThreshold,
-        authorizingOfficerAvailable,
-      } = req.body;
-  
-      const assessment = new SponsorEligibility({
-        email,
-        isUKRegistered,
-        documentsSubmitted,
-        knowsJobRoleAndCode,
-        meetsSalaryThreshold,
-        authorizingOfficerAvailable,
+  try {
+    const {
+      email,
+      isUKRegistered,
+      documentsSubmitted, // now expected as "Yes" or "No"
+      knowsJobRoleAndCode,
+      meetsSalaryThreshold,
+      authorizingOfficerAvailable,
+    } = req.body;
+
+    const assessment = new SponsorEligibility({
+      email,
+      isUKRegistered,
+      documentsSubmitted,
+      knowsJobRoleAndCode,
+      meetsSalaryThreshold,
+      authorizingOfficerAvailable,
+    });
+
+    await assessment.save();
+
+    await sendAssessmentEmails({
+      email,
+      isUKRegistered,
+      documentsSubmitted,
+      knowsJobRoleAndCode,
+      meetsSalaryThreshold,
+      authorizingOfficerAvailable,
+    });
+
+    const isEligible =
+      isUKRegistered === "Yes" &&
+      documentsSubmitted === "Yes" && // updated condition
+      knowsJobRoleAndCode === "Yes" &&
+      meetsSalaryThreshold === "Yes" &&
+      authorizingOfficerAvailable === "Yes";
+
+    if (isEligible) {
+      res.status(201).json({
+        status: "eligible",
+        message:
+          "Great! Your business is ready to apply for a UK Sponsor Licence for £995 + VAT. Our experts can help streamline the process.",
       });
-  
-      await assessment.save();
-  
-      await sendAssessmentEmails({
-        email,
-        isUKRegistered,
-        documentsSubmitted,
-        knowsJobRoleAndCode,
-        meetsSalaryThreshold,
-        authorizingOfficerAvailable,
+    } else {
+      res.status(200).json({
+        status: "not-eligible",
+        message:
+          "Based on your answers, there are a few things you’ll need to address before applying for a sponsor licence. We can guide you through the steps and ensure your business meets all Home Office requirements.",
       });
-  
-      const isEligible =
-        isUKRegistered === "Yes" &&
-        documentsSubmitted.length >= 3 &&
-        knowsJobRoleAndCode === "Yes" &&
-        meetsSalaryThreshold === "Yes" &&
-        authorizingOfficerAvailable === "Yes";
-  
-      if (isEligible) {
-        res.status(201).json({
-          status: "eligible",
-          message:
-            "Great! Your business is ready to apply for a UK Sponsor Licence for £995 + VAT. Our experts can help streamline the process.",
-        });
-      } else {
-        res.status(200).json({
-          status: "not-eligible",
-          message:
-            "Based on your answers, there are a few things you’ll need to address before applying for a sponsor licence. We can guide you through the steps and ensure your business meets all Home Office requirements.",
-        });
-      }
-    } catch (error) {
-      console.error("Assessment submission error:", error);
-      res.status(500).json({ error: error.message });
     }
-  };
-  
+  } catch (error) {
+    console.error("Assessment submission error:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // 2️⃣ Get all job roles and codes for dropdown
 exports.getAllJobs = async (req, res) => {
     try {
