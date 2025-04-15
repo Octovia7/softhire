@@ -164,3 +164,74 @@ exports.logout = (req, res) => {
     res.clearCookie("token");
     res.status(200).json({ message: "Logged out successfully" });
 };
+exports.forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+        const otpExpires = Date.now() + 10 * 60 * 1000; // Expires in 10 minutes (timestamp)
+
+        user.otpData = {
+            otp,
+            otpExpires,
+            otpAttempts: 0,
+            otpVerified: false
+        };
+
+        await user.save();
+
+        await transporter.sendMail({
+            from: process.env.EMAIL,
+            to: email,
+            subject: "Reset Your Password - OTP",
+            text: `Your OTP is ${otp}. It will expire in 10 minutes.`,
+        });
+
+        return res.json({ message: "OTP sent to your email" });
+    } catch (error) {
+        console.error("❌ Forgot Password Error:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+exports.resetPassword = async (req, res) => {
+    const { email, otp, newPassword } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user || !user.otpData) {
+            return res.status(400).json({ message: "Invalid request" });
+        }
+
+        const { otpData } = user;
+
+        const now = Date.now();
+
+        // Compare OTPs as strings and check expiration
+        if (otpData.otp !== otp || now > otpData.otpExpires) {
+            user.otpData.otpAttempts += 1;
+            await user.save();
+            return res.status(400).json({ message: "Invalid or expired OTP" });
+        }
+
+        // OTP is valid
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+
+        // Clear OTP data
+        user.otpData = {
+            otp: null,
+            otpExpires: null,
+            otpAttempts: 0,
+            otpVerified: true
+        };
+
+        await user.save();
+        return res.json({ message: "Password reset successful" });
+    } catch (error) {
+        console.error("❌ Reset Password Error:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
