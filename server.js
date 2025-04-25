@@ -19,6 +19,7 @@ const consultRoutes = require("./routes/consult");
 const contactRoutes = require("./routes/contactRoutes");
 const iscRoutes= require("./routes/isc");
 const sponsorLicenceRoutes = require("./routes/sponsorLicenceRoutes");
+const demoRoutes = require("./routes/demo");
 
 
 const app = express();
@@ -33,7 +34,7 @@ if (!process.env.MONGO_URI || !process.env.SESSION_SECRET) {
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://softhiredev.netlify.app"],
+    origin: ["http://localhost:5173", "https://softhiredev.netlify.app" , "http://127.0.0.1:5500"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
@@ -82,6 +83,7 @@ app.use("/api", consultRoutes);
 app.use("/api", contactRoutes); // Prefix for all routes in contactRoutes.js
 app.use("/api/isc",iscRoutes);
 app.use("/api", sponsorLicenceRoutes);
+app.use("/api",demoRoutes);
 // ✅ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 

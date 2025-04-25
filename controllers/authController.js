@@ -196,42 +196,60 @@ exports.forgotPassword = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
-exports.resetPassword = async (req, res) => {
-    const { email, otp, newPassword } = req.body;
-
+exports.verifyResetOtp = async (req, res) => {
+    const { email, otp } = req.body;
+  
     try {
-        const user = await User.findOne({ email });
-        if (!user || !user.otpData) {
-            return res.status(400).json({ message: "Invalid request" });
-        }
-
-        const { otpData } = user;
-
-        const now = Date.now();
-
-        // Compare OTPs as strings and check expiration
-        if (otpData.otp !== otp || now > otpData.otpExpires) {
-            user.otpData.otpAttempts += 1;
-            await user.save();
-            return res.status(400).json({ message: "Invalid or expired OTP" });
-        }
-
-        // OTP is valid
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        user.password = hashedPassword;
-
-        // Clear OTP data
-        user.otpData = {
-            otp: null,
-            otpExpires: null,
-            otpAttempts: 0,
-            otpVerified: true
-        };
-
+      const user = await User.findOne({ email });
+      if (!user || !user.otpData) {
+        return res.status(400).json({ message: "Invalid request" });
+      }
+  
+      const { otpData } = user;
+      const now = Date.now();
+  
+      if (otpData.otp !== otp || now > otpData.otpExpires) {
+        user.otpData.otpAttempts += 1;
         await user.save();
-        return res.json({ message: "Password reset successful" });
+        return res.status(400).json({ message: "Invalid or expired OTP" });
+      }
+  
+      // Mark OTP as verified
+      user.otpData.otpVerified = true;
+      await user.save();
+  
+      return res.status(200).json({ message: "OTP verified successfully" });
     } catch (error) {
-        console.error("❌ Reset Password Error:", error);
-        return res.status(500).json({ message: "Internal server error" });
+      console.error("❌ OTP Verification Error:", error);
+      return res.status(500).json({ message: "Internal server error" });
     }
-};
+  };
+  exports.resetPassword = async (req, res) => {
+    const { email, newPassword } = req.body;
+  
+    try {
+      const user = await User.findOne({ email });
+      if (!user || !user.otpData?.otpVerified) {
+        return res.status(400).json({ message: "OTP not verified" });
+      }
+  
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+  
+      // Reset OTP data
+      user.otpData = {
+        otp: null,
+        otpExpires: null,
+        otpAttempts: 0,
+        otpVerified: false
+      };
+  
+      await user.save();
+  
+      return res.status(200).json({ message: "Password reset successful" });
+    } catch (error) {
+      console.error("❌ Reset Password Error:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
