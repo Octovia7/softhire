@@ -46,6 +46,7 @@ exports.scheduleDemo = async (req, res) => {
         details: captchaData["error-codes"] || "Unknown error",
       });
     }
+    
 
     // Only continue if reCAPTCHA is successful
     // Step 3: Save to MongoDB
