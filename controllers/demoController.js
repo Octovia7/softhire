@@ -1,7 +1,9 @@
 const nodemailer = require("nodemailer");
 const axios = require("axios");
 const qs = require("querystring");
+const path = require("path");
 const ScheduleDemo = require("../models/ScheduleDemo");
+const scheduleDemoEmailTemplate = require("../utils/scheduleDemoEmailTemplate");
 
 exports.scheduleDemo = async (req, res) => {
   const {
@@ -18,7 +20,7 @@ exports.scheduleDemo = async (req, res) => {
   } = req.body;
 
   try {
-    // Step 1: Validate input
+    // Step 1: Validate reCAPTCHA token
     if (!recaptchaToken) {
       return res.status(400).json({ message: "Missing reCAPTCHA token" });
     }
@@ -46,10 +48,8 @@ exports.scheduleDemo = async (req, res) => {
         details: captchaData["error-codes"] || "Unknown error",
       });
     }
-    
 
-    // Only continue if reCAPTCHA is successful
-    // Step 3: Save to MongoDB
+    // Step 3: Save demo request to MongoDB
     const demo = new ScheduleDemo({
       firstName,
       lastName,
@@ -64,7 +64,7 @@ exports.scheduleDemo = async (req, res) => {
 
     await demo.save();
 
-    // Step 4: Send email
+    // Step 4: Send notification email to client
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -77,25 +77,42 @@ exports.scheduleDemo = async (req, res) => {
       from: process.env.EMAIL,
       to: process.env.CLIENT_CONTACT_EMAIL,
       subject: "New Schedule Demo Request",
-      html: `
-        <h2>New Schedule Demo Request</h2>
-        <p><strong>First Name:</strong> ${firstName}</p>
-        <p><strong>Last Name:</strong> ${lastName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Organization:</strong> ${organization}</p>
-        <p><strong>Date:</strong> ${date}</p>
-        <p><strong>Time:</strong> ${time}</p>
-        <p><strong>Phone:</strong> ${countryCode} ${phoneNumber}</p>
-        <p><strong>Comments:</strong> ${comments || "None"}</p>
-      `,
+      replyTo: email,
+      html: scheduleDemoEmailTemplate({
+        firstName,
+        lastName,
+        email,
+        organization,
+        date,
+        time,
+        countryCode,
+        phoneNumber,
+        comments,
+      }),
+      attachments: [
+        {
+          filename: "logo.jpg",
+          path: path.join(__dirname, "../public/images/logo.jpg"),
+          cid: "logo", // Must match the cid used in <img src="cid:logo">
+        },
+      ],
     };
 
-    await transporter.sendMail(mailOptions);
+    try {
+      await transporter.sendMail(mailOptions);
+    } catch (emailErr) {
+      console.warn("Demo saved but email not sent:", emailErr.message);
+      return res.status(500).json({
+        message: "Demo saved, but email notification failed.",
+      });
+    }
 
     // Step 5: Respond to client
     res.status(200).json({ message: "Demo request submitted successfully." });
   } catch (error) {
-    console.error("Error in scheduleDemo controller:", error.message || error);
-    res.status(500).json({ message: "Something went wrong while submitting the form." });
+    console.error("Error in scheduleDemo controller:", error);
+    res.status(500).json({
+      message: "Something went wrong while submitting the form.",
+    });
   }
 };

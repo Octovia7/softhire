@@ -23,11 +23,18 @@ exports.submitContactForm = async (req, res) => {
       to: process.env.CLIENT_CONTACT_EMAIL,
       subject: "New Contact Form Submission",
       html: `
-        <h3>New Contact Form Submission</h3>
-        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${countryCode} ${phoneNumber}</p>
-        <p><strong>Message:</strong><br>${message}</p>
+        <html>
+          <body style="font-family: Arial, sans-serif; color: #333;">
+            <div style="text-align: center;">
+              <img src=".\public\images\logo.jpg" alt="SoftHire Logo" style="max-width: 200px;"/>
+            </div>
+            <h3>New Contact Form Submission</h3>
+            <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${countryCode} ${phoneNumber}</p>
+            <p><strong>Message:</strong><br>${message}</p>
+          </body>
+        </html>
       `,
     };
 
