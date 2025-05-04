@@ -1,5 +1,55 @@
+const { OAuth2Client } = require("google-auth-library");
 const User = require("../models/User");
-const jwt = require("jsonwebtoken");
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const googleLogin = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({ message: "Google token is required" });
+    }
+
+    // Verify the Google token
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    // console.log("Google Payload:", payload);
+
+    const existingUser = await User.findOne({ email: payload.email });
+
+    if (existingUser) {
+      return res.status(200).json({
+        message: "Login successful",
+        user: existingUser,
+      });
+    }
+
+    // Create new OAuth user
+    const newUser = await User.create({
+      email: payload.email,
+      fullName: payload.name || `${payload.given_name} ${payload.family_name}` || "Google User",
+      avatar: payload.picture || null,
+      googleId: payload.sub,
+      isOAuthUser: true,
+      isVerified: true,
+      role: "candidate" // Default role (you can change this logic)
+    });
+
+    return res.status(201).json({
+      message: "User created via Google",
+      user: newUser,
+    });
+  } catch (error) {
+    console.error("Google login failed:", error);
+    return res.status(500).json({ message: "Google login failed", error: error.message });
+  }
+};
+
 
 // Google OAuth Callback
 const googleAuthCallback = async (req, res) => {
@@ -52,4 +102,4 @@ const setUserRole = async (req, res) => {
   }
 };
 
-module.exports = { googleAuthCallback, setUserRole };
+module.exports = { googleAuthCallback, setUserRole, googleLogin };
