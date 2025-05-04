@@ -17,7 +17,7 @@ const sponsorEligibilityRoutes = require("./routes/sponsorEligibilityRoutes");
 const Salary = require('./models/Salary'); // Adjust the path if needed
 const consultRoutes = require("./routes/consult");
 const contactRoutes = require("./routes/contactRoutes");
-const iscRoutes= require("./routes/isc");
+const iscRoutes = require("./routes/isc");
 const sponsorLicenceRoutes = require("./routes/sponsorLicenceRoutes");
 const demoRoutes = require("./routes/demo");
 
@@ -26,15 +26,15 @@ const app = express();
 
 // ✅ Ensure required environment variables are set
 if (!process.env.MONGO_URI || !process.env.SESSION_SECRET) {
-    console.error("❌ Missing required environment variables. Check your .env file.");
-    process.exit(1);
+  console.error("❌ Missing required environment variables. Check your .env file.");
+  process.exit(1);
 }
 
 // ✅ Middleware
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://softhiredev.netlify.app" , "http://127.0.0.1:5500"],
+    origin: ["http://localhost:5173", "https://softhiredev.netlify.app", "http://127.0.0.1:5500"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
@@ -65,7 +65,7 @@ app.use(passport.session());
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() =>
-  console.log("✅ MongoDB Connected"))
+    console.log("✅ MongoDB Connected"))
   .catch((err) => {
     console.error("❌ MongoDB Connection Error:", err);
     process.exit(1);
@@ -76,14 +76,14 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/recruiter", recruiterRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/auth/google", googleAuthRoutes);
+app.use("/api/auth", googleAuthRoutes);
 app.use("/api/sponsor", sponsorEligibilityRoutes);
 app.use('/api/salary', salaryRoutes);
 app.use("/api", consultRoutes);
 app.use("/api", contactRoutes); // Prefix for all routes in contactRoutes.js
-app.use("/api/isc",iscRoutes);
+app.use("/api/isc", iscRoutes);
 app.use("/api", sponsorLicenceRoutes);
-app.use("/api",demoRoutes);
+app.use("/api", demoRoutes);
 // ✅ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
