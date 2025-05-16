@@ -20,6 +20,17 @@ const contactRoutes = require("./routes/contactRoutes");
 const iscRoutes = require("./routes/isc");
 const sponsorLicenceRoutes = require("./routes/sponsorLicenceRoutes");
 const demoRoutes = require("./routes/demo");
+const profileRoutes = require("./routes/profile")
+const resumeRoutes = require("./routes/resumeRoutes");
+const jobpreferenceRoutes = require("./routes/jobPreferenceRoutes");
+const jobExpectationRoutes = require("./routes/jobExpectationRoutes");
+const jobRoutes = require("./routes/jobRoutes");
+const applicationRoutes = require("./routes/applicationRoutes");
+const adminAuthRoutes = require('./routes/adminAuth');
+const cosRoutes = require("./routes/cosRoutes");
+const orgRoutes = require("./routes/orgRoutes");
+const docRoutes = require("./routes/documentRoutes");
+// const adminRoutes = require('./routes/adminRoutes');
 
 
 const app = express();
@@ -83,7 +94,18 @@ app.use("/api", consultRoutes);
 app.use("/api", contactRoutes); // Prefix for all routes in contactRoutes.js
 app.use("/api/isc", iscRoutes);
 app.use("/api", sponsorLicenceRoutes);
-app.use("/api", demoRoutes);
+app.use("/api",demoRoutes);
+app.use("/api/profile",profileRoutes);
+app.use("/api/resume",resumeRoutes);
+app.use("/api",jobpreferenceRoutes);
+app.use("/api" , jobExpectationRoutes);
+app.use("/api/jobs",jobRoutes);
+app.use("/api/application",applicationRoutes);
+app.use('/api/admin', adminAuthRoutes);
+app.use('/api/admin', adminRoutes);
+app.use("/api",cosRoutes);
+app.use("/api" ,orgRoutes);
+app.use("/api/document",docRoutes);
 // ✅ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 

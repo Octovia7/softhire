@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 // ✅ Authenticate middleware
+
+
 const authenticate = (req, res, next) => {
     const authHeader = req.header("Authorization");
 
@@ -17,12 +19,19 @@ const authenticate = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // contains { userId, role }
+
+        // 🔧 FIXED LINE — use `decoded.id` instead of `decoded.userId`
+        req.user = { id: decoded.id, role: decoded.role };
+
         next();
     } catch (error) {
+        console.error("❌ Token verification failed:", error.message);
         return res.status(403).json({ message: "Invalid or expired token." });
     }
 };
+
+
+
 
 // ✅ Authorize Recruiter middleware
 const authorizeRecruiter = async (req, res, next) => {
