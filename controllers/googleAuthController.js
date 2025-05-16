@@ -23,9 +23,27 @@ const googleLogin = async (req, res) => {
 
     const existingUser = await User.findOne({ email: payload.email });
 
-    if(existingUser.role === "recruiter" ) {
-      return res.status(403).json({ message: "Access denied. Recruiters are not allowed to log in." });
-    }
+    // if (existingUser.role === "recruiter") {
+    //   // Use aggregation pipeline to get user with organization data
+    //   const userWithOrg = await User.aggregate([
+    //     { $match: { _id: existingUser._id } },
+    //     {
+    //       $lookup: {
+    //         from: "organizations",
+    //         localField: "organization",
+    //         foreignField: "_id",
+    //         as: "organization",
+    //       },
+    //     },
+    //     { $unwind: "$organization" },
+    //     { $limit: 1 }
+    //   ]);
+    //   console.log(userWithOrg);
+    //   return res.status(200).json({
+    //     message: "Login successful",
+    //     user: userWithOrg[0],
+    //   });
+    // }
 
     if (existingUser) {
       return res.status(200).json({
@@ -55,16 +73,24 @@ const googleLogin = async (req, res) => {
   }
 };
 
+// Use aggregation pipeline to return user data with their organization populated
 const submitRecruiterDetails = async (req, res) => {
   const { userId, organizationName, website, industry } = req.body;
   try {
-    console.log(req.body);
     // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    // Update the user with the new details
+    if (user.role !== "recruiter") {
+      return res.status(403).json({ message: "User is not a recruiter" });
+    }
+    console.log(user)
+    if (user.organization) {
+      return res.status(400).json({ message: "User already has an organization" });
+    }
+
+    // Create new organization
     const newOrganization = await Organization.create({
       name: organizationName,
       website: website,
@@ -72,13 +98,32 @@ const submitRecruiterDetails = async (req, res) => {
     });
     user.organization = newOrganization._id;
     await user.save();
-    return res.status(200).json({ message: "Recruiter details updated successfully", user });
-  }
-  catch (error) {
+
+    // Use aggregation pipeline to get user with organization data
+    const userWithOrg = await User.aggregate([
+      { $match: { _id: user._id } },
+      {
+        $lookup: {
+          from: "organizations",
+          localField: "organization",
+          foreignField: "_id",
+          as: "organization",
+        },
+      },
+      { $unwind: "$organization" },
+      { $limit: 1 }
+    ]);
+    console.log(userWithOrg[0]);
+
+    return res.status(200).json({
+      message: "Recruiter details updated successfully",
+      user: userWithOrg[0],
+    });
+  } catch (error) {
     console.error("Error updating recruiter details:", error);
     return res.status(500).json({ message: "Error updating recruiter details", error: error.message });
   }
-}
+};
 
 
 module.exports = { googleLogin, submitRecruiterDetails };

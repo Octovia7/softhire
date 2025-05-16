@@ -3,20 +3,20 @@ const validator = require("validator");
 
 const organizationSchema = new mongoose.Schema(
     {
-        name: { 
-            type: String, 
-            required: [true, "Organization name is required"], 
-            trim: true, 
-            maxlength: [100, "Organization name cannot exceed 100 characters"] 
+        name: {
+            type: String,
+            required: [true, "Organization name is required"],
+            trim: true,
+            maxlength: [100, "Organization name cannot exceed 100 characters"]
         },
-        website: { 
-            type: String, 
-            validate: [validator.isURL, "Please provide a valid URL"] 
+        website: {
+            type: String,
+            validate: [validator.isURL, "Please provide a valid URL"]
         },
-        industry: { 
-            type: String, 
-            trim: true, 
-            maxlength: [50, "Industry cannot exceed 50 characters"] 
+        industry: {
+            type: String,
+            trim: true,
+            maxlength: [50, "Industry cannot exceed 50 characters"]
         },
     },
     { timestamps: true }
