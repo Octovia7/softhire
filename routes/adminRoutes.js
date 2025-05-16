@@ -1,41 +1,19 @@
-const express = require("express");
-const { authenticate, authorizeAdmin } = require("../middleware/authMiddleware");
-const {
-    getAdminDashboard,
-    getAllUsers,
-    deleteUser,
-    getAllJobs,
-    deleteJob,
-    getAllVisaApplications,
-    updateVisaStatus,
-    // getUserDetails,
-    // updateUserDetails,
-    // getAnalytics
-} = require("../controllers/adminController");
-
+// routes/admin.js or similar
+const express = require('express');
 const router = express.Router();
+const {
+  getPendingOrganizations,
+  approveOrganization,
+  rejectOrganization,
+  getOrganizationsByStatus
+} = require('../controllers/adminOrganizationController');
 
-// ✅ Middleware: Ensure only authenticated admins can access these routes
-router.use(authenticate, authorizeAdmin);
+const authorizeAdmin = require('../middleware/authorizeAdmin');
 
-// ✅ Admin Dashboard
-router.get("/dashboard", getAdminDashboard);
-
-// ✅ User Management
-router.get("/users", getAllUsers);
-// router.get("/users/:userId", getUserDetails);
-// router.put("/users/:userId", updateUserDetails);
-router.delete("/users/:userId", deleteUser);
-
-// ✅ Job Management
-router.get("/jobs", getAllJobs);
-router.delete("/jobs/:jobId", deleteJob);
-
-// ✅ Visa Management
-router.get("/visa-applications", getAllVisaApplications);
-router.put("/visa-applications/:applicationId", updateVisaStatus);
-
-// ✅ Analytics
-// router.get("/analytics", getAnalytics);
+// Protect all routes below with admin middleware
+router.get('/organizations/pending', authorizeAdmin, getPendingOrganizations);
+router.post('/organizations/:id/approve', authorizeAdmin, approveOrganization);
+router.post('/organizations/:id/reject', authorizeAdmin, rejectOrganization);
+router.get('/organizations', authorizeAdmin, getOrganizationsByStatus);
 
 module.exports = router;
