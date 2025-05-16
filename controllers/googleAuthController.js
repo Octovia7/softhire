@@ -1,11 +1,12 @@
 const { OAuth2Client } = require("google-auth-library");
 const User = require("../models/User");
+const Organization = require("../models/Organization");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const googleLogin = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token, role } = req.body;
 
     if (!token) {
       return res.status(400).json({ message: "Google token is required" });
@@ -22,6 +23,10 @@ const googleLogin = async (req, res) => {
 
     const existingUser = await User.findOne({ email: payload.email });
 
+    if(existingUser.role === "recruiter" ) {
+      return res.status(403).json({ message: "Access denied. Recruiters are not allowed to log in." });
+    }
+
     if (existingUser) {
       return res.status(200).json({
         message: "Login successful",
@@ -37,7 +42,7 @@ const googleLogin = async (req, res) => {
       googleId: payload.sub,
       isOAuthUser: true,
       isVerified: true,
-      role: "candidate" // Default role (you can change this logic)
+      role: role,
     });
 
     return res.status(201).json({
@@ -50,56 +55,30 @@ const googleLogin = async (req, res) => {
   }
 };
 
-
-// Google OAuth Callback
-const googleAuthCallback = async (req, res) => {
-  const user = req.user;
-
-  if (!user || !user._id) {
-    return res.status(400).json({ error: "User authentication failed" });
-  }
-
-  if (user.needsRoleSelection) {
-    return res.json({ message: "Please select a role", userId: user._id });
-  }
-
-  const token = jwt.sign(
-    { id: user._id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
-  );
-
-  return res.json({ message: "Login successful", token });
-};
-
-// Set user role after Google OAuth
-const setUserRole = async (req, res) => {
-  const { userId, role } = req.body;
-
-  if (!userId || !role) {
-    return res.status(400).json({ error: "User ID and role are required" });
-  }
-
+const submitRecruiterDetails = async (req, res) => {
+  const { userId, organizationName, website, industry } = req.body;
   try {
+    console.log(req.body);
+    // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
-
-    user.role = role;
+    // Update the user with the new details
+    const newOrganization = await Organization.create({
+      name: organizationName,
+      website: website,
+      industry: industry,
+    });
+    user.organization = newOrganization._id;
     await user.save();
-
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    return res.json({ message: "Role assigned successfully", token });
-  } catch (err) {
-    console.error("Error setting role:", err);
-    return res.status(500).json({ error: "Server error" });
+    return res.status(200).json({ message: "Recruiter details updated successfully", user });
   }
-};
+  catch (error) {
+    console.error("Error updating recruiter details:", error);
+    return res.status(500).json({ message: "Error updating recruiter details", error: error.message });
+  }
+}
 
-module.exports = { googleAuthCallback, setUserRole, googleLogin };
+
+module.exports = { googleLogin, submitRecruiterDetails };
