@@ -1,47 +1,84 @@
 const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  title: { type: String, required: true }, // e.g., Backend Developer
   companyName: { type: String, required: true },
-  isHiring: { type: Boolean, default: true },
+  companySize: { type: String }, // e.g., "11-50 employees"
+
+  jobDescription: { type: String }, // full description
+  jobSummary: { type: String }, // optional summary
+  responsibilities: [String],
+  qualifications: [String],
+  tools: [String],
+
   jobType: {
     type: String,
-    enum: ['Intern', 'Full-time', 'Contractor', 'Co-founder'],
+    enum: ['Full-time', 'Part-time', 'Contractor', 'Intern', 'Co-founder'],
     required: true,
   },
-  location: [String],
+  primaryRole: { type: String }, // e.g., "Backend Developer"
+  additionalRoles: [String], // e.g., ["API Designer", "Infrastructure"]
+
+  workExperience: { type: String }, // e.g., "2+ years", "0-1 years"
+
+  skills: [String], // e.g., ['Node.js', 'MongoDB']
+
+  location: [String], // e.g., ['London, UK']
+  relocationRequired: { type: Boolean, default: false },
+  relocationAssistance: { type: Boolean, default: false },
+
   remotePolicy: {
     type: String,
-    enum: ['Fully Remote', 'Hybrid', 'Onsite'],
-    default: 'Fully Remote'
+    enum: ['In Office', 'Onsite or Remote', 'Remote Only', 'WFH Flexibility'],
+    default: 'Remote Only'
   },
-  postedAt: { type: Date, default: Date.now },
-  postedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  remoteCulture: {
+    type: String,
+    enum: ['Mostly In-person', 'Mostly Remote'],
+    default: 'Mostly Remote'
+  },
+  hiresIn: [String], // e.g., ['India', 'UK', 'Germany']
+  acceptWorldwide: { type: Boolean, default: false },
 
-  organization: { // ✅ new reference
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Organization',
-    required: true
+  collaborationHours: {
+    start: { type: String }, // "09:00"
+    end: { type: String },   // "17:00"
+    timeZone: { type: String } // "Europe/London"
   },
 
-  salary: Number,
+  salary: {
+    min: Number,
+    max: Number
+  },
   currency: { type: String, default: 'GBP' },
-  collaborationHours: String,
-  skills: [String],
+  equity: {
+    min: Number,
+    max: Number
+  },
+
   visaSponsorship: { type: Boolean, default: false },
-  hiresIn: [String],
-  relocation: { type: Boolean, default: false },
+  autoSkipVisaCandidates: { type: Boolean, default: false },
+  autoSkipRelocationCandidates: { type: Boolean, default: false },
+
   contactPerson: {
     name: String,
     position: String,
     location: String,
     experience: String
   },
-  companyOverview: String,
-  jobSummary: String,
-  responsibilities: [String],
-  qualifications: [String],
-  tools: [String],
+  organization: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Organization',
+    required: true
+  },
+  postedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+   isDraft: { type: Boolean, default: false }, // ✅ This enables draft logic
+  postedAt: { type: Date, default: Date.now },
+  isHiring: { type: Boolean, default: true },
   active: { type: Boolean, default: true }
 });
 

@@ -1,6 +1,7 @@
 const { OAuth2Client } = require("google-auth-library");
 const User = require("../models/User");
 const Organization = require("../models/Organization");
+const { create } = require("connect-mongo");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -86,7 +87,9 @@ const submitRecruiterDetails = async (req, res) => {
       return res.status(403).json({ message: "User is not a recruiter" });
     }
     console.log(user)
-    if (user.organization) {
+
+    const existingOrganization = await Organization.findOne({ createdBy: user._id });
+    if (existingOrganization) {
       return res.status(400).json({ message: "User already has an organization" });
     }
 
@@ -95,8 +98,8 @@ const submitRecruiterDetails = async (req, res) => {
       name: organizationName,
       website: website,
       industry: industry,
+      createdBy: user._id
     });
-    user.organization = newOrganization._id;
     await user.save();
 
     // Use aggregation pipeline to get user with organization data

@@ -6,11 +6,14 @@ const { authenticate } = require('../middleware/authMiddleware');
 
 // Protect with auth + verified org
 router.post('/org/jobs', authenticate, isVerifiedOrg, jobController.createJob);
-router.put('/org/jobs/:id', authenticate, isVerifiedOrg, jobController.updateJob);
+router.put('/org/jobs/:jobId', authenticate, isVerifiedOrg, jobController.updateJob);
 router.delete('/org/jobs/:id', authenticate, isVerifiedOrg, jobController.deleteJob);
 // routes/application.js
 router.get('/org', authenticate, isVerifiedOrg, jobController.getApplicationsForOrg);
 router.put('/applications/:applicationId/status', authenticate, isVerifiedOrg, jobController.updateApplicationStatus);
+router.get('/org/all',authenticate,isVerifiedOrg,jobController.getAllJobsByOrganization);
+router.get('/org/drafts',authenticate,isVerifiedOrg,jobController.getDraftJobsByOrganization);
+router.get('/jobs/:id/preview', jobController.getJobByIdForPreview);
 
-
+router.get('/jobs/active/:id', jobController.getActiveJobById); // public route
 module.exports = router;
