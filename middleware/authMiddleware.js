@@ -1,28 +1,17 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-// ✅ Authenticate middleware
-
-
+// ✅ Authenticate using Cookie
 const authenticate = (req, res, next) => {
-    const authHeader = req.header("Authorization");
-
-    if (!authHeader) {
-        return res.status(401).json({ message: "Access denied. No token provided." });
-    }
-
-    const token = authHeader.split(" ")[1];
+    const token = req.cookies.token; // Read token from cookie
 
     if (!token) {
-        return res.status(401).json({ message: "Access denied. Invalid token format." });
+        return res.status(401).json({ message: "Access denied. No token provided." });
     }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        // 🔧 FIXED LINE — use `decoded.id` instead of `decoded.userId`
         req.user = { id: decoded.id, role: decoded.role };
-
         next();
     } catch (error) {
         console.error("❌ Token verification failed:", error.message);
@@ -30,20 +19,13 @@ const authenticate = (req, res, next) => {
     }
 };
 
-
-
-
-// ✅ Authorize Recruiter middleware
+// ✅ Authorize Recruiter middleware (no changes needed)
 const authorizeRecruiter = async (req, res, next) => {
     try {
-        console.log("Decoded user in authorizeRecruiter:", req.user); // Log JWT payload
         const user = await User.findById(req.user.id);
-        console.log("DB user:", user); // Log actual user from DB
-
         if (!user || user.role !== "recruiter") {
             return res.status(403).json({ message: "Access denied. Recruiter role required." });
         }
-
         next();
     } catch (error) {
         console.error("Middleware error:", error);
@@ -51,8 +33,7 @@ const authorizeRecruiter = async (req, res, next) => {
     }
 };
 
-
-// ✅ Authorize Admin middleware
+// ✅ Authorize Admin middleware (no changes needed)
 const authorizeAdmin = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id);

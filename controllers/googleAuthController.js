@@ -2,6 +2,7 @@ const { OAuth2Client } = require("google-auth-library");
 const User = require("../models/User");
 const Organization = require("../models/Organization");
 const { create } = require("connect-mongo");
+const jwt = require("jsonwebtoken");
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -20,54 +21,43 @@ const googleLogin = async (req, res) => {
     });
 
     const payload = ticket.getPayload();
-    // console.log("Google Payload:", payload);
+    const email = payload.email;
 
-    const existingUser = await User.findOne({ email: payload.email });
+    let user = await User.findOne({ email });
 
-    // if (existingUser.role === "recruiter") {
-    //   // Use aggregation pipeline to get user with organization data
-    //   const userWithOrg = await User.aggregate([
-    //     { $match: { _id: existingUser._id } },
-    //     {
-    //       $lookup: {
-    //         from: "organizations",
-    //         localField: "organization",
-    //         foreignField: "_id",
-    //         as: "organization",
-    //       },
-    //     },
-    //     { $unwind: "$organization" },
-    //     { $limit: 1 }
-    //   ]);
-    //   console.log(userWithOrg);
-    //   return res.status(200).json({
-    //     message: "Login successful",
-    //     user: userWithOrg[0],
-    //   });
-    // }
-
-    if (existingUser) {
-      return res.status(200).json({
-        message: "Login successful",
-        user: existingUser,
+    if (!user) {
+      // Create new user
+      user = await User.create({
+        email: email,
+        fullName: payload.name || `${payload.given_name} ${payload.family_name}` || "Google User",
+        avatar: payload.picture || null,
+        googleId: payload.sub,
+        isOAuthUser: true,
+        isVerified: true,
+        role: role,
       });
     }
 
-    // Create new OAuth user
-    const newUser = await User.create({
-      email: payload.email,
-      fullName: payload.name || `${payload.given_name} ${payload.family_name}` || "Google User",
-      avatar: payload.picture || null,
-      googleId: payload.sub,
-      isOAuthUser: true,
-      isVerified: true,
-      role: role,
+    // Generate JWT
+    const jwtToken = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // Set token in HTTP-only cookie
+    res.cookie("token", jwtToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax", // or "None" if cross-site and using HTTPS
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return res.status(201).json({
-      message: "User created via Google",
-      user: newUser,
+    return res.status(200).json({
+      message: user.isNew ? "User created via Google" : "Login successful",
+      user,
     });
+
   } catch (error) {
     console.error("Google login failed:", error);
     return res.status(500).json({ message: "Google login failed", error: error.message });

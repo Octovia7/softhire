@@ -110,50 +110,50 @@ exports.createJob = async (req, res) => {
     }
     console.log('User object in createJob:', user);
 
-const newJob = new Job({
-  title,
-  jobDescription,
-  jobType,
-  primaryRole,
-  additionalRoles,
-  workExperience,
-  skills,
-  location: Array.isArray(location) ? location : location ? [location] : [],
-  relocationRequired,
-  relocationAssistance,
-  visaSponsorship,
-  autoSkipVisaCandidates,
-  remotePolicy,
-  autoSkipRelocationCandidates,
-  hiresIn,
-  acceptWorldwide,
-  remoteCulture,
-  collaborationHours: {
-    start: collaborationHoursStart,
-    end: collaborationHoursEnd,
-    timeZone: collaborationTimeZone,
-  },
-  salary: {
-    min: salaryMin,
-    max: salaryMax,
-  },
-  equity: {
-    min: equityMin,
-    max: equityMax,
-  },
-  currency: currency || 'GBP',
-  contactPerson: {
-    name: contactPersonName,
-    position: contactPersonPosition,
-    location: contactPersonLocation,
-    experience: contactPersonExperience,
-  },
-  companySize,
-  isDraft,
-  organization: req.organization._id,
-  companyName: req.organization.name, // ✅ Add this
-  postedBy: user.id, // ✅ Ensure user exists and is populated
-});
+    const newJob = new Job({
+      title,
+      jobDescription,
+      jobType,
+      primaryRole,
+      additionalRoles,
+      workExperience,
+      skills,
+      location: Array.isArray(location) ? location : location ? [location] : [],
+      relocationRequired,
+      relocationAssistance,
+      visaSponsorship,
+      autoSkipVisaCandidates,
+      remotePolicy,
+      autoSkipRelocationCandidates,
+      hiresIn,
+      acceptWorldwide,
+      remoteCulture,
+      collaborationHours: {
+        start: collaborationHoursStart,
+        end: collaborationHoursEnd,
+        timeZone: collaborationTimeZone,
+      },
+      salary: {
+        min: salaryMin,
+        max: salaryMax,
+      },
+      equity: {
+        min: equityMin,
+        max: equityMax,
+      },
+      currency: currency || 'GBP',
+      contactPerson: {
+        name: contactPersonName,
+        position: contactPersonPosition,
+        location: contactPersonLocation,
+        experience: contactPersonExperience,
+      },
+      companySize,
+      isDraft,
+      organization: req.organization._id,
+      companyName: req.organization.name, // ✅ Add this
+      postedBy: user.id, // ✅ Ensure user exists and is populated
+    });
 
 
     await newJob.save();
@@ -506,8 +506,7 @@ exports.getAllJobsByOrganization = async (req, res) => {
     const orgId = req.user.organization;
 
     const jobs = await Job.find({
-     organization: req.organization._id,
-      isDraft: false,
+      organization: req.organization._id
     }).sort({ postedAt: -1 });
 
     res.status(200).json({
