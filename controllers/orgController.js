@@ -80,20 +80,11 @@ exports.createJob = async (req, res) => {
       hiresIn,
       acceptWorldwide,
       remoteCulture,
-      collaborationHoursStart,
-      collaborationHoursEnd,
-      collaborationTimeZone,
-      salaryMin,
-      salaryMax,
-      equityMin,
-      equityMax,
+      collaborationHours,
+      salary = {},
+      equity = {},
       currency,
-      contactPersonName,
-      contactPersonPosition,
-      contactPersonLocation,
-      contactPersonExperience,
-      // subscribers,
-      // coworkers,
+      contactPerson = {},
       companySize,
       isDraft = false,
     } = req.body;
@@ -103,58 +94,49 @@ exports.createJob = async (req, res) => {
       if (!title || !jobDescription || !jobType || !primaryRole) {
         return res.status(400).json({ error: 'Missing required fields to publish the job.' });
       }
-      // Optional: validate visaSponsorship if mandatory
       if (visaSponsorship === undefined || visaSponsorship === null) {
         return res.status(400).json({ error: 'visaSponsorship is required when publishing a job.' });
       }
     }
-    console.log('User object in createJob:', user);
 
-const newJob = new Job({
-  title,
-  jobDescription,
-  jobType,
-  primaryRole,
-  additionalRoles,
-  workExperience,
-  skills,
-  location: Array.isArray(location) ? location : location ? [location] : [],
-  relocationRequired,
-  relocationAssistance,
-  visaSponsorship,
-  autoSkipVisaCandidates,
-  remotePolicy,
-  autoSkipRelocationCandidates,
-  hiresIn,
-  acceptWorldwide,
-  remoteCulture,
-  collaborationHours: {
-    start: collaborationHoursStart,
-    end: collaborationHoursEnd,
-    timeZone: collaborationTimeZone,
-  },
-  salary: {
-    min: salaryMin,
-    max: salaryMax,
-  },
-  equity: {
-    min: equityMin,
-    max: equityMax,
-  },
-  currency: currency || 'GBP',
-  contactPerson: {
-    name: contactPersonName,
-    position: contactPersonPosition,
-    location: contactPersonLocation,
-    experience: contactPersonExperience,
-  },
-  companySize,
-  isDraft,
-  organization: req.organization._id,
-  companyName: req.organization.name, // ✅ Add this
-  postedBy: user.id, // ✅ Ensure user exists and is populated
-});
-
+    const newJob = new Job({
+      title,
+      jobDescription,
+      jobType,
+      primaryRole,
+      additionalRoles,
+      workExperience,
+      skills,
+      location: Array.isArray(location) ? location : location ? [location] : [],
+      relocationRequired,
+      relocationAssistance,
+      visaSponsorship,
+      autoSkipVisaCandidates,
+      remotePolicy,
+      autoSkipRelocationCandidates,
+      hiresIn,
+      acceptWorldwide,
+      remoteCulture,
+      collaborationHours: {
+        start: collaborationHours?.start,
+        end: collaborationHours?.end,
+        timeZone: collaborationHours?.timeZone,
+      },
+      salary,
+      equity,
+      currency: currency || 'GBP',
+      contactPerson: {
+        name: contactPerson.name,
+        position: contactPerson.position,
+        location: contactPerson.location,
+        experience: contactPerson.experience,
+      },
+      companySize,
+      isDraft,
+      organization: req.organization._id,
+      companyName: req.organization.name,
+      postedBy: user.id,
+    });
 
     await newJob.save();
 
@@ -166,6 +148,7 @@ const newJob = new Job({
     res.status(500).json({ error: 'Server error while creating job' });
   }
 };
+
 
 
 // ✅ Create a new job
