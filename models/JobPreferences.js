@@ -9,21 +9,66 @@ const jobPreferencesSchema = new mongoose.Schema({
   },
   needsSponsorship: { type: Boolean, required: true },
   authorizedToWork: { type: Boolean, required: true },
-  jobType: { type: String, enum: ['Intern'], required: true },
+
+  jobType: {
+    type: String,
+    enum: [
+      'Intern',
+      'Entry Level',
+      'Mid Level',
+      'Senior Level',
+      'Manager',
+      'Director',
+      'VP',
+      'C-Level',
+    ],
+    required: true,
+  },
+
   openTo: {
     type: [String],
-    enum: ['Full-time Employee', 'Contractor', 'Co-founder'],
+    enum: [
+      'Full-time Employee',
+      'Contractor',
+      'Co-founder',
+      'Internship',
+      'Freelancer',
+      'Part-time',
+      'Consultant',
+    ],
   },
+
   workLocation: { type: String },
+
   openToRemote: { type: Boolean, default: false },
-  remotePreference: { type: String, enum: ['Hybrid', 'Remote Only', 'Onsite'], default: 'Hybrid' },
+
+  remotePreference: {
+    type: String,
+    enum: ['Remote Only', 'Fully Remote', 'Hybrid', 'Onsite'],
+    default: 'Hybrid',
+  },
+
   desiredSalary: { type: Number },
-  salaryCurrency: { type: String, default: 'USD' },
+
+  salaryCurrency: {
+    type: String,
+    default: 'USD',
+  },
+
   companySizePreferences: [
     {
       size: {
         type: String,
-        enum: ['Seed', 'Early', 'Mid-size', 'Large', 'Very Large', 'Massive'],
+        enum: [
+          'Seed',
+          'Early',
+          'Mid-size',
+          'Large',
+          'Very Large',
+          'Massive',
+          'Startup',
+          'Public Company',
+        ],
       },
       ideal: { type: Boolean },
       interested: { type: Boolean },
