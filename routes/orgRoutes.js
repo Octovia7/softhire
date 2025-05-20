@@ -7,7 +7,7 @@ const { authenticate } = require('../middleware/authMiddleware');
 // Protect with auth + verified org
 router.post('/org/jobs', authenticate, isVerifiedOrg, jobController.createJob);
 router.put('/org/jobs/:jobId', authenticate, isVerifiedOrg, jobController.updateJob);
-router.delete('/org/jobs/:id', authenticate, isVerifiedOrg, jobController.deleteJob);
+router.delete('/org/jobs/:jobId', authenticate, isVerifiedOrg, jobController.deleteJob);
 // routes/application.js
 router.get('/org', authenticate, isVerifiedOrg, jobController.getApplicationsForOrg);
 router.put('/applications/:applicationId/status', authenticate, isVerifiedOrg, jobController.updateApplicationStatus);

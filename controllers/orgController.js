@@ -486,11 +486,10 @@ exports.getOrgJob = async (req, res) => {
 // GET /api/jobs/org/all
 exports.getAllJobsByOrganization = async (req, res) => {
   try {
-    const orgId = req.user.organization;
-
     const jobs = await Job.find({
-     organization: req.organization._id,
+      organization: req.organization._id,
       isDraft: false,
+      active: true, // <-- Filter only active jobs
     }).sort({ postedAt: -1 });
 
     res.status(200).json({
@@ -503,6 +502,7 @@ exports.getAllJobsByOrganization = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+
 exports.getDraftJobsByOrganization = async (req, res) => {
   try {
     const orgId = req.user.organization;
