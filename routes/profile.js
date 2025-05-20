@@ -9,12 +9,14 @@ const {
     getProfile,
     updateProfile,
     deleteProfile, 
+    uploadProfileImage,
+    getProfileImage
 } = require('../controllers/profileController');
-
-// 👇 Apply the authenticate middleware to routes that need protection
-
+// routes/profile.js or similar
+router.get("/profile-image", authenticate, getProfileImage);
+router.post('/upload-photo', authenticate, upload.single('profilePhoto'), uploadProfileImage);
 // POST Create Profile (only logged-in user can create)
-router.post('/', authenticate, upload.single('profilePhoto'), createProfile);
+router.post('/', authenticate,  createProfile);
 
 // GET Profile (optional: protect it if you want only logged-in users to view)
 // router.get("/:id", authenticate, getProfile); 

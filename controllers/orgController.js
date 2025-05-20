@@ -550,3 +550,19 @@ exports.getJobByIdForPreview = async (req, res) => {
     });
   }
 };
+exports.getProfileImage = async (req, res) => {
+  try {
+    const userId = req.user.id;  // Extracted from JWT by auth middleware
+
+    const profileImage = await ProfileImage.findOne({ userId });
+
+    if (!profileImage) {
+      return res.status(404).json({ error: "Profile image not found" });
+    }
+
+    res.status(200).json(profileImage);
+  } catch (error) {
+    console.error("Error fetching profile image:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
