@@ -1,4 +1,3 @@
-// models/Application.js
 const mongoose = require('mongoose');
 
 const applicationSchema = new mongoose.Schema(
@@ -15,12 +14,16 @@ const applicationSchema = new mongoose.Schema(
     },
     coverLetter: { 
       type: String, 
-      default: '' // Optional
+      default: '' 
     },
     status: {
       type: String,
-      enum: ['Submitted', 'Reviewed', 'Shortlisted', 'Rejected','Hired'],
+      enum: ['Submitted', 'Reviewed', 'Shortlisted', 'Rejected', 'Hired', 'Saved'],
       default: 'Submitted'
+    },
+    statusUpdatedAt: {
+      type: Date,
+      default: Date.now
     }
   },
   { timestamps: true }
