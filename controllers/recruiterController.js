@@ -56,7 +56,7 @@ exports.updateJobPost = async (req, res) => {
 // ✅ Delete Job Posting
 exports.deleteJobPost = async (req, res) => {
     try {
-        const job = await Job.findOneAndDelete({ _id: req.params.jobId, recruiter: req.user.id });
+        const job = await Job.findOneAndDelete({ _id: req.params.jobId });
         if (!job) return res.status(404).json({ success: false, message: "Job not found or unauthorized" });
 
         res.status(200).json({ success: true, message: "Job deleted successfully" });
