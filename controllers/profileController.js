@@ -1,7 +1,48 @@
 const Profile = require("../models/Profile");
 const cloudinary = require("../utils/cloudinary"); // Correct import
 
-// CREATE Profile
+const ProfileImage = require('../models/ProfileImage');
+
+exports.uploadProfileImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No image file provided" });
+    }
+
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "profilePhotos",
+    }); 
+
+    const existing = await ProfileImage.findOne({ userId: req.user.id });
+
+    if (existing) {
+      // Optional: delete old image from Cloudinary
+      if (existing.publicId) {
+        await cloudinary.uploader.destroy(existing.publicId);
+      }
+      existing.imageUrl = result.secure_url;
+      existing.publicId = result.public_id;
+      await existing.save();
+      return res.status(200).json({ message: "Profile image updated", image: existing });
+    }
+
+    const newImage = new ProfileImage({
+      userId: req.user.id,
+      imageUrl: result.secure_url,
+      publicId: result.public_id,
+    });
+
+    await newImage.save();
+
+    return res.status(201).json({ message: "Profile image uploaded", image: newImage });
+  } catch (error) {
+    console.error("Upload error:", error);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
+
+
+// const ProfileImage = require('../models/ProfileImage');
 
 exports.createProfile = async (req, res) => {
   try {
@@ -17,20 +58,11 @@ exports.createProfile = async (req, res) => {
       education,
       skills,
       achievements,
-      identity
+      identity,
     } = req.body;
 
-    let profilePhoto = null;
+    const imageDoc = await ProfileImage.findOne({ userId: req.user.id });
 
-    // Upload profile photo to Cloudinary
-    if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: "profilePhotos",
-      });
-      profilePhoto = result.secure_url;
-    }
-
-    // Fields that might be stringified JSON in req.body
     const fieldsToParse = {
       openToRoles,
       socialProfiles,
@@ -42,49 +74,36 @@ exports.createProfile = async (req, res) => {
     };
 
     const parsedData = {};
-
     for (const [key, value] of Object.entries(fieldsToParse)) {
-      if (value) {
-        if (typeof value === 'string') {
-          try {
-            parsedData[key] = JSON.parse(value);
-          } catch (error) {
-            console.error(`Error parsing ${key}:`, error);
-            // Use [] for arrays, {} for objects
-            parsedData[key] = Array.isArray(Profile.schema.path(key).instance === 'Array') ? [] : {};
-          }
-        } else {
-          parsedData[key] = value;
-        }
-      }
+      parsedData[key] =
+        typeof value === "string"
+          ? JSON.parse(value || "null") || []
+          : value || [];
     }
 
-    // Create profile with user's ID
     const newProfile = new Profile({
       userId: req.user.id,
+      profileImage: imageDoc?._id || null,
       name,
-      profilePhoto,
       location,
       primaryRole,
       yearsOfExperience,
       bio,
-      ...parsedData
+      ...parsedData,
     });
 
     await newProfile.save();
 
-    return res.status(201).json({
-      message: 'Profile created successfully',
-      profile: {
-        _id: newProfile._id,
-        ...newProfile.toObject(),
-      },
+    res.status(201).json({
+      message: "Profile created",
+      profile: newProfile,
     });
-  } catch (error) {
-    console.error('Error creating profile:', error);
-    return res.status(500).json({ error: 'Server Error' });
+  } catch (err) {
+    console.error("Profile creation error:", err);
+    res.status(500).json({ error: "Server error" });
   }
 };
+
 
 // GET Profile by ID
 exports.getProfile = async (req, res) => {
@@ -158,3 +177,20 @@ exports.deleteProfile = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+exports.getProfileImage = async (req, res) => {
+  try {
+    const userId = req.user.id;  // Extracted from JWT by auth middleware
+
+    const profileImage = await ProfileImage.findOne({ userId });
+
+    if (!profileImage) {
+      return res.status(404).json({ error: "Profile image not found" });
+    }
+
+    res.status(200).json(profileImage);
+  } catch (error) {
+    console.error("Error fetching profile image:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+

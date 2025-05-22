@@ -109,7 +109,7 @@ exports.verifyOTP = async (req, res) => {
                 name: pendingUser.organizationName,
                 website: pendingUser.website,
                 industry: pendingUser.industry,
-                createdBy: newUser._id, // ✅ add this
+                createdBy: newUser._id,
             });
             await organization.save();
 
@@ -129,12 +129,16 @@ exports.verifyOTP = async (req, res) => {
         await PendingUser.deleteOne({ email });
 
         const token = jwt.sign(
-            { id: newUser._id, role: newUser.role }, // Use `id` for consistency
+            { id: newUser._id, role: newUser.role },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );
 
-        res.status(200).json({ message: "Account verified successfully", token });
+        res.status(200).json({
+            message: "Account verified successfully",
+            token,
+            userId: newUser._id, // ✅ Include userId
+        });
     } catch (error) {
         console.error("🚨 Verify OTP Error:", error);
         res.status(500).json({ error: "Internal server error" });
@@ -150,17 +154,23 @@ exports.login = async (req, res) => {
         if (!(await bcrypt.compare(password, user.password))) return res.status(400).json({ message: "Invalid credentials" });
 
         const token = jwt.sign(
-            { id: user._id, role: user.role }, // Use `id` for consistency
+            { id: user._id, role: user.role },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
 
         res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 3600000 });
-        res.status(200).json({ message: "Login successful", token });
+
+        res.status(200).json({
+            message: "Login successful",
+            token,
+            userId: user._id, // ✅ Include userId
+        });
     } catch (error) {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+
 
 exports.logout = (req, res) => {
     res.clearCookie("token");

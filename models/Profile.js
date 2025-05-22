@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 
 const ProfileSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  profileImage: { type: mongoose.Schema.Types.ObjectId, ref: 'ProfileImage' }, // 👈 Reference to ProfileImage
+
   name: { type: String, required: true },
-  profilePhoto: { type: String }, // Image URL or Cloudinary link
   location: { type: String, required: true },
   primaryRole: { type: String, required: true },
   yearsOfExperience: { type: String },
@@ -37,7 +38,6 @@ const ProfileSchema = new mongoose.Schema({
   },
 
   skills: { type: [String] },
-
   achievements: { type: [String] },
 
   identity: {
