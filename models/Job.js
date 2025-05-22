@@ -46,6 +46,7 @@ const jobSchema = new mongoose.Schema({
   },
   hiresIn: [String], // e.g., ['India', 'UK', 'Germany']
   acceptWorldwide: { type: Boolean, default: false },
+  timeZones: [String],
 
   collaborationHours: {
     start: { type: String }, // "09:00"
