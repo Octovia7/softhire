@@ -28,28 +28,45 @@ exports.getApplicationsForOrg = async (req, res) => {
 };
 
 
-exports.updateApplicationStatus = async (req, res) => {
+
+
+// Update status of application (e.g., Saved, Rejected, Reviewed)
+exports.updateStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
   try {
-    const { applicationId } = req.params;
-    const { status } = req.body;
-
-    const allowedStatuses = ['Submitted', 'Reviewed', 'Shortlisted', 'Rejected', 'Hired'];
-    if (!allowedStatuses.includes(status)) {
-      return res.status(400).json({ error: 'Invalid status value.' });
-    }
-
-    const application = await Application.findById(applicationId);
+    const application = await Application.findById(id);
     if (!application) {
-      return res.status(404).json({ error: 'Application not found.' });
+      return res.status(404).json({ message: 'Application not found' });
     }
 
     application.status = status;
+    application.statusUpdatedAt = new Date();
     await application.save();
 
-    res.status(200).json({ message: `Application status updated to ${status}`, application });
-  } catch (err) {
-    console.error('Error updating application status:', err);
-    res.status(500).json({ error: 'Server error while updating application status' });
+    res.status(200).json({ message: `Status updated to ${status}`, application });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+// Get applications for a specific job, filtered by status
+exports.getApplicationsByJobAndStatus = async (req, res) => {
+  const { jobId } = req.params;
+  const { status } = req.query;
+
+  try {
+    const filter = { job: jobId };
+    if (status) filter.status = status;
+
+    const applications = await Application.find(filter)
+      .populate('candidate', 'name email') // Adjust fields as needed
+      .sort({ updatedAt: -1 });
+
+    res.status(200).json(applications);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
   }
 };
 
@@ -102,7 +119,6 @@ exports.createJob = async (req, res) => {
       if (!title || !jobDescription || !jobType || !primaryRole) {
         return res.status(400).json({ error: 'Missing required fields to publish the job.' });
       }
-      // Optional: validate visaSponsorship if mandatory
       if (visaSponsorship === undefined || visaSponsorship === null) {
         return res.status(400).json({ error: 'visaSponsorship is required when publishing a job.' });
       }
@@ -407,8 +423,6 @@ exports.getOrgJob = async (req, res) => {
 // GET /api/jobs/org/all
 exports.getAllJobsByOrganization = async (req, res) => {
   try {
-    const orgId = req.user.organization;
-
     const jobs = await Job.find({
       organization: req.organization._id
     }).sort({ postedAt: -1 });
@@ -423,6 +437,7 @@ exports.getAllJobsByOrganization = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+
 exports.getDraftJobsByOrganization = async (req, res) => {
   try {
     const orgId = req.user.organization;
@@ -468,5 +483,21 @@ exports.getJobByIdForPreview = async (req, res) => {
       success: false,
       message: 'Server error',
     });
+  }
+};
+exports.getProfileImage = async (req, res) => {
+  try {
+    const userId = req.user.id;  // Extracted from JWT by auth middleware
+
+    const profileImage = await ProfileImage.findOne({ userId });
+
+    if (!profileImage) {
+      return res.status(404).json({ error: "Profile image not found" });
+    }
+
+    res.status(200).json(profileImage);
+  } catch (error) {
+    console.error("Error fetching profile image:", error);
+    res.status(500).json({ error: "Server error" });
   }
 };
