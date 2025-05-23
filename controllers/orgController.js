@@ -334,31 +334,29 @@ exports.updateJob = async (req, res) => {
 
 
 
-
 exports.deleteJob = async (req, res) => {
   try {
     const { jobId } = req.params;
 
+    // Check if the jobId is a valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(jobId)) {
       return res.status(400).json({ error: 'Invalid jobId format.' });
     }
 
-    const job = await Job.findOneAndUpdate(
-      { _id: jobId, organization: req.organization._id },
-      { active: false },
-      { new: true }
-    );
+    // Find and delete the job
+    const job = await Job.findOneAndDelete({ _id: jobId, organization: req.organization._id });
 
     if (!job) {
       return res.status(404).json({ error: 'Job not found or unauthorized.' });
     }
 
-    res.status(200).json({ message: 'Job deactivated successfully', job });
+    res.status(200).json({ message: 'Job deleted successfully', job });
   } catch (err) {
-    console.error('Error deactivating job:', err);
-    res.status(500).json({ error: 'Server error while deactivating job' });
+    console.error('Error deleting job:', err);
+    res.status(500).json({ error: 'Server error while deleting job' });
   }
 };
+
 // ✅ Get all jobs by this organization
 exports.listJobsByOrg = async (req, res) => {
   try {
