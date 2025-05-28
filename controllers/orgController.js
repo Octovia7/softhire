@@ -60,12 +60,14 @@ exports.getApplicationsByJobAndStatus = async (req, res) => {
     const filter = { job: jobId };
     if (status) filter.status = status;
 
+
     const applications = await Application.find(filter)
       .populate('candidate', 'name email') // Adjust fields as needed
       .sort({ updatedAt: -1 });
 
     res.status(200).json(applications);
   } catch (error) {
+    console.error('Error fetching applications:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 };
