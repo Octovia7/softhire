@@ -47,23 +47,100 @@ exports.updateStatus = async (req, res) => {
 
     res.status(200).json({ message: `Status updated to ${status}`, application });
   } catch (error) {
+    console.error('Error updating application status:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 };
 
 // Get applications for a specific job, filtered by status
+// exports.getApplicationsByJobAndStatus = async (req, res) => {
+//   const { jobId } = req.params;
+//   const { status } = req.query;
+
+//   try {
+//     const filter = { job: jobId };
+//     if (status) filter.status = status;
+
+
+//     const applications = await Application.find(filter)
+//       .populate('candidate', 'name email') // Adjust fields as needed
+//       .sort({ updatedAt: -1 });
+
+//     res.status(200).json(applications);
+//   } catch (error) {
+//     console.error('Error fetching applications:', error);
+//     res.status(500).json({ message: 'Server error', error });
+//   }
+// };
+
 exports.getApplicationsByJobAndStatus = async (req, res) => {
   const { jobId } = req.params;
   const { status } = req.query;
 
+  if (!mongoose.Types.ObjectId.isValid(jobId)) {
+    return res.status(400).json({ message: 'Invalid jobId format.' });
+  }
+
   try {
-    const filter = { job: jobId };
-    if (status) filter.status = status;
+    const matchStage = { job: new mongoose.Types.ObjectId(jobId) };
+    if (status) matchStage.status = status;
 
-
-    const applications = await Application.find(filter)
-      .populate('candidate', 'name email') // Adjust fields as needed
-      .sort({ updatedAt: -1 });
+    const applications = await Application.aggregate([
+      { $match: matchStage },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: 'candidate',
+          foreignField: 'userId',
+          as: 'profile'
+        }
+      },
+      { $unwind: { path: '$profile', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'candidate',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+      // If you want to populate profileImage URL, add another $lookup here
+      {
+        $lookup: {
+          from: 'profileimages',
+          localField: 'profile.profileImage',
+          foreignField: '_id',
+          as: 'profileImageDoc'
+        }
+      },
+      { $unwind: { path: '$profileImageDoc', preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          _id: 1,
+          candidateId: '$candidate',
+          name: '$profile.name',
+          email: '$user.email',
+          primaryRole: '$profile.primaryRole',
+          appliedOn: '$createdAt',
+          status: 1,
+          statusUpdatedAt: 1,
+          location: '$profile.location',
+          yearsOfExperience: '$profile.yearsOfExperience',
+          skills: '$profile.skills',
+          profileImage: '$profile.profileImage',
+        }
+      },
+      // Deduplicate by candidateId and application _id
+      {
+        $group: {
+          _id: '$_id',
+          doc: { $first: '$$ROOT' }
+        }
+      },
+      { $replaceRoot: { newRoot: '$doc' } },
+      { $sort: { appliedOn: -1 } }
+    ]);
 
     res.status(200).json(applications);
   } catch (error) {

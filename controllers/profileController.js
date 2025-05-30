@@ -11,7 +11,7 @@ exports.uploadProfileImage = async (req, res) => {
 
     const result = await cloudinary.uploader.upload(req.file.path, {
       folder: "profilePhotos",
-    }); 
+    });
 
     const existing = await ProfileImage.findOne({ userId: req.user.id });
 
@@ -110,7 +110,7 @@ exports.getProfile = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const profile = await Profile.findById(id);
+    const profile = await Profile.findOne({ userId: id });
 
     if (!profile) {
       return res.status(404).json({ error: "Profile not found" });
