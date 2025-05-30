@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ProfileSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  profileImage: { type: mongoose.Schema.Types.ObjectId, ref: 'ProfileImage' }, // 👈 Reference to ProfileImage
+  profileImage: { type: mongoose.Schema.Types.ObjectId, ref: 'ProfileImage' },
 
   name: { type: String, required: true },
   location: { type: String, required: true },
@@ -45,7 +45,12 @@ const ProfileSchema = new mongoose.Schema({
     genderIdentity: { type: String },
     raceEthnicity: { type: String },
     displayPronouns: { type: Boolean, default: false }
-  }
+  },
+
+  // ✅ New references
+  jobPreferences: { type: mongoose.Schema.Types.ObjectId, ref: 'JobPreferences' },
+  jobExpectations: { type: mongoose.Schema.Types.ObjectId, ref: 'JobExpectations' }
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('Profile', ProfileSchema);

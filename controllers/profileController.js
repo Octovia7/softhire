@@ -2,7 +2,9 @@ const Profile = require("../models/Profile");
 const cloudinary = require("../utils/cloudinary"); // Correct import
 
 const ProfileImage = require('../models/ProfileImage');
-
+const asyncHandler = require('express-async-handler');
+const JobPreferences = require('../models/JobPreferences');
+const JobExpectations = require('../models/JobExpectations');
 exports.uploadProfileImage = async (req, res) => {
   try {
     if (!req.file) {
@@ -105,23 +107,28 @@ exports.createProfile = async (req, res) => {
 };
 
 
-// GET Profile by ID
-exports.getProfile = async (req, res) => {
-  try {
-    const { id } = req.params;
 
-    const profile = await Profile.findById(id);
+exports.getProfile = asyncHandler(async (req, res) => {
+  const { id } = req.params;
 
-    if (!profile) {
-      return res.status(404).json({ error: "Profile not found" });
-    }
-
-    res.status(200).json(profile);
-  } catch (error) {
-    console.error("Error fetching profile:", error);
-    res.status(500).json({ error: "Server error" });
+  const profile = await Profile.findById(id).lean();
+  if (!profile) {
+    return res.status(404).json({ error: 'Profile not found' });
   }
-};
+
+  const jobPreferences = await JobPreferences.findOne({ userId: profile.userId }).lean();
+  const jobExpectations = await JobExpectations.findOne({ userId: profile.userId }).lean();
+
+  const fullProfile = {
+    ...profile,
+    jobPreferences: jobPreferences || {},
+    jobExpectations: jobExpectations || {},
+  };
+
+  res.status(200).json(fullProfile);
+});
+
+
 
 // UPDATE Profile by ID
 exports.updateProfile = async (req, res) => {
