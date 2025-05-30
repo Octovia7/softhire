@@ -10,13 +10,14 @@ const {
     updateProfile,
     deleteProfile, 
     uploadProfileImage,
-    getProfileImage
+    getProfileImage,searchApplicants
 } = require('../controllers/profileController');
 // routes/profile.js or similar
 router.get("/profile-image", authenticate, getProfileImage);
 router.post('/upload-photo', authenticate, upload.single('profilePhoto'), uploadProfileImage);
 // POST Create Profile (only logged-in user can create)
 router.post('/', authenticate,  createProfile);
+router.get('/search-applicants', searchApplicants);
 
 // GET Profile (optional: protect it if you want only logged-in users to view)
 // router.get("/:id", authenticate, getProfile); 

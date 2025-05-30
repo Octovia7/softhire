@@ -5,6 +5,10 @@ const ProfileImage = require('../models/ProfileImage');
 const asyncHandler = require('express-async-handler');
 const JobPreferences = require('../models/JobPreferences');
 const JobExpectations = require('../models/JobExpectations');
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 exports.uploadProfileImage = async (req, res) => {
   try {
     if (!req.file) {
@@ -201,3 +205,50 @@ exports.getProfileImage = async (req, res) => {
   }
 };
 
+
+exports.searchApplicants = asyncHandler(async (req, res) => {
+  const { search, role, location, experience, skill, page = 1, limit = 10 } = req.query;
+
+  const query = {};
+
+  if (search) {
+    const safeSearch = escapeRegex(search);
+    query.$or = [
+      { name: { $regex: safeSearch, $options: 'i' } },
+      { bio: { $regex: safeSearch, $options: 'i' } },
+    ];
+  }
+
+  if (role) {
+    query.openToRoles = { $regex: escapeRegex(role), $options: 'i' };
+  }
+
+  if (location) {
+    query.location = { $regex: escapeRegex(location), $options: 'i' };
+  }
+
+  if (experience) {
+    query.yearsOfExperience = { $regex: escapeRegex(experience), $options: 'i' };
+  }
+
+  if (skill) {
+    query.skills = { $elemMatch: { $regex: escapeRegex(skill), $options: 'i' } };
+  }
+
+  const skip = (Number(page) - 1) * Number(limit);
+
+  const applicants = await Profile.find(query)
+    .select('name location yearsOfExperience openToRoles skills jobPreferences')
+    .skip(skip)
+    .limit(Number(limit))
+    .lean();
+
+  const total = await Profile.countDocuments(query);
+
+  res.status(200).json({
+    total,
+    page: Number(page),
+    limit: Number(limit),
+    applicants,
+  });
+});
