@@ -105,12 +105,16 @@ exports.getApplicationsByJobAndStatus = async (req, res) => {
         }
       },
       { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
-      // If you want to populate profileImage URL, add another $lookup here
+      // Always get the latest profile image for this candidate (by userId)
       {
         $lookup: {
           from: 'profileimages',
-          localField: 'profile.profileImage',
-          foreignField: '_id',
+          let: { userId: '$candidate' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$userId', '$$userId'] } } },
+            { $sort: { createdAt: -1 } },
+            { $limit: 1 }
+          ],
           as: 'profileImageDoc'
         }
       },
@@ -119,6 +123,7 @@ exports.getApplicationsByJobAndStatus = async (req, res) => {
         $project: {
           _id: 1,
           candidateId: '$candidate',
+          userId: '$candidate', // <-- Added userId in response
           name: '$profile.name',
           email: '$user.email',
           primaryRole: '$profile.primaryRole',
@@ -128,17 +133,22 @@ exports.getApplicationsByJobAndStatus = async (req, res) => {
           location: '$profile.location',
           yearsOfExperience: '$profile.yearsOfExperience',
           skills: '$profile.skills',
-          profileImage: '$profile.profileImage',
+          // Apply Cloudinary transformation to profile image
+          profileImage: {
+            $cond: [
+              { $ifNull: ['$profileImageDoc.imageUrl', false] },
+              {
+                $concat: [
+                  { $arrayElemAt: [{ $split: ['$profileImageDoc.imageUrl', '/upload/'] }, 0] },
+                  '/upload/q_auto:eco,f_auto,w_200/',
+                  { $arrayElemAt: [{ $split: ['$profileImageDoc.imageUrl', '/upload/'] }, 1] }
+                ]
+              },
+              null
+            ]
+          }
         }
       },
-      // Deduplicate by candidateId and application _id
-      {
-        $group: {
-          _id: '$_id',
-          doc: { $first: '$$ROOT' }
-        }
-      },
-      { $replaceRoot: { newRoot: '$doc' } },
       { $sort: { appliedOn: -1 } }
     ]);
 

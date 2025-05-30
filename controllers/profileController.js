@@ -1,5 +1,8 @@
 const Profile = require("../models/Profile");
 const cloudinary = require("../utils/cloudinary"); // Correct import
+const mongoose = require("mongoose");
+const User = require("../models/User");
+
 
 const ProfileImage = require('../models/ProfileImage');
 
@@ -105,18 +108,94 @@ exports.createProfile = async (req, res) => {
 };
 
 
-// GET Profile by ID
 exports.getProfile = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const profile = await Profile.findOne({ userId: id });
+    const profileData = await Profile.aggregate([
+      { $match: { userId: new mongoose.Types.ObjectId(id) } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'userId',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'profileimages',
+          let: { userId: '$userId' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$userId', '$$userId'] } } },
+            { $sort: { createdAt: -1 } },
+            { $limit: 1 }
+          ],
+          as: 'profileImageDoc'
+        }
+      },
+      { $unwind: { path: '$profileImageDoc', preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          location: 1,
+          primaryRole: 1,
+          yearsOfExperience: 1,
+          openToRoles: 1,
+          bio: 1,
+          socialProfiles: 1,
+          workExperience: 1,
+          education: 1,
+          skills: 1,
+          achievements: 1,
+          identity: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          profileImage: '$profileImageDoc.imageUrl',
+          user: {
+            _id: '$user._id',
+            fullName: '$user.fullName',
+            email: '$user.email',
+            avatar: '$user.avatar',
+            role: '$user.role',
+            isOAuthUser: '$user.isOAuthUser',
+            isVerified: '$user.isVerified',
+            createdAt: '$user.createdAt',
+            updatedAt: '$user.updatedAt'
+          }
+        }
+      }
+    ]);
 
-    if (!profile) {
+    if (!profileData || profileData.length === 0) {
       return res.status(404).json({ error: "Profile not found" });
     }
 
-    res.status(200).json(profile);
+    // Organize the response
+    const p = profileData[0];
+    const response = {
+      _id: p._id,
+      name: p.name,
+      location: p.location,
+      primaryRole: p.primaryRole,
+      yearsOfExperience: p.yearsOfExperience,
+      openToRoles: p.openToRoles,
+      bio: p.bio,
+      socialProfiles: p.socialProfiles,
+      workExperience: p.workExperience,
+      education: p.education,
+      skills: p.skills,
+      achievements: p.achievements,
+      identity: p.identity,
+      createdAt: p.createdAt,
+      updatedAt: p.updatedAt,
+      profileImage: p.profileImage || null,
+      user: p.user
+    };
+
+    res.status(200).json(response);
   } catch (error) {
     console.error("Error fetching profile:", error);
     res.status(500).json({ error: "Server error" });
