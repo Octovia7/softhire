@@ -32,4 +32,18 @@ const submitApplication = async (req, res) => {
   }
 };
 
-module.exports = {submitApplication};
+
+const getMyApplications = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const applications = await Application.find({ candidate: userId })
+      .populate('job')
+      .sort({ createdAt: -1 });
+
+    res.json({ applications });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+module.exports = {submitApplication , getMyApplications};

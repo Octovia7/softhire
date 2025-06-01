@@ -1,17 +1,24 @@
-// utils/resumeMulter.js
+const path = require('path');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('./cloudinary'); // your Cloudinary instance
+const cloudinary = require('./cloudinary');
 
 const resumeStorage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: 'Resumes', // Store resumes in the 'Resumes' folder
-    resource_type: 'raw', // Resumes are raw files, not images
-    allowed_formats: ['pdf', 'doc', 'docx', 'txt'], // allowed formats
+  params: async (req, file) => {
+    const ext = path.extname(file.originalname); 
+    const filename = path.basename(file.originalname, ext);
+
+    return {
+      folder: 'Resumes',
+      resource_type: 'auto', // ✅ automatically sets correct type (image, video, raw)
+      public_id: `${filename}_${Date.now()}${ext}`,
+      allowed_formats: ['pdf', 'doc', 'docx', 'txt'],
+    };
   },
 });
 
+
 const uploadResume = multer({ storage: resumeStorage });
 
-module.exports = uploadResume; // Ensure this is exporting the multer instance with .single() method
+module.exports = uploadResume;
