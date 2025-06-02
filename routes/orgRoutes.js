@@ -10,14 +10,14 @@ router.put('/org/jobs/:jobId', authenticate, isVerifiedOrg, jobController.update
 router.delete('/org/jobs/:jobId', authenticate, isVerifiedOrg, jobController.deleteJob);
 // routes/application.js
 router.get('/org', authenticate, isVerifiedOrg, jobController.getApplicationsForOrg);
-router.patch('/applications/:id/status',authenticate, isVerifiedOrg, jobController.updateStatus);
+router.patch('/applications/:id/status', authenticate, isVerifiedOrg, jobController.updateStatus);
 
 // Get all applications for a job, optionally filtered by status
-router.get('/applications/job/:jobId',authenticate, isVerifiedOrg, jobController.getApplicationsByJobAndStatus);
+router.get('/applications/job/:jobId', authenticate, isVerifiedOrg, jobController.getApplicationsByJobAndStatus);
 
 // router.put('/applications/:applicationId/status', authenticate, isVerifiedOrg, jobController.updateApplicationStatus);
-router.get('/org/all',authenticate,isVerifiedOrg,jobController.getAllJobsByOrganization);
-router.get('/org/drafts',authenticate,isVerifiedOrg,jobController.getDraftJobsByOrganization);
+router.get('/org/all', authenticate, isVerifiedOrg, jobController.getAllJobsByOrganization);
+router.get('/org/drafts', authenticate, isVerifiedOrg, jobController.getDraftJobsByOrganization);
 router.get('/jobs/:id/preview', jobController.getJobByIdForPreview);
 
 router.get('/jobs/active/:id', jobController.getActiveJobById); // public route

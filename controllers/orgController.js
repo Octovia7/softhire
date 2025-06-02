@@ -47,25 +47,114 @@ exports.updateStatus = async (req, res) => {
 
     res.status(200).json({ message: `Status updated to ${status}`, application });
   } catch (error) {
+    console.error('Error updating application status:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 };
 
 // Get applications for a specific job, filtered by status
+// exports.getApplicationsByJobAndStatus = async (req, res) => {
+//   const { jobId } = req.params;
+//   const { status } = req.query;
+
+//   try {
+//     const filter = { job: jobId };
+//     if (status) filter.status = status;
+
+
+//     const applications = await Application.find(filter)
+//       .populate('candidate', 'name email') // Adjust fields as needed
+//       .sort({ updatedAt: -1 });
+
+//     res.status(200).json(applications);
+//   } catch (error) {
+//     console.error('Error fetching applications:', error);
+//     res.status(500).json({ message: 'Server error', error });
+//   }
+// };
+
 exports.getApplicationsByJobAndStatus = async (req, res) => {
   const { jobId } = req.params;
   const { status } = req.query;
 
-  try {
-    const filter = { job: jobId };
-    if (status) filter.status = status;
+  if (!mongoose.Types.ObjectId.isValid(jobId)) {
+    return res.status(400).json({ message: 'Invalid jobId format.' });
+  }
 
-    const applications = await Application.find(filter)
-      .populate('candidate', 'name email') // Adjust fields as needed
-      .sort({ updatedAt: -1 });
+  try {
+    const matchStage = { job: new mongoose.Types.ObjectId(jobId) };
+    if (status) matchStage.status = status;
+
+    const applications = await Application.aggregate([
+      { $match: matchStage },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: 'candidate',
+          foreignField: 'userId',
+          as: 'profile'
+        }
+      },
+      { $unwind: { path: '$profile', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'candidate',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+      // Always get the latest profile image for this candidate (by userId)
+      {
+        $lookup: {
+          from: 'profileimages',
+          let: { userId: '$candidate' },
+          pipeline: [
+            { $match: { $expr: { $eq: ['$userId', '$$userId'] } } },
+            { $sort: { createdAt: -1 } },
+            { $limit: 1 }
+          ],
+          as: 'profileImageDoc'
+        }
+      },
+      { $unwind: { path: '$profileImageDoc', preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          _id: 1,
+          candidateId: '$candidate',
+          userId: '$candidate', // <-- Added userId in response
+          name: '$profile.name',
+          email: '$user.email',
+          primaryRole: '$profile.primaryRole',
+          appliedOn: '$createdAt',
+          status: 1,
+          statusUpdatedAt: 1,
+          location: '$profile.location',
+          yearsOfExperience: '$profile.yearsOfExperience',
+          skills: '$profile.skills',
+          // Apply Cloudinary transformation to profile image
+          profileImage: {
+            $cond: [
+              { $ifNull: ['$profileImageDoc.imageUrl', false] },
+              {
+                $concat: [
+                  { $arrayElemAt: [{ $split: ['$profileImageDoc.imageUrl', '/upload/'] }, 0] },
+                  '/upload/q_auto:eco,f_auto,w_200/',
+                  { $arrayElemAt: [{ $split: ['$profileImageDoc.imageUrl', '/upload/'] }, 1] }
+                ]
+              },
+              null
+            ]
+          }
+        }
+      },
+      { $sort: { appliedOn: -1 } }
+    ]);
 
     res.status(200).json(applications);
   } catch (error) {
+    console.error('Error fetching applications:', error);
     res.status(500).json({ message: 'Server error', error });
   }
 };
@@ -79,6 +168,8 @@ exports.createJob = async (req, res) => {
       return res.status(403).json({ error: 'Only organization users can post jobs.' });
     }
 
+    console.log(req.body)
+
     const {
       title,
       jobDescription,
@@ -87,6 +178,7 @@ exports.createJob = async (req, res) => {
       additionalRoles,
       workExperience,
       skills,
+      timeZones,
       location,
       relocationRequired,
       relocationAssistance,
@@ -98,10 +190,15 @@ exports.createJob = async (req, res) => {
       acceptWorldwide,
       remoteCulture,
       collaborationHours,
-      salary = {},
-      equity = {},
+      salary,
+      equity,
       currency,
-      contactPerson = {},
+      contactPersonName,
+      contactPersonPosition,
+      contactPersonLocation,
+      contactPersonExperience,
+      // subscribers,
+      // coworkers,
       companySize,
       isDraft = false,
     } = req.body;
@@ -115,6 +212,7 @@ exports.createJob = async (req, res) => {
         return res.status(400).json({ error: 'visaSponsorship is required when publishing a job.' });
       }
     }
+    console.log('User object in createJob:', user);
 
     const newJob = new Job({
       title,
@@ -124,7 +222,8 @@ exports.createJob = async (req, res) => {
       additionalRoles,
       workExperience,
       skills,
-      location: Array.isArray(location) ? location : location ? [location] : [],
+      location,
+      timeZones,
       relocationRequired,
       relocationAssistance,
       visaSponsorship,
@@ -134,26 +233,23 @@ exports.createJob = async (req, res) => {
       hiresIn,
       acceptWorldwide,
       remoteCulture,
-      collaborationHours: {
-        start: collaborationHours?.start,
-        end: collaborationHours?.end,
-        timeZone: collaborationHours?.timeZone,
-      },
+      collaborationHours,
       salary,
       equity,
-      currency: currency || 'GBP',
+      currency,
       contactPerson: {
-        name: contactPerson.name,
-        position: contactPerson.position,
-        location: contactPerson.location,
-        experience: contactPerson.experience,
+        name: contactPersonName,
+        position: contactPersonPosition,
+        location: contactPersonLocation,
+        experience: contactPersonExperience,
       },
       companySize,
       isDraft,
       organization: req.organization._id,
-      companyName: req.organization.name,
-      postedBy: user.id,
+      companyName: req.organization.name, // ✅ Add this
+      postedBy: user.id, // ✅ Ensure user exists and is populated
     });
+
 
     await newJob.save();
 
@@ -165,7 +261,6 @@ exports.createJob = async (req, res) => {
     res.status(500).json({ error: 'Server error while creating job' });
   }
 };
-
 
 
 // ✅ Create a new job
@@ -226,26 +321,19 @@ exports.createJob = async (req, res) => {
 // };
 exports.updateJob = async (req, res) => {
   try {
-    const user = req.user;
+    const user = req.user
+    console.log(req.body)
 
     if (!req.organization) {
       return res.status(403).json({ error: 'Only organization users can edit jobs.' });
     }
 
     const { jobId } = req.params;
-    console.log('jobId param:', jobId);
-    console.log('organization:', req.organization?._id);
 
     const job = await Job.findOne({ _id: jobId, organization: req.organization._id });
-    console.log('Found job:', job);
 
     if (!job) {
       return res.status(404).json({ error: 'Job not found.' });
-    }
-
-    // Ensure the job belongs to the current organization
-    if (!job.organization.equals(req.organization._id)) {
-      return res.status(403).json({ error: 'Unauthorized to edit this job.' });
     }
 
     const {
@@ -256,6 +344,7 @@ exports.updateJob = async (req, res) => {
       additionalRoles,
       workExperience,
       skills,
+      timeZones,
       location,
       relocationRequired,
       relocationAssistance,
@@ -266,13 +355,9 @@ exports.updateJob = async (req, res) => {
       hiresIn,
       acceptWorldwide,
       remoteCulture,
-      collaborationHoursStart,
-      collaborationHoursEnd,
-      collaborationTimeZone,
-      salaryMin,
-      salaryMax,
-      equityMin,
-      equityMax,
+      collaborationHours,
+      salary,
+      equity,
       currency,
       contactPersonName,
       contactPersonPosition,
@@ -282,128 +367,52 @@ exports.updateJob = async (req, res) => {
       isDraft,
     } = req.body;
 
-    // Prepare final values for validation (use req.body values if present, else existing job values)
-    const finalTitle = title !== undefined ? title : job.title;
-    const finalJobDescription = jobDescription !== undefined ? jobDescription : job.jobDescription;
-    const finalJobType = jobType !== undefined ? jobType : job.jobType;
-    const finalPrimaryRole = primaryRole !== undefined ? primaryRole : job.primaryRole;
-    const finalVisaSponsorship = visaSponsorship !== undefined ? visaSponsorship : job.visaSponsorship;
-    const finalIsDraft = isDraft !== undefined ? isDraft : job.isDraft;
-
-    // If trying to publish (not draft), validate required fields
-    if (!finalIsDraft) {
-      if (
-        !finalTitle || finalTitle.trim() === '' ||
-        !finalJobDescription || finalJobDescription.trim() === '' ||
-        !finalJobType || finalJobType.trim() === '' ||
-        !finalPrimaryRole || finalPrimaryRole.trim() === ''
-      ) {
-        console.log('Validation failed for required fields:', {
-          title: finalTitle,
-          jobDescription: finalJobDescription,
-          jobType: finalJobType,
-          primaryRole: finalPrimaryRole,
-        });
-        return res.status(400).json({ error: 'Missing or empty required fields to publish the job.' });
+    // Validate required fields if not a draft
+    if (!isDraft) {
+      if (!title || !jobDescription || !jobType || !primaryRole) {
+        return res.status(400).json({ error: 'Missing required fields to publish the job.' });
       }
-      if (finalVisaSponsorship === undefined || finalVisaSponsorship === null) {
-        console.log('Validation failed: visaSponsorship missing or null');
+      // Optional: validate visaSponsorship if mandatory
+      if (visaSponsorship === undefined || visaSponsorship === null) {
         return res.status(400).json({ error: 'visaSponsorship is required when publishing a job.' });
       }
     }
 
-    // Update fields if present
-    if (title !== undefined) job.title = title;
-    if (jobDescription !== undefined) job.jobDescription = jobDescription;
-    if (jobType !== undefined) job.jobType = jobType;
-    if (primaryRole !== undefined) job.primaryRole = primaryRole;
-    if (additionalRoles !== undefined) job.additionalRoles = additionalRoles;
-    if (workExperience !== undefined) job.workExperience = workExperience;
-    if (skills !== undefined) job.skills = skills;
-    if (location !== undefined) job.location = Array.isArray(location) ? location : [location];
-    if (relocationRequired !== undefined) job.relocationRequired = relocationRequired;
-    if (relocationAssistance !== undefined) job.relocationAssistance = relocationAssistance;
-    if (visaSponsorship !== undefined) job.visaSponsorship = visaSponsorship;
-    if (autoSkipVisaCandidates !== undefined) job.autoSkipVisaCandidates = autoSkipVisaCandidates;
-    if (remotePolicy !== undefined) job.remotePolicy = remotePolicy;
-    if (autoSkipRelocationCandidates !== undefined) job.autoSkipRelocationCandidates = autoSkipRelocationCandidates;
-    if (hiresIn !== undefined) job.hiresIn = Array.isArray(hiresIn) ? hiresIn : [hiresIn];
-    if (acceptWorldwide !== undefined) job.acceptWorldwide = acceptWorldwide;
-    if (remoteCulture !== undefined) job.remoteCulture = remoteCulture;
-
-    // Collaboration hours update
-    if (
-      collaborationHoursStart !== undefined ||
-      collaborationHoursEnd !== undefined ||
-      collaborationTimeZone !== undefined
-    ) {
-      job.collaborationHours = {
-        start:
-          collaborationHoursStart !== undefined
-            ? collaborationHoursStart
-            : job.collaborationHours?.start,
-        end:
-          collaborationHoursEnd !== undefined ? collaborationHoursEnd : job.collaborationHours?.end,
-        timeZone:
-          collaborationTimeZone !== undefined
-            ? collaborationTimeZone
-            : job.collaborationHours?.timeZone,
-      };
-    }
-
-    // Salary update
-    if (salaryMin !== undefined || salaryMax !== undefined) {
-      job.salary = {
-        min: salaryMin !== undefined ? salaryMin : job.salary?.min,
-        max: salaryMax !== undefined ? salaryMax : job.salary?.max,
-      };
-    }
-
-    // Equity update
-    if (equityMin !== undefined || equityMax !== undefined) {
-      job.equity = {
-        min: equityMin !== undefined ? equityMin : job.equity?.min,
-        max: equityMax !== undefined ? equityMax : job.equity?.max,
-      };
-    }
-
-    if (currency !== undefined) job.currency = currency;
-
-    // Contact person update
-    if (
-      contactPersonName !== undefined ||
-      contactPersonPosition !== undefined ||
-      contactPersonLocation !== undefined ||
-      contactPersonExperience !== undefined
-    ) {
-      job.contactPerson = {
-        name:
-          contactPersonName !== undefined
-            ? contactPersonName
-            : job.contactPerson?.name,
-        position:
-          contactPersonPosition !== undefined
-            ? contactPersonPosition
-            : job.contactPerson?.position,
-        location:
-          contactPersonLocation !== undefined
-            ? contactPersonLocation
-            : job.contactPerson?.location,
-        experience:
-          contactPersonExperience !== undefined
-            ? contactPersonExperience
-            : job.contactPerson?.experience,
-      };
-    }
-
-    if (companySize !== undefined) job.companySize = companySize;
-
-    // Draft or published flag update
-    if (isDraft !== undefined) job.isDraft = isDraft;
+    // Update job fields
+    job.title = title;
+    job.jobDescription = jobDescription;
+    job.jobType = jobType;
+    job.primaryRole = primaryRole;
+    job.additionalRoles = additionalRoles;
+    job.workExperience = workExperience;
+    job.skills = skills;
+    job.location = location;
+    job.timeZones = timeZones;
+    job.relocationRequired = relocationRequired;
+    job.relocationAssistance = relocationAssistance;
+    job.visaSponsorship = visaSponsorship;
+    job.autoSkipVisaCandidates = autoSkipVisaCandidates;
+    job.remotePolicy = remotePolicy;
+    job.autoSkipRelocationCandidates = autoSkipRelocationCandidates;
+    job.hiresIn = hiresIn;
+    job.acceptWorldwide = acceptWorldwide;
+    job.remoteCulture = remoteCulture;
+    job.collaborationHours = collaborationHours;
+    job.salary = salary;
+    job.equity = equity;
+    job.currency = currency;
+    job.contactPerson = {
+      name: contactPersonName,
+      position: contactPersonPosition,
+      location: contactPersonLocation,
+      experience: contactPersonExperience,
+    };
+    job.companySize = companySize;
+    job.isDraft = isDraft;
 
     await job.save();
 
-    const message = job.isDraft ? 'Job updated as draft' : 'Job updated successfully';
+    const message = isDraft ? 'Job updated as draft' : 'Job updated successfully';
 
     res.status(200).json({ message, job });
   } catch (err) {
@@ -502,9 +511,7 @@ exports.getOrgJob = async (req, res) => {
 exports.getAllJobsByOrganization = async (req, res) => {
   try {
     const jobs = await Job.find({
-      organization: req.organization._id,
-      isDraft: false,
-      active: true, // <-- Filter only active jobs
+      organization: req.organization._id
     }).sort({ postedAt: -1 });
 
     res.status(200).json({

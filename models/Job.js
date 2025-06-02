@@ -13,7 +13,14 @@ const jobSchema = new mongoose.Schema({
 
   jobType: {
     type: String,
-    enum: ['Full-time', 'Part-time', 'Contractor', 'Intern', 'Co-founder'],
+    enum: [
+      'Full-time employee',
+      'Part-time employee',
+      'Contractor',
+      'Intern',
+      'Freelancer',
+      'Cofounder'
+    ],
     required: true,
   },
   primaryRole: { type: String }, // e.g., "Backend Developer"
@@ -34,11 +41,12 @@ const jobSchema = new mongoose.Schema({
   },
   remoteCulture: {
     type: String,
-    enum: ['Mostly In-person', 'Mostly Remote'],
-    default: 'Mostly Remote'
+    // enum: ['Mostly In-person', 'Mostly Remote'],
+    // default: 'Mostly Remote'
   },
   hiresIn: [String], // e.g., ['India', 'UK', 'Germany']
   acceptWorldwide: { type: Boolean, default: false },
+  timeZones: [String],
 
   collaborationHours: {
     start: { type: String }, // "09:00"
@@ -76,7 +84,7 @@ const jobSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-   isDraft: { type: Boolean, default: false }, // ✅ This enables draft logic
+  isDraft: { type: Boolean, default: false }, // ✅ This enables draft logic
   postedAt: { type: Date, default: Date.now },
   isHiring: { type: Boolean, default: true },
   active: { type: Boolean, default: true }

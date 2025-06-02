@@ -153,17 +153,33 @@ exports.login = async (req, res) => {
         if (!user.isVerified) return res.status(400).json({ message: "Please verify your email first" });
         if (!(await bcrypt.compare(password, user.password))) return res.status(400).json({ message: "Invalid credentials" });
 
-        const token = jwt.sign(
+        // const token = jwt.sign(
+        //     { id: user._id, role: user.role },
+        //     process.env.JWT_SECRET,
+        //     { expiresIn: "1h" }
+        // );
+
+
+
+        // res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 3600000 });
+
+        const jwtToken = jwt.sign(
             { id: user._id, role: user.role },
             process.env.JWT_SECRET,
-            { expiresIn: "1h" }
+            { expiresIn: "7d" }
         );
 
-        res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 3600000 });
+        // Set token in HTTP-only cookie
+        res.cookie("token", jwtToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "Lax", // or "None" if cross-site and using HTTPS
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
 
         res.status(200).json({
             message: "Login successful",
-            token,
+            token: jwtToken,
             userId: user._id, // ✅ Include userId
         });
     } catch (error) {
