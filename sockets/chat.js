@@ -14,27 +14,27 @@ module.exports = (io) => {
         });
 
         // 💬 Handle sending a message
-        socket.on("private_message", async ({ senderId, receiverId, content }) => {
+        socket.on("private_message", async ({ sender, receiver, content }) => {
             try {
                 // Step 1: Find or create conversation
                 let conversation = await Conversation.findOne({
-                    participants: { $all: [senderId, receiverId] },
+                    participants: { $all: [sender, receiver] },
                 });
 
                 if (!conversation) {
-                    conversation = await Conversation.create({ participants: [senderId, receiverId] });
+                    conversation = await Conversation.create({ participants: [sender, receiver] });
                 }
 
                 // Step 2: Save message to DB
                 const message = await Message.create({
-                    sender: senderId,
-                    receiver: receiverId,
+                    sender,
+                    receiver,
                     content,
                     conversationId: conversation._id,
                 });
 
                 // Step 3: Emit to receiver if online
-                const receiverSocketId = users.get(receiverId);
+                const receiverSocketId = users.get(receiver);
                 if (receiverSocketId) {
                     io.to(receiverSocketId).emit("new_message", message);
                 }
@@ -47,6 +47,40 @@ module.exports = (io) => {
                 socket.emit("error", "Message failed");
             }
         });
+
+        // 💡 Add this inside io.on('connection', ...)
+        socket.on("mark_as_read", async ({ userId, conversationId }) => {
+            try {
+                await Message.updateMany(
+                    { conversationId, receiver: userId, read: false },
+                    { $set: { read: true } }
+                );
+
+                console.log(`✅ Messages in conversation ${conversationId} marked as read for user ${userId}`);
+
+                // Optionally, notify the other participant
+                const conversation = await Conversation.findById(conversationId);
+                if (conversation) {
+                    const otherUserId = conversation.participants.find(participantId => participantId.toString() !== userId);
+                    const otherUserSocketId = users.get(otherUserId?.toString());
+                    if (otherUserSocketId) {
+                        io.to(otherUserSocketId).emit("messages_read", { conversationId, userId });
+                    }
+                }
+            } catch (err) {
+                console.error("❌ Error marking messages as read:", err);
+                socket.emit("error", "Failed to mark messages as read");
+            }
+
+            socket.on('send_notification', ({ receiverId, notification }) => {
+                const receiverSocketId = onlineUsers.get(receiverId);
+                if (receiverSocketId) {
+                    io.to(receiverSocketId).emit('notification', notification);
+                }
+            });
+
+        });
+
 
         // 🔴 Handle disconnect
         socket.on("disconnect", () => {
