@@ -1,6 +1,122 @@
 const Conversation = require('../models/Coversation.model.js');
 const mongoose = require('mongoose');
 const Message = require('../models/Message.model.js');
+const Recruiter = require('../models/Recruiter.js');
+const ObjectId = mongoose.Types.ObjectId;
+
+exports.getConversationsForUser = async (req, res) => {
+    try {
+        const userId = new ObjectId(req.user.id);
+
+        const conversations = await Conversation.aggregate([
+            { $match: { participants: userId } },
+            {
+                $addFields: {
+                    otherUserId: {
+                        $arrayElemAt: [
+                            {
+                                $filter: {
+                                    input: "$participants",
+                                    cond: { $ne: ["$$this", userId] }
+                                }
+                            },
+                            0
+                        ]
+                    }
+                }
+            },
+            // Ensure otherUserId is ObjectId
+            {
+                $addFields: {
+                    otherUserId: { $toObjectId: "$otherUserId" }
+                }
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "otherUserId",
+                    foreignField: "_id",
+                    as: "otherUser"
+                }
+            },
+            { $unwind: "$otherUser" },
+            {
+                $lookup: {
+                    from: "recruiters",
+                    localField: "otherUserId",
+                    foreignField: "userId",
+                    as: "recruiter"
+                }
+            },
+            { $unwind: { path: "$recruiter", preserveNullAndEmptyArrays: true } },
+            {
+                $lookup: {
+                    from: "organizations",
+                    localField: "recruiter.organization",
+                    foreignField: "_id",
+                    as: "organization"
+                }
+            },
+            { $unwind: { path: "$organization", preserveNullAndEmptyArrays: true } },
+            {
+                $lookup: {
+                    from: "messages",
+                    let: { convoId: "$_id", userId: userId },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ["$conversationId", "$$convoId"] },
+                                        { $eq: ["$receiver", "$$userId"] },
+                                        { $eq: ["$read", false] }
+                                    ]
+                                }
+                            }
+                        },
+                        { $count: "unreadCount" }
+                    ],
+                    as: "unreadMessages"
+                }
+            },
+            {
+                $addFields: {
+                    unreadCount: {
+                        $cond: [
+                            { $gt: [{ $size: "$unreadMessages" }, 0] },
+                            { $arrayElemAt: ["$unreadMessages.unreadCount", 0] },
+                            0
+                        ]
+                    }
+                }
+            },
+            {
+                $project: {
+                    recruiterId: "$otherUser._id",
+                    recruiterName: "$otherUser.fullName",
+                    companyName: "$recruiter.companyName",
+                    unreadCount: 1,
+                }
+            }
+        ]);
+        console.log("Conversations with pipeline:", conversations);
+
+        res.status(200).json({
+            success: true,
+            conversations
+        });
+
+    } catch (error) {
+        console.error("Error fetching conversations with pipeline:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch conversations with pipeline."
+        });
+    }
+};
+
+
+
 
 exports.getRecentChats = async (req, res) => {
     try {

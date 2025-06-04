@@ -303,48 +303,106 @@ exports.getProfileImage = async (req, res) => {
 
 
 exports.searchApplicants = asyncHandler(async (req, res) => {
-  const { search, role, location, experience, skill, page = 1, limit = 10 } = req.query;
+  const { search, role, location, experience, skill, page = 1, limit = 10 } = req.body;
 
-  const query = {};
+  const match = {};
 
   if (search) {
     const safeSearch = escapeRegex(search);
-    query.$or = [
+    match.$or = [
       { name: { $regex: safeSearch, $options: 'i' } },
       { bio: { $regex: safeSearch, $options: 'i' } },
     ];
   }
 
   if (role) {
-    query.openToRoles = { $regex: escapeRegex(role), $options: 'i' };
+    match.openToRoles = { $regex: escapeRegex(role), $options: 'i' };
   }
 
   if (location) {
-    query.location = { $regex: escapeRegex(location), $options: 'i' };
+    match.location = { $regex: escapeRegex(location), $options: 'i' };
   }
 
   if (experience) {
-    query.yearsOfExperience = { $regex: escapeRegex(experience), $options: 'i' };
+    match.yearsOfExperience = { $regex: escapeRegex(experience), $options: 'i' };
   }
 
   if (skill) {
-    query.skills = { $elemMatch: { $regex: escapeRegex(skill), $options: 'i' } };
+    match.skills = { $elemMatch: { $regex: escapeRegex(skill), $options: 'i' } };
   }
 
   const skip = (Number(page) - 1) * Number(limit);
 
-  const applicants = await Profile.find(query)
-    .select('name location yearsOfExperience openToRoles skills jobPreferences')
-    .skip(skip)
-    .limit(Number(limit))
-    .lean();
+  const pipeline = [
+    { $match: match },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'userId',
+        foreignField: '_id',
+        as: 'user'
+      }
+    },
+    { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+    {
+      $lookup: {
+        from: 'profileimages',
+        let: { userId: '$userId' },
+        pipeline: [
+          { $match: { $expr: { $eq: ['$userId', '$$userId'] } } },
+          { $sort: { createdAt: -1 } },
+          { $limit: 1 }
+        ],
+        as: 'profileImageDoc'
+      }
+    },
+    { $unwind: { path: '$profileImageDoc', preserveNullAndEmptyArrays: true } },
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        location: 1,
+        primaryRole: 1,
+        yearsOfExperience: 1,
+        openToRoles: 1,
+        bio: 1,
+        socialProfiles: 1,
+        workExperience: 1,
+        education: 1,
+        skills: 1,
+        achievements: 1,
+        identity: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        profileImage: '$profileImageDoc.imageUrl',
+        user: {
+          _id: '$user._id',
+          fullName: '$user.fullName',
+          email: '$user.email',
+          avatar: '$user.avatar',
+          role: '$user.role',
+          isOAuthUser: '$user.isOAuthUser',
+          isVerified: '$user.isVerified',
+          createdAt: '$user.createdAt',
+          updatedAt: '$user.updatedAt'
+        }
+      }
+    },
+    { $skip: skip },
+    { $limit: Number(limit) }
+  ];
 
-  const total = await Profile.countDocuments(query);
+  // Fetch applicants with aggregation
+  const applicants = await Profile.aggregate(pipeline);
+
+  // Count total matches
+  const total = await Profile.countDocuments(match);
 
   res.status(200).json({
     total,
     page: Number(page),
     limit: Number(limit),
-    applicants,
+    applicants
   });
 });
+
