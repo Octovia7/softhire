@@ -303,7 +303,17 @@ exports.getProfileImage = async (req, res) => {
 
 
 exports.searchApplicants = asyncHandler(async (req, res) => {
-  const { search, role, location, experience, skill, page = 1, limit = 10 } = req.body;
+  const {
+    search,
+    role,
+    location,
+    experience,
+    skill,
+    page = 1,
+    limit = 10
+  } = req.query;  
+
+  console.log(req.query);
 
   const match = {};
 
@@ -405,4 +415,5 @@ exports.searchApplicants = asyncHandler(async (req, res) => {
     applicants
   });
 });
+
 
