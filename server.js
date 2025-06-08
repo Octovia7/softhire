@@ -31,6 +31,7 @@ const cosRoutes = require("./routes/cosRoutes");
 const orgRoutes = require("./routes/orgRoutes");
 const docRoutes = require("./routes/documentRoutes");
 const chatRoutes = require("./routes/chat.routes.js");
+const createProfileRoutes = require("./routes/createProfileRoute/createProfile.js")
 
 const { Server } = require('socket.io');
 const chatSocket = require('./sockets/chat');
@@ -110,6 +111,7 @@ app.use("/api", cosRoutes);
 app.use("/api", orgRoutes);
 app.use("/api/document", docRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/createProfile", createProfileRoutes)
 
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 app.get("/", (req, res) => res.send("SoftHire API is running..."));
