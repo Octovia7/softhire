@@ -42,7 +42,7 @@ const server = http.createServer(app); // 🔥 changed
 // ✅ Initialize Socket.IO with the raw HTTP server
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://softhiredev.netlify.app", "http://127.0.0.1:5500"],
     methods: ['GET', 'POST'],
     credentials: true
   }
