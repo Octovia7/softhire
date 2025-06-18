@@ -38,11 +38,12 @@ const chatSocket = require('./sockets/chat');
 const app = express();
 const http = require('http'); // ✅ added
 const server = http.createServer(app); // 🔥 changed
+const allowedOrigins = process.env.CORS_ORIGIN.split(',');
 
 // ✅ Initialize Socket.IO with the raw HTTP server
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "https://softhiredev.netlify.app", "http://127.0.0.1:5500"],
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -53,7 +54,7 @@ chatSocket(io); // ✅ your socket handlers
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://softhiredev.netlify.app", "http://127.0.0.1:5500"],
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   })
