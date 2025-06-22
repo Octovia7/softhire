@@ -30,6 +30,7 @@ const adminAuthRoutes = require('./routes/adminAuth');
 const cosRoutes = require("./routes/cosRoutes");
 const orgRoutes = require("./routes/orgRoutes");
 const docRoutes = require("./routes/documentRoutes");
+const sponsorshipRoutes = require("./routes/sponsorshipRoutes"); // <== NEW
 // const adminRoutes = require('./routes/adminRoutes');
 
 
@@ -106,6 +107,7 @@ app.use('/api/admin', adminRoutes);
 app.use("/api",cosRoutes);
 app.use("/api" ,orgRoutes);
 app.use("/api/document",docRoutes);
+app.use("/api/sponsorship", sponsorshipRoutes); // <== NEW
 // ✅ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 

@@ -146,29 +146,44 @@ exports.verifyOTP = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ message: "User not found" });
-        if (!user.isVerified) return res.status(400).json({ message: "Please verify your email first" });
-        if (!(await bcrypt.compare(password, user.password))) return res.status(400).json({ message: "Invalid credentials" });
+  const { email, password } = req.body;
 
-        const token = jwt.sign(
-            { id: user._id, role: user.role },
-            process.env.JWT_SECRET,
-            { expiresIn: "1h" }
-        );
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: "User not found" });
+    if (!user.isVerified) return res.status(400).json({ message: "Please verify your email first" });
 
-        res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 3600000 });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-        res.status(200).json({
-            message: "Login successful",
-            token,
-            userId: user._id, // ✅ Include userId
-        });
-    } catch (error) {
-        res.status(500).json({ error: "Internal server error" });
-    }
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 3600000
+    });
+
+    // ✅ Send full user object (or trimmed)
+    res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        _id: user._id,
+        role: user.role,
+        fullName: user.fullName,
+        email: user.email,
+        // Add more fields if needed
+      }
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 
