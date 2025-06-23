@@ -99,7 +99,7 @@ exports.getConversationsForUser = async (req, res) => {
                 }
             }
         ]);
-        console.log("Conversations with pipeline:", conversations);
+        // console.log("Conversations with pipeline:", conversations);
 
         res.status(200).json({
             success: true,
