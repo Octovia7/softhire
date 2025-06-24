@@ -2,10 +2,11 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 // ✅ Authenticate using Cookie
+
 const authenticate = (req, res, next) => {
   const token =
-    req.cookies.token || // Cookie-based token
-    (req.header("Authorization") && req.header("Authorization").split(" ")[1]); // Bearer token from header
+    req.cookies.token ||
+    (req.header("Authorization") && req.header("Authorization").split(" ")[1]);
 
   if (!token) {
     return res.status(401).json({ message: "Access denied. No token provided." });
@@ -13,14 +14,14 @@ const authenticate = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { id: decoded.id, role: decoded.role };
+    console.log("✅ Decoded JWT:", decoded);
+    req.user = { id: decoded.id, role: decoded.role, email: decoded.email };
     next();
   } catch (error) {
     console.error("❌ Token verification failed:", error.message);
     return res.status(403).json({ message: "Invalid or expired token." });
   }
 };
-
 
 // ✅ Authorize Recruiter middleware (no changes needed)
 const authorizeRecruiter = async (req, res, next) => {
