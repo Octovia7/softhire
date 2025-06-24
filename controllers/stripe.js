@@ -8,6 +8,8 @@ exports.createCheckoutSession = async (req, res) => {
     const email = req.user.email;
     const userId = req.user.id;
 
+  console.log("✅ Using email:", email);
+
     console.log("💡 Initiating checkout session for user:", email, "Application ID:", applicationId);
 
     // Validate application exists and belongs to current user
