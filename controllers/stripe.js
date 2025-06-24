@@ -4,7 +4,23 @@ const SponsorshipApplication = require("../models/SponsorshipApplication");
 // Create Stripe Checkout session
 exports.createCheckoutSession = async (req, res) => {
   try {
-    const { email, applicationId } = req.body;
+    const { applicationId } = req.body;
+    const email = req.user.email;
+    const userId = req.user.id;
+
+    // Validate application exists and belongs to current user
+    const application = await SponsorshipApplication.findById(applicationId);
+    if (!application) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+
+    if (application.user.toString() !== userId) {
+      return res.status(403).json({ error: "Not authorized to pay for this application" });
+    }
+
+    if (application.isPaid) {
+      return res.status(400).json({ error: "Application already paid" });
+    }
 
     // Create Stripe Checkout session
     const session = await stripe.checkout.sessions.create({
@@ -26,11 +42,11 @@ exports.createCheckoutSession = async (req, res) => {
       success_url: `https://softhire.co.uk/success`,
       cancel_url: `https://softhire.co.uk/cancel`,
       metadata: {
-        applicationId, // Important for webhook to identify
+        applicationId,
       },
     });
 
-    // Optionally save session ID to track
+    // Save session ID
     await SponsorshipApplication.findByIdAndUpdate(applicationId, {
       stripeSessionId: session.id,
     });
@@ -59,16 +75,26 @@ exports.handleWebhook = async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // Only handle successful payment
+  // Handle successful checkout
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
     const applicationId = session.metadata.applicationId;
 
     try {
-      await SponsorshipApplication.findByIdAndUpdate(applicationId, {
-        isPaid: true,
-      });
-      console.log("✅ Application marked as paid:", applicationId);
+      const app = await SponsorshipApplication.findById(applicationId);
+      if (!app) {
+        console.error("No application found for payment.");
+        return res.status(404).json({ error: "Application not found" });
+      }
+
+      // Only mark as paid if not already
+      if (!app.isPaid) {
+        app.isPaid = true;
+        await app.save();
+        console.log("✅ Application marked as paid:", applicationId);
+      } else {
+        console.log("⚠️ Application already marked as paid:", applicationId);
+      }
     } catch (dbError) {
       console.error("Error updating payment status:", dbError);
     }
