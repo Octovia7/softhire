@@ -22,6 +22,20 @@ supportingDocuments: {
   ref: "OrganizationSize"
 },
 
+declarations: { type: mongoose.Schema.Types.ObjectId, ref: "Declarations" },
+isSubmitted: {
+  type: Boolean,
+  default: false
+},
+submittedAt: {
+  type: Date
+},isPaid: {
+  type: Boolean,
+  default: false
+},
+stripeSessionId: {
+  type: String
+},
 
  // other sections...
 }, { timestamps: true });

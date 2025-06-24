@@ -6,11 +6,25 @@ const {
   createSponsorshipApplication,
   updateGettingStarted,
   updateAboutYourCompany,
-  getSponsorshipApplicationById,updateCompanyStructure,updateActivityAndNeeds,updateAuthorisingOfficer,updateSystemAccess,uploadSupportingDocuments
+  getSponsorshipApplicationById,updateCompanyStructure,updateActivityAndNeeds,updateAuthorisingOfficer,updateSystemAccess,uploadSupportingDocuments,submitOrUpdateDeclarations,updateOrganizationSize,submitApplication
 } = require("../controllers/sponsorshipController");
 
 const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
 const upload = require("../utils/uploadDocument");
+router.post("/application/:id/submit", authenticate, authorizeRecruiter, submitApplication);
+router.patch(
+  "/application/:id/organization-size",
+  authenticate,
+  authorizeRecruiter,
+  updateOrganizationSize
+);
+
+router.patch(
+  "/application/:id/declarations",
+  authenticate,
+  authorizeRecruiter,
+  submitOrUpdateDeclarations
+);
 
 // Multer expects .fields for multiple file fields
 

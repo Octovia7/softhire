@@ -16,6 +16,115 @@ const SupportingDocuments = require("../models/SupportingDocuments");
 // const SponsorshipApplication = require("../models/SponsorshipApplication");
 const OrganizationSize = require("../models/OrganizationSize");
 // const SponsorshipApplication = require("../models/SponsorshipApplication");
+const Declarations = require("../models/Declarations");
+// const SponsorshipApplication = require("../models/SponsorshipApplication");
+exports.submitApplication = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const application = await SponsorshipApplication.findById(id);
+
+    if (!application) {
+      return res.status(404).json({ error: "Application not found." });
+    }
+
+    if (application.user.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized." });
+    }
+
+    if (application.isSubmitted) {
+      return res.status(400).json({ error: "Application has already been submitted." });
+    }
+
+    // ✅ Optional: Validate all required sections exist
+    const requiredSections = [
+      "gettingStarted",
+      "aboutYourCompany",
+      "companyStructure",
+      "activityAndNeeds",
+      "authorisingOfficer",
+      "systemAccess",
+      "supportingDocuments",
+      "organizationSize",
+      "declarations"
+    ];
+
+    const missing = requiredSections.filter(section => !application[section]);
+    if (missing.length > 0) {
+      return res.status(400).json({
+        error: "Please complete all sections before submission.",
+        missingSections: missing
+      });
+    }
+
+    application.isSubmitted = true;
+    await application.save();
+
+    res.status(200).json({ message: "Application submitted successfully." });
+  } catch (err) {
+    console.error("Submit Error:", err);
+    res.status(500).json({ error: "Internal server error." });
+  }
+};
+
+
+exports.submitOrUpdateDeclarations = async (req, res) => {
+   const { id } = req.params;
+  const {
+    serviceType,
+    canMeetSponsorDuties,
+    agreesToTerms,
+  } = req.body;
+
+  console.log("Received body:", req.body);
+  console.log("User:", req.user);
+
+  if (!serviceType || !canMeetSponsorDuties || !agreesToTerms) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+  try {
+    const application = await SponsorshipApplication.findById(id);
+    if (!application) {
+      return res.status(404).json({ error: "Application not found." });
+    }
+
+    if (application.user.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }   if (application.isSubmitted)
+      return res.status(400).json({ error: "Application has already been submitted." });
+
+
+    const declarationData = {
+      serviceType,
+      canMeetSponsorDuties,
+      agreesToTerms, // ✅ fixed
+      application: application._id
+    };
+
+    let declarations;
+    if (application.declarations) {
+      declarations = await Declarations.findByIdAndUpdate(
+        application.declarations,
+        declarationData,
+        { new: true }
+      );
+    } else {
+      declarations = new Declarations(declarationData);
+      await declarations.save();
+      application.declarations = declarations._id;
+    }
+
+    await application.save();
+
+    res.status(200).json({ message: "Declarations submitted successfully", declarations });
+  } catch (err) {
+    console.error("Declarations Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+
 
 exports.updateOrganizationSize = async (req, res) => {
   const { id } = req.params;
@@ -36,6 +145,8 @@ exports.updateOrganizationSize = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
+   if (application.isSubmitted)
+      return res.status(400).json({ error: "Application has already been submitted." });
 
     let sizeDoc;
     if (application.organizationSize) {
@@ -65,6 +176,8 @@ exports.uploadSupportingDocuments = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
+   if (application.isSubmitted)
+      return res.status(400).json({ error: "Application has already been submitted." });
 
     const files = {};
     for (const [key, file] of Object.entries(req.files || {})) {
@@ -105,7 +218,9 @@ exports.updateSystemAccess = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
-    }
+    }   if (application.isSubmitted)
+      return res.status(400).json({ error: "Application has already been submitted." });
+
 
     let accessDoc;
     if (application.systemAccess) {
@@ -154,7 +269,9 @@ exports.updateAuthorisingOfficer = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
-    }
+    }   if (application.isSubmitted)
+      return res.status(400).json({ error: "Application has already been submitted." });
+
 
     let officerDoc;
     if (application.authorisingOfficer) {
@@ -252,6 +369,8 @@ exports.updateActivityAndNeeds = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
+   if (application.isSubmitted)
+      return res.status(400).json({ error: "Application has already been submitted." });
 
     let activityDoc;
 
@@ -319,6 +438,8 @@ exports.updateCompanyStructure = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
+   if (application.isSubmitted)
+      return res.status(400).json({ error: "Application has already been submitted." });
 
     let structureDoc;
     if (application.companyStructure) {
@@ -418,7 +539,10 @@ exports.updateGettingStarted = async (req, res) => {
     // Optional: prevent updating other users' applications
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized access" });
-    }
+    }   
+    // if (application.isSubmitted)
+      // return res.status(400).json({ error: "Application has already been submitted." });
+
 
     let section;
     if (application.gettingStarted) {
@@ -453,7 +577,9 @@ exports.updateAboutYourCompany = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized access" });
-    }
+    }   if (application.isSubmitted)
+      return res.status(400).json({ error: "Application has already been submitted." });
+
 
     let section;
     if (application.aboutYourCompany) {

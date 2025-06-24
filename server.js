@@ -8,8 +8,11 @@ const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const { Server } = require("socket.io");
 const http = require("http");
+const stripeRoutes = require("./routes/stripe");
+
 
 require("./config/passport");
+
 
 // ⬇️ Import Routes
 const salaryRoutes = require("./routes/salaryRoutes");
@@ -40,6 +43,7 @@ const sponsorshipRoutes = require("./routes/sponsorshipRoutes"); // ✅ New
 const chatSocket = require("./sockets/chat");
 
 const app = express();
+app.use("/api/stripe/webhook", express.raw({ type: "application/json" }));
 const server = http.createServer(app);
 
 // ✅ Socket.IO setup
@@ -120,7 +124,7 @@ app.use("/api", cosRoutes);
 app.use("/api", orgRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/sponsorship", sponsorshipRoutes); // ✅ New
-
+app.use("/api/stripe", stripeRoutes);
 // ✅ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 app.get("/", (req, res) => res.send("SoftHire API is running..."));
