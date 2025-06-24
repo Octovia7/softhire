@@ -8,17 +8,22 @@ exports.createCheckoutSession = async (req, res) => {
     const email = req.user.email;
     const userId = req.user.id;
 
+    console.log("💡 Initiating checkout session for user:", email, "Application ID:", applicationId);
+
     // Validate application exists and belongs to current user
     const application = await SponsorshipApplication.findById(applicationId);
     if (!application) {
+      console.warn("❌ Application not found:", applicationId);
       return res.status(404).json({ error: "Application not found" });
     }
 
     if (application.user.toString() !== userId) {
+      console.warn("❌ Unauthorized access attempt by user:", userId);
       return res.status(403).json({ error: "Not authorized to pay for this application" });
     }
 
     if (application.isPaid) {
+      console.warn("⚠️ Application already paid:", applicationId);
       return res.status(400).json({ error: "Application already paid" });
     }
 
@@ -34,7 +39,7 @@ exports.createCheckoutSession = async (req, res) => {
             product_data: {
               name: "Sponsor Licence Application Fee",
             },
-            unit_amount: 25000, // £250.00 = 25000 pence
+            unit_amount: 25000,
           },
           quantity: 1,
         },
@@ -46,14 +51,16 @@ exports.createCheckoutSession = async (req, res) => {
       },
     });
 
-    // Save session ID
+    console.log("✅ Stripe session created. ID:", session.id);
+
     await SponsorshipApplication.findByIdAndUpdate(applicationId, {
       stripeSessionId: session.id,
     });
 
+    console.log("✅ Session ID saved to application:", applicationId);
     res.status(200).json({ url: session.url });
   } catch (error) {
-    console.error("Error creating checkout session:", error);
+    console.error("❌ Error creating checkout session:", error);
     res.status(500).json({ error: "Could not create Stripe session" });
   }
 };
