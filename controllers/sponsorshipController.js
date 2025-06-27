@@ -2,6 +2,7 @@ const SponsorshipApplication = require("../models/SponsorshipApplication");
 const GettingStarted = require("../models/GettingStarted");
 const AboutYourCompany = require("../models/AboutYourCompany");
 const CompanyStructure = require("../models/CompanyStructure");
+const Recruiter = require("../models/Recruiter"); // Ensure this is imported
 
 const ActivityAndNeeds = require("../models/ActivityAndNeeds");
 // const SponsorshipApplication = require("../models/SponsorshipApplication");
@@ -516,20 +517,34 @@ function validateAboutYourCompany(data) {
   return null;
 }
 
-// ✅ POST /api/sponsorship — Create base application
 exports.createSponsorshipApplication = async (req, res) => {
   try {
     const userId = req.user.id;
 
+    // ✅ Find recruiter using correct field name
+    const recruiter = await Recruiter.findOne({ userId });
+    if (!recruiter) {
+      return res.status(404).json({ error: "Recruiter not found" });
+    }
+
     const existing = await SponsorshipApplication.findOne({ user: userId });
     if (existing) {
-      return res.status(200).json({ message: "Application already exists", application: existing });
+      return res.status(200).json({ 
+        message: "Application already exists", 
+        application: existing, 
+        companyName: recruiter.companyName 
+      });
     }
 
     const application = new SponsorshipApplication({ user: userId });
     await application.save();
 
-    res.status(201).json({ message: "Application created", application });
+    res.status(201).json({ 
+      message: "Application created", 
+      application,
+      companyName: recruiter.companyName 
+    });
+
   } catch (err) {
     console.error("Create Sponsorship Application Error:", err);
     res.status(500).json({ error: "Internal server error" });
