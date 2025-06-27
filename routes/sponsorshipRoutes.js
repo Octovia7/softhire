@@ -7,10 +7,21 @@ const {
   updateGettingStarted,
   updateAboutYourCompany,
   getSponsorshipApplicationById,updateCompanyStructure,updateActivityAndNeeds,updateAuthorisingOfficer,updateSystemAccess,uploadSupportingDocuments,submitOrUpdateDeclarations,updateOrganizationSize,submitApplication
+  ,getGettingStarted,getAboutYourCompany,getCompanyStructure,getActivityAndNeeds,getAuthorisingOfficer,getSystemAccess,getSupportingDocuments,getOrganizationSize,getDeclarations
 } = require("../controllers/sponsorshipController");
 
 const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
 const upload = require("../utils/uploadDocument");
+// GET APIs per section
+router.get("/:id/getting-started", authenticate, authorizeRecruiter, getGettingStarted);
+router.get("/:id/about-your-company", authenticate, authorizeRecruiter, getAboutYourCompany);
+router.get("/:id/company-structure", authenticate, authorizeRecruiter, getCompanyStructure);
+router.get("/:id/activity-and-needs", authenticate, authorizeRecruiter, getActivityAndNeeds);
+router.get("/:id/authorising-officer", authenticate, authorizeRecruiter, getAuthorisingOfficer);
+router.get("/:id/system-access", authenticate, authorizeRecruiter, getSystemAccess);
+router.get("/:id/supporting-documents", authenticate, authorizeRecruiter, getSupportingDocuments);
+router.get("/:id/organization-size", authenticate, authorizeRecruiter, getOrganizationSize);
+router.get("/:id/declarations", authenticate, authorizeRecruiter, getDeclarations);
 router.post("/application/:id/submit", authenticate, authorizeRecruiter, submitApplication);
 router.patch(
   "/application/:id/organization-size",

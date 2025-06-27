@@ -463,19 +463,32 @@ function validateGettingStarted(data) {
     return "Sponsor Licence number is required when license is true.";
   }
 
-  if (data.rejectedBefore?.value === true && !data.rejectedBefore.reason) {
-    return "Please provide a reason for rejection.";
+  // ❌ Prevent both current and previous licenses being true
+  if (data.hasSponsorLicense?.value === true && data.hadSponsorLicenseBefore?.value === true) {
+    return "You cannot currently hold a sponsor license *and* have previously held one.";
   }
 
-  if (
-    data.isRecruitmentAgency?.value === true &&
-    typeof data.isRecruitmentAgency.contractsOutToOthers !== "boolean"
-  ) {
-    return "Please specify if workers are contracted out.";
-  }
+ if (data.rejectedBefore?.value === true && !data.rejectedBefore.reason) {
+  return "Please provide a reason for rejection.";
+}
 
+if (data.rejectedBefore?.value === false && data.rejectedBefore.reason?.trim()) {
+  return "Reason should not be provided if not rejected before.";
+}
+
+   // ✅ Validate recruitment agency logic
+  if (data.isRecruitmentAgency?.value === true) {
+    if (typeof data.isRecruitmentAgency.contractsOutToOthers !== "boolean") {
+      return "Please specify whether workers are contracted out.";
+    }
+  } else {
+    if ("contractsOutToOthers" in data.isRecruitmentAgency) {
+      return "contractsOutToOthers should not be set if not a recruitment agency.";
+    }}
   return null;
 }
+
+
 
 // 🔍 Validation for About Your Company
 function validateAboutYourCompany(data) {
@@ -522,7 +535,6 @@ exports.createSponsorshipApplication = async (req, res) => {
   }
 };
 
-// ✅ PATCH /api/sponsorship/:id/getting-started
 exports.updateGettingStarted = async (req, res) => {
   const { id } = req.params;
   const data = req.body;
@@ -534,19 +546,34 @@ exports.updateGettingStarted = async (req, res) => {
 
   try {
     const application = await SponsorshipApplication.findById(id);
-    if (!application) return res.status(404).json({ error: "Application not found" });
 
-    // Optional: prevent updating other users' applications
+    if (!application) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized access" });
-    }   
-    // if (application.isSubmitted)
-      // return res.status(400).json({ error: "Application has already been submitted." });
-
+    }
 
     let section;
+
+    // ✅ Log existing gettingStarted value for debug
+    console.log("Existing gettingStarted ID:", application.gettingStarted);
+
     if (application.gettingStarted) {
-      section = await GettingStarted.findByIdAndUpdate(application.gettingStarted, data, { new: true });
+      section = await GettingStarted.findByIdAndUpdate(
+        application.gettingStarted,
+        data,
+        { new: true }
+      );
+
+      // ⚠️ If the ID is invalid or the doc was deleted
+      if (!section) {
+        console.warn("Previous GettingStarted section not found. Creating new.");
+        section = new GettingStarted(data);
+        await section.save();
+        application.gettingStarted = section._id;
+      }
     } else {
       section = new GettingStarted(data);
       await section.save();
@@ -560,6 +587,7 @@ exports.updateGettingStarted = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 // ✅ PATCH /api/sponsorship/:id/about-your-company
 exports.updateAboutYourCompany = async (req, res) => {
@@ -619,3 +647,87 @@ exports.getSponsorshipApplicationById = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+exports.getGettingStarted = async (req, res) => {
+  try {
+    const application = await SponsorshipApplication.findById(req.params.id).populate("gettingStarted");
+
+    // Step 1: Check if application exists
+    if (!application) {
+      return res.status(404).json({ error: "Application not found" });
+    }
+
+    // Step 2: Authorization check
+    if (application.user.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    // Step 3: Section check
+    if (!application.gettingStarted) {
+      return res.status(200).json({ message: "Getting Started section not filled yet", data: {} });
+    }
+
+    // Step 4: Return section
+    return res.status(200).json(application.gettingStarted);
+  } catch (err) {
+    console.error("Get GettingStarted Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+exports.getAboutYourCompany = async (req, res) => {
+  const application = await SponsorshipApplication.findById(req.params.id).populate("aboutYourCompany");
+  if (!application || !application.aboutYourCompany) return res.status(404).json({ error: "Not found" });
+  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+  res.json(application.aboutYourCompany);
+};
+
+exports.getCompanyStructure = async (req, res) => {
+  const application = await SponsorshipApplication.findById(req.params.id).populate("companyStructure");
+  if (!application || !application.companyStructure) return res.status(404).json({ error: "Not found" });
+  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+  res.json(application.companyStructure);
+};
+
+exports.getActivityAndNeeds = async (req, res) => {
+  const application = await SponsorshipApplication.findById(req.params.id).populate("activityAndNeeds");
+  if (!application || !application.activityAndNeeds) return res.status(404).json({ error: "Not found" });
+  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+  res.json(application.activityAndNeeds);
+};
+
+exports.getAuthorisingOfficer = async (req, res) => {
+  const application = await SponsorshipApplication.findById(req.params.id).populate("authorisingOfficer");
+  if (!application || !application.authorisingOfficer) return res.status(404).json({ error: "Not found" });
+  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+  res.json(application.authorisingOfficer);
+};
+
+exports.getSystemAccess = async (req, res) => {
+  const application = await SponsorshipApplication.findById(req.params.id).populate("systemAccess");
+  if (!application || !application.systemAccess) return res.status(404).json({ error: "Not found" });
+  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+  res.json(application.systemAccess);
+};
+
+exports.getSupportingDocuments = async (req, res) => {
+  const application = await SponsorshipApplication.findById(req.params.id).populate("supportingDocuments");
+  if (!application || !application.supportingDocuments) return res.status(404).json({ error: "Not found" });
+  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+  res.json(application.supportingDocuments);
+};
+
+exports.getOrganizationSize = async (req, res) => {
+  const application = await SponsorshipApplication.findById(req.params.id).populate("organizationSize");
+  if (!application || !application.organizationSize) return res.status(404).json({ error: "Not found" });
+  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+  res.json(application.organizationSize);
+};
+
+exports.getDeclarations = async (req, res) => {
+  const application = await SponsorshipApplication.findById(req.params.id).populate("declarations");
+  if (!application || !application.declarations) return res.status(404).json({ error: "Not found" });
+  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+  res.json(application.declarations);
+};
+

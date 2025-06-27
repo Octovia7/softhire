@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const GettingStartedSchema = new mongoose.Schema({
   hasSponsorLicense: {
-    value: { type: Boolean },
+    value: { type: Boolean ,required : true},
     licenseNumber: { type: String }, // Required if value is true
   },
   hadSponsorLicenseBefore: {
-    value: { type: Boolean, required: true },
-    details: [String], // Optional: if you later add sub-options
+    value: { type: Boolean},
+   licenseNumber: { type: String }, // Required if value is true
   },
   hadLicenseRevokedOrSuspended: { type: Boolean, required: true },
   rejectedBefore: {
