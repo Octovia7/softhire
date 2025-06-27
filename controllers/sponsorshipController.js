@@ -69,7 +69,7 @@ exports.submitApplication = async (req, res) => {
 
 
 exports.submitOrUpdateDeclarations = async (req, res) => {
-   const { id } = req.params;
+  const { id } = req.params;
   const {
     serviceType,
     canMeetSponsorDuties,
@@ -90,7 +90,7 @@ exports.submitOrUpdateDeclarations = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
-    }   if (application.isSubmitted)
+    } if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
 
@@ -145,7 +145,7 @@ exports.updateOrganizationSize = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-   if (application.isSubmitted)
+    if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
     let sizeDoc;
@@ -176,7 +176,7 @@ exports.uploadSupportingDocuments = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-   if (application.isSubmitted)
+    if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
     const files = {};
@@ -218,7 +218,7 @@ exports.updateSystemAccess = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
-    }   if (application.isSubmitted)
+    } if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
 
@@ -248,7 +248,7 @@ exports.updateSystemAccess = async (req, res) => {
 
 exports.updateAuthorisingOfficer = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const { data } = req.body;
 
   try {
     // basic validation for NIN and Convictions
@@ -269,7 +269,7 @@ exports.updateAuthorisingOfficer = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
-    }   if (application.isSubmitted)
+    } if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
 
@@ -342,7 +342,7 @@ function validateActivityAndNeeds(data) {
 // ✅ PATCH: Update Activity & Needs Section
 exports.updateActivityAndNeeds = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const { data } = req.body;
 
   // ✅ Handle passport file (if any) via Cloudinary
   if (req.file?.path) {
@@ -369,7 +369,7 @@ exports.updateActivityAndNeeds = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-   if (application.isSubmitted)
+    if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
     let activityDoc;
@@ -424,7 +424,7 @@ function validateCompanyStructure(data) {
 // ✅ PATCH: Update Company Structure section
 exports.updateCompanyStructure = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const { data } = req.body;
 
   const validationError = validateCompanyStructure(data);
   if (validationError) {
@@ -438,7 +438,7 @@ exports.updateCompanyStructure = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-   if (application.isSubmitted)
+    if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
     let structureDoc;
@@ -468,23 +468,24 @@ function validateGettingStarted(data) {
     return "You cannot currently hold a sponsor license *and* have previously held one.";
   }
 
- if (data.rejectedBefore?.value === true && !data.rejectedBefore.reason) {
-  return "Please provide a reason for rejection.";
-}
+  if (data.rejectedBefore?.value === true && !data.rejectedBefore.reason) {
+    return "Please provide a reason for rejection.";
+  }
 
-if (data.rejectedBefore?.value === false && data.rejectedBefore.reason?.trim()) {
-  return "Reason should not be provided if not rejected before.";
-}
+  if (data.rejectedBefore?.value === false && data.rejectedBefore.reason?.trim()) {
+    return "Reason should not be provided if not rejected before.";
+  }
 
-   // ✅ Validate recruitment agency logic
+  // ✅ Validate recruitment agency logic
   if (data.isRecruitmentAgency?.value === true) {
     if (typeof data.isRecruitmentAgency.contractsOutToOthers !== "boolean") {
       return "Please specify whether workers are contracted out.";
     }
-  } else {
+  } else if (data.isRecruitmentAgency) {
     if ("contractsOutToOthers" in data.isRecruitmentAgency) {
       return "contractsOutToOthers should not be set if not a recruitment agency.";
-    }}
+    }
+  }
   return null;
 }
 
@@ -537,7 +538,8 @@ exports.createSponsorshipApplication = async (req, res) => {
 
 exports.updateGettingStarted = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const { data } = req.body;
+  console.log(data);
 
   const validationError = validateGettingStarted(data);
   if (validationError) {
@@ -592,7 +594,7 @@ exports.updateGettingStarted = async (req, res) => {
 // ✅ PATCH /api/sponsorship/:id/about-your-company
 exports.updateAboutYourCompany = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const { data } = req.body;
 
   const validationError = validateAboutYourCompany(data);
   if (validationError) {
@@ -605,7 +607,7 @@ exports.updateAboutYourCompany = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized access" });
-    }   if (application.isSubmitted)
+    } if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
 

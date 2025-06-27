@@ -6,8 +6,8 @@ const {
   createSponsorshipApplication,
   updateGettingStarted,
   updateAboutYourCompany,
-  getSponsorshipApplicationById,updateCompanyStructure,updateActivityAndNeeds,updateAuthorisingOfficer,updateSystemAccess,uploadSupportingDocuments,submitOrUpdateDeclarations,updateOrganizationSize,submitApplication
-  ,getGettingStarted,getAboutYourCompany,getCompanyStructure,getActivityAndNeeds,getAuthorisingOfficer,getSystemAccess,getSupportingDocuments,getOrganizationSize,getDeclarations
+  getSponsorshipApplicationById, updateCompanyStructure, updateActivityAndNeeds, updateAuthorisingOfficer, updateSystemAccess, uploadSupportingDocuments, submitOrUpdateDeclarations, updateOrganizationSize, submitApplication
+  , getGettingStarted, getAboutYourCompany, getCompanyStructure, getActivityAndNeeds, getAuthorisingOfficer, getSystemAccess, getSupportingDocuments, getOrganizationSize, getDeclarations
 } = require("../controllers/sponsorshipController");
 
 const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
@@ -22,16 +22,16 @@ router.get("/:id/system-access", authenticate, authorizeRecruiter, getSystemAcce
 router.get("/:id/supporting-documents", authenticate, authorizeRecruiter, getSupportingDocuments);
 router.get("/:id/organization-size", authenticate, authorizeRecruiter, getOrganizationSize);
 router.get("/:id/declarations", authenticate, authorizeRecruiter, getDeclarations);
-router.post("/application/:id/submit", authenticate, authorizeRecruiter, submitApplication);
+router.post("/:id/submit", authenticate, authorizeRecruiter, submitApplication);
 router.patch(
-  "/application/:id/organization-size",
+  "/:id/organization-size",
   authenticate,
   authorizeRecruiter,
   updateOrganizationSize
 );
 
 router.patch(
-  "/application/:id/declarations",
+  "/:id/declarations",
   authenticate,
   authorizeRecruiter,
   submitOrUpdateDeclarations
@@ -40,7 +40,7 @@ router.patch(
 // Multer expects .fields for multiple file fields
 
 router.patch(
-  '/application/:id/supporting-documents',
+  '/:id/supporting-documents',
   authenticate,
   authorizeRecruiter,
   upload.fields([
@@ -71,7 +71,7 @@ router.patch(
 
 
 router.patch(
-  "/:id/activity-needs",
+  "/:id/activity-and-needs",
   authenticate,
   authorizeRecruiter,
   uploadPassport.single("passport"), // field name = "passport"
@@ -80,7 +80,7 @@ router.patch(
 
 // PATCH: Update System Access
 router.patch("/:id/system-access", authenticate, authorizeRecruiter, updateSystemAccess);
-router.patch("/:id/authorising-officer",authenticate, authorizeRecruiter,updateAuthorisingOfficer);
+router.patch("/:id/authorising-officer", authenticate, authorizeRecruiter, updateAuthorisingOfficer);
 
 // 🔹 POST: Start sponsorship application (creates empty shell)
 router.post("/", authenticate, authorizeRecruiter, createSponsorshipApplication);

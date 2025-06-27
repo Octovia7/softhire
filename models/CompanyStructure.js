@@ -5,6 +5,7 @@ const CompanyStructureSchema = new mongoose.Schema({
   sector: { type: String, required: true },
   operatesInCareSector: { type: Boolean, required: true },
   operatesInDomiciliaryCare: { type: Boolean }, // Only if in care sector
+  isCQCRegistered: { type: Boolean },
 
   companyType: { type: String, required: true },
   entityType: { type: String, required: true },
@@ -31,7 +32,8 @@ const CompanyStructureSchema = new mongoose.Schema({
     name: { type: String },
     registrationNumber: { type: String },
     expiryDate: { type: Date }
-  }
+  },
+  accountsOfficeReference: { type: String, required: true },
 });
 
 module.exports = mongoose.model("CompanyStructure", CompanyStructureSchema);

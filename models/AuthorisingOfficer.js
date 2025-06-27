@@ -21,7 +21,7 @@ const AuthorisingOfficerSchema = new mongoose.Schema({
   email: { type: String, required: true },
 
   dateOfBirth: { type: Date, required: true },
-  companyAddress: { type: CompanyAddressSchema, required: true },
+  companyAddress: { type: String, required: true },
 
   companyRole: { type: String, required: true },
 

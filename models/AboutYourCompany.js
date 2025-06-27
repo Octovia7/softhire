@@ -5,14 +5,14 @@ const AboutYourCompanySchema = new mongoose.Schema({
   registeredName: { type: String, required: true },
   website: { type: String, required: true },
   companiesHouseNumber: { type: String, required: true },
-  registeredAddress: { type: String, required: true },
+  registeredAddress: { type: Object, required: true },
 
   hasPayeReference: { type: Boolean, required: true },
   payeReferences: [{ type: String }], // Required if hasPayeReference is true
   payeExemptReason: { type: String },  // Required if hasPayeReference is false
 
   hasOtherLocations: { type: Boolean, required: true },
-  otherWorkLocations: [{ type: String }], // Required if hasOtherLocations is true
+  otherWorkLocations: [{ type: Object }], // Required if hasOtherLocations is true
 
   sameAsRegistered: { type: Boolean, required: true },
   tradingAddress: { type: String }, // Required if sameAsRegistered is false
