@@ -217,6 +217,41 @@ exports.uploadSupportingDocuments = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+exports.updateSingleLevel1AccessEntry = async (req, res) => {
+  const { id, accessId } = req.params;
+  const updateData = req.body;
+
+  try {
+    const application = await SponsorshipApplication.findById(id);
+    if (!application) return res.status(404).json({ error: "Application not found" });
+
+    if (application.user.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    if (!application.level1AccessUsers.includes(accessId)) {
+      return res.status(400).json({ error: "Access entry does not belong to this application" });
+    }
+
+    const updatedAccess = await Level1AccessUser.findByIdAndUpdate(accessId, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedAccess) {
+      return res.status(404).json({ error: "Access entry not found" });
+    }
+
+    res.status(200).json({
+      message: "Level 1 Access entry updated successfully",
+      level1AccessUser: updatedAccess,
+    });
+
+  } catch (err) {
+    console.error("Update Error:", err.message);
+    res.status(500).json({ error: err.message || "Internal server error" });
+  }
+};
 exports.updateSystemAccess = async (req, res) => {
   const { id } = req.params;
   const entry = req.body.data; // single access entry
@@ -747,26 +782,26 @@ exports.getAuthorisingOfficer = async (req, res) => {
   res.json(application.authorisingOfficer);
 };
 exports.getSystemAccess = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const application = await SponsorshipApplication.findById(req.params.id).populate("systemAccess");
-    if (!application || !application.systemAccess) {
-      return res.status(404).json({ error: "Not found" });
-    }
+    const application = await SponsorshipApplication.findById(id).populate("level1AccessUsers");
+    if (!application) return res.status(404).json({ error: "Application not found" });
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
-    // Return only accessEntries and metadata
-    const { accessEntries, _id, createdAt, updatedAt } = application.systemAccess.toObject();
-    return res.status(200).json({ _id, accessEntries, createdAt, updatedAt });
+    res.status(200).json({
+      message: "Level 1 Access entries fetched successfully",
+      level1AccessUsers: application.level1AccessUsers
+    });
 
   } catch (err) {
-    console.error("System Access Fetch Error:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    console.error("Fetch Error:", err.message);
+    res.status(500).json({ error: err.message || "Internal server error" });
   }
 };
-
 
 exports.getSupportingDocuments = async (req, res) => {
   const application = await SponsorshipApplication.findById(req.params.id).populate("supportingDocuments");
