@@ -120,7 +120,7 @@ exports.handleWebhook = async (req, res) => {
       // Populate user + relevant form fields
       await app.populate("user", "email fullName");
       await app.populate("aboutYourCompany");
-      await app.populate("authorisingOfficer");
+      await app.populate("authorisingOfficers");
       await app.populate("organizationSize");
 
       // ✅ Mark as paid
