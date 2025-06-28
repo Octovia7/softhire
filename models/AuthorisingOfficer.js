@@ -18,11 +18,11 @@ const AuthorisingOfficerSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   previouslyKnownAs: String,
 
-  phoneNumber: { type: String, required: true },
+  phoneNumber: { type: String },
   email: { type: String, required: true },
 
   dateOfBirth: { type: Date, required: true },
-  companyAddress: { type: String, required: true },
+  companyAddress: { type: String },
 
   companyRole: { type: String, required: true },
 
@@ -32,7 +32,7 @@ const AuthorisingOfficerSchema = new mongoose.Schema({
 
   nationality: { type: String, required: true },
   isSettledWorker: { type: Boolean, required: true },
-  immigrationStatus: { type: String, required: true },
+  immigrationStatus: { type: String },
 
   hasConvictions: { type: Boolean, required: true },
   convictionDetails: String,
