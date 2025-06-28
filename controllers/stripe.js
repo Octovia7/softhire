@@ -1,6 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const SponsorshipApplication = require("../models/SponsorshipApplication");
-
+const { sendAdminApplicationDetails } = require("../utils/mailer");
 // Create Stripe Checkout session
 exports.createCheckoutSession = async (req, res) => {
   try {
@@ -8,8 +8,7 @@ exports.createCheckoutSession = async (req, res) => {
     const email = req.user.email;
     const userId = req.user.id;
 
-  console.log("✅ Using email:", email);
-
+    console.log("✅ Using email:", email);
     console.log("💡 Initiating checkout session for user:", email, "Application ID:", applicationId);
 
     // Validate application exists and belongs to current user
@@ -22,6 +21,11 @@ exports.createCheckoutSession = async (req, res) => {
     if (application.user.toString() !== userId) {
       console.warn("❌ Unauthorized access attempt by user:", userId);
       return res.status(403).json({ error: "Not authorized to pay for this application" });
+    }
+
+    if (!application.isSubmitted) {
+      console.warn("⚠️ Application not submitted yet:", applicationId);
+      return res.status(400).json({ error: "Please complete and submit your application before payment" });
     }
 
     if (application.isPaid) {
@@ -67,7 +71,11 @@ exports.createCheckoutSession = async (req, res) => {
   }
 };
 
+
 // const transporter = require("../utils/email"); 
+
+
+
 
 exports.handleWebhook = async (req, res) => {
   const sig = req.headers["stripe-signature"];
@@ -84,7 +92,7 @@ exports.handleWebhook = async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // ✅ On successful payment
+  // ✅ Handle successful payment
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
     const applicationId = session.metadata.applicationId;
@@ -94,6 +102,7 @@ exports.handleWebhook = async (req, res) => {
         .populate("user", "email fullName")
         .populate("aboutYourCompany")
         .populate("authorisingOfficer")
+        .populate("level1User")
         .populate("organizationSize");
 
       if (!app) {
@@ -101,54 +110,32 @@ exports.handleWebhook = async (req, res) => {
         return res.status(404).json({ error: "Application not found" });
       }
 
-      // ✅ Mark as paid
+      // ✅ Mark as paid (only once)
       if (!app.isPaid) {
         app.isPaid = true;
         await app.save();
         console.log("✅ Application marked as paid:", applicationId);
       }
 
-      const { user, aboutYourCompany, authorisingOfficer, organizationSize } = app;
+      const user = app.user;
 
-      const commonDetails = `
-Sponsor Licence Application - Payment Confirmation
-
-👤 Full Name: ${user.fullName}
-📧 Email: ${user.email}
-
-🏢 Company Name: ${aboutYourCompany?.companyName || "N/A"}
-🏭 Industry: ${aboutYourCompany?.industry || "N/A"}
-🏛️ Company Type: ${aboutYourCompany?.companyType || "N/A"}
-👨‍💼 Authorising Officer: ${authorisingOfficer?.fullName || "N/A"}
-👥 Number of Employees: ${organizationSize?.size || "N/A"}
-📄 Application ID: ${applicationId}
-`;
-
-      // ✅ Email to client
-      await transporter.sendMail({
+      // ✅ Send confirmation email to client
+      await require("../utils/transporter").sendMail({
         from: process.env.EMAIL,
         to: user.email,
         subject: "✅ Payment Received – Sponsor Licence Application",
-        text: `Hi ${user.fullName},\n\nThank you for your payment. Your application has been successfully submitted.\n${commonDetails}\n\nRegards,\nSoftHire Team`,
+        text: `Hi ${user.fullName},\n\nThank you for your payment. We’ve received your sponsor licence application.\n\nRegards,\nTeam SoftHire`,
       });
+      console.log("📧 Confirmation email sent to client:", user.email);
 
-      console.log("📧 Email sent to client:", user.email);
-
-      // ✅ Email to admin
-      await transporter.sendMail({
-        from: process.env.EMAIL,
-        to: "support@softhire.co.uk", // change to real admin address
-        subject: `📥 New Sponsor Licence Application – ${user.fullName}`,
-        text: `A new sponsor licence application has been paid for.\n\n${commonDetails}`,
-      });
-
-      console.log("📬 Admin notified");
+      // ✅ Send full details to admin/owner
+      await sendAdminApplicationDetails(app);
+      console.log("📬 Admin notified with full application data");
 
     } catch (error) {
-      console.error("❌ Error processing payment:", error);
+      console.error("❌ Error in webhook handler:", error);
     }
   }
 
   res.status(200).json({ received: true });
 };
-

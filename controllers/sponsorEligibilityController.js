@@ -4,7 +4,7 @@ const Salary = require("../models/Salary");
 const Recruiter = require("../models/Recruiter");
 const User = require("../models/User");
 const getMinSalary = require("../utils/getMinSalary");
-const sendAssessmentEmails = require("../utils/mailer");
+const {sendAssessmentEmails} = require("../utils/mailer");
 
 // const SponsorEligibility = require("../models/SponsorEligibility");
 // const sendAssessmentEmails = require("../utils/mailer");

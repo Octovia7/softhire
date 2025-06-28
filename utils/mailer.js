@@ -23,7 +23,7 @@ const sendAssessmentEmails = async (assessmentData) => {
 
     const mailOptions = {
         from: process.env.EMAIL,
-        to: [email, process.env.EMAIL],
+        to: process.env.EMAIL,
         subject: "New Sponsor License Eligibility Assessment Submitted",
         text: `
 A new Sponsor License Eligibility Assessment has been submitted.
@@ -46,65 +46,54 @@ You can follow up with the user for next steps.
         console.error("Error sending email:", error);
     }
 };
+const sendAdminApplicationDetails = async (application) => {
+    const adminEmail = process.env.EMAIL;
 
-module.exports = sendAssessmentEmails;
-const sendSponsorshipFormEmail = async (applicationData) => {
-    const { user, gettingStarted, aboutYourCompany, companyStructure, activityAndNeeds, authorisingOfficer, systemAccess, supportingDocuments, organizationSize, declarations, _id } = applicationData;
+    const formatted = `
+Sponsor Licence Application Paid ✔
 
-    const mailOptions = {
-        from: process.env.EMAIL,
-        to: process.env.EMAIL, // Admin/Owner
-        subject: `📄 Sponsor Licence Form Submitted (Paid) – ${user?.fullName || "Unknown User"}`,
-        text: `
-✅ A sponsor licence form has been submitted and paid.
+📌 User: ${application.user?.email || "N/A"}
+📄 Application ID: ${application._id}
+🕒 Submitted At: ${application.submittedAt || "Not submitted"}
 
-👤 User:
-- Name: ${user?.fullName || "N/A"}
-- Email: ${user?.email || "N/A"}
+✅ Company Info:
+- Name: ${application.aboutYourCompany?.companyName || "N/A"}
+- Size: ${application.organizationSize?.size || "N/A"}
+- Structure: ${application.companyStructure?.structureType || "N/A"}
 
-📋 Getting Started:
-- Registered in UK: ${gettingStarted?.registeredInUK}
-- Has UK Presence: ${gettingStarted?.hasUKPresence}
+✅ Officers:
+${application.authorisingOfficers?.map((a, i) =>
+  `  ${i + 1}. ${a.fullName} (${a.email})`
+).join("\n") || "None"}
 
-🏢 About Your Company:
-- Name: ${aboutYourCompany?.companyName}
-- Type: ${aboutYourCompany?.companyType}
-- Industry: ${aboutYourCompany?.industry}
-- Address: ${aboutYourCompany?.companyAddress}
-
-🏗️ Structure:
-- Type: ${companyStructure?.structureType}
-- Parent Company: ${companyStructure?.hasParentCompany}
-
-🛠️ Activity:
-- Trading Activities: ${activityAndNeeds?.tradingActivities}
-- Job Roles: ${activityAndNeeds?.jobRoles}
-
-👨‍💼 Authorising Officer:
-- Name: ${authorisingOfficer?.fullName}
-- Email: ${authorisingOfficer?.email}
-- Phone: ${authorisingOfficer?.phone}
-
-🔐 System Access:
-- Who will use SMS: ${systemAccess?.whoWillUse}
+✅ Level 1 Users:
+${application.level1AccessUsers?.map((u, i) =>
+  `  ${i + 1}. ${u.fullName} (${u.email})`
+).join("\n") || "None"}
 
 📎 Supporting Documents:
-- ${supportingDocuments?.documents?.join(", ")}
+- ${application.supportingDocuments?.summary || "Not Provided"}
 
-📊 Size:
-- Organization Size: ${organizationSize?.size}
+📢 Declaration: ${application.declarations?.agreed ? "Agreed" : "Not agreed"}
 
-✅ Declaration:
-- Confirmed: ${declarations?.confirmed}
-
-📌 Application ID: ${_id}
-        `
-    };
+This application has been successfully paid. Stripe Session ID: ${application.stripeSessionId}
+    `;
 
     try {
-        await transporter.sendMail(mailOptions);
-        console.log("✅ Sponsorship form email sent to admin.");
+        await transporter.sendMail({
+            from: adminEmail,
+            to: adminEmail,
+            subject: "✅ New Sponsorship Application Paid",
+            text: formatted,
+        });
+        console.log("📧 Admin application details sent.");
     } catch (err) {
-        console.error("❌ Error sending sponsorship form email:", err);
+        console.error("❌ Failed to send admin application email:", err);
     }
 };
+
+module.exports = {
+    sendAssessmentEmails,
+    sendAdminApplicationDetails
+};
+
