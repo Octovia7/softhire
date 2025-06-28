@@ -129,19 +129,20 @@ exports.submitOrUpdateDeclarations = async (req, res) => {
 
 exports.updateOrganizationSize = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const data = req.body.data;
+  // console.log(data)
 
-  const validTurnover = ["below_15m", "15m_or_more"];
-  const validAssets = ["below_7_5m", "7_5m_or_more"];
-  const validEmployees = ["below_50", "50_or_more"];
+  // const validTurnover = ["below_15m", "15m_or_more"];
+  // const validAssets = ["below_7_5m", "7_5m_or_more"];
+  // const validEmployees = ["below_50", "50_or_more"];
 
-  if (
-    !validTurnover.includes(data.turnover) ||
-    !validAssets.includes(data.assets) ||
-    !validEmployees.includes(data.employees)
-  ) {
-    return res.status(400).json({ error: "Invalid value provided for one or more fields." });
-  }
+  // if (
+  //   !validTurnover.includes(data.turnover) ||
+  //   !validAssets.includes(data.assets) ||
+  //   !validEmployees.includes(data.employees)
+  // ) {
+  //   return res.status(400).json({ error: "Invalid value provided for one or more fields." });
+  // }
 
   try {
     const application = await SponsorshipApplication.findById(id);
@@ -218,6 +219,7 @@ exports.uploadSupportingDocuments = async (req, res) => {
 exports.updateSystemAccess = async (req, res) => {
   const { id } = req.params;
   const { data } = req.body;
+
 
   try {
     const application = await SponsorshipApplication.findById(id);
