@@ -95,32 +95,47 @@ exports.handleWebhook = async (req, res) => {
   // ✅ Handle successful payment
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    const applicationId = session.metadata.applicationId;
+
+    const metadata = session.metadata || {};
+    console.log("📦 Webhook session metadata:", metadata);
+
+    let applicationId = metadata.applicationId;
+    let app = null;
 
     try {
-      const app = await SponsorshipApplication.findById(applicationId)
-        .populate("user", "email fullName")
-        .populate("aboutYourCompany")
-        .populate("authorisingOfficer")
-        .populate("level1User")
-        .populate("organizationSize");
+      if (applicationId) {
+        app = await SponsorshipApplication.findById(applicationId);
+        console.log("🔎 Found application by applicationId");
+      } else {
+        app = await SponsorshipApplication.findOne({ stripeSessionId: session.id });
+        applicationId = app?._id?.toString();
+        console.warn("⚠️ applicationId not in metadata; used stripeSessionId fallback");
+      }
 
       if (!app) {
-        console.error("❌ Application not found:", applicationId);
+        console.error("❌ SponsorshipApplication not found.");
         return res.status(404).json({ error: "Application not found" });
       }
 
-      // ✅ Mark as paid (only once)
+      // Populate user + relevant form fields
+      await app.populate("user", "email fullName");
+      await app.populate("aboutYourCompany");
+      await app.populate("authorisingOfficer");
+      await app.populate("organizationSize");
+
+      // ✅ Mark as paid
       if (!app.isPaid) {
         app.isPaid = true;
         await app.save();
         console.log("✅ Application marked as paid:", applicationId);
+      } else {
+        console.log("⚠️ Application already marked as paid");
       }
 
       const user = app.user;
 
-      // ✅ Send confirmation email to client
-      await require("../utils/transporter").sendMail({
+      // ✅ Send email to client
+      await transporter.sendMail({
         from: process.env.EMAIL,
         to: user.email,
         subject: "✅ Payment Received – Sponsor Licence Application",
@@ -128,7 +143,7 @@ exports.handleWebhook = async (req, res) => {
       });
       console.log("📧 Confirmation email sent to client:", user.email);
 
-      // ✅ Send full details to admin/owner
+      // ✅ Send full details to admin
       await sendAdminApplicationDetails(app);
       console.log("📬 Admin notified with full application data");
 
