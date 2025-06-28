@@ -7,7 +7,7 @@ const {
   updateGettingStarted,
   updateAboutYourCompany,
   getSponsorshipApplicationById,updateCompanyStructure,updateActivityAndNeeds,updateAuthorisingOfficers,updateSystemAccess,uploadSupportingDocuments,submitOrUpdateDeclarations,updateOrganizationSize,submitApplication
-  ,getGettingStarted,getAboutYourCompany,getCompanyStructure,getActivityAndNeeds,getAuthorisingOfficer,getSystemAccess,getSupportingDocuments,getOrganizationSize,getDeclarations,getApplicationProgress} = require("../controllers/sponsorshipController");
+  ,getGettingStarted,getAboutYourCompany,getCompanyStructure,getActivityAndNeeds,getAuthorisingOfficer,getSystemAccess,getSupportingDocuments,getOrganizationSize,getDeclarations,getApplicationProgress,uploadSingleSupportingDocument} = require("../controllers/sponsorshipController");
 
 const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
 const upload = require("../utils/uploadDocument");
@@ -39,7 +39,13 @@ router.patch(
 );
 
 // Multer expects .fields for multiple file fields
-
+router.patch(
+  '/application/:id/supporting-documents/upload-one',
+  authenticate,
+  authorizeRecruiter,
+  upload.single("file"),
+  uploadSingleSupportingDocument
+);
 router.patch(
   '/application/:id/supporting-documents',
   authenticate,
