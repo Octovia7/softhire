@@ -1,23 +1,24 @@
+// models/AuthorisingOfficer.js
 const mongoose = require("mongoose");
 
 const CompanyAddressSchema = new mongoose.Schema({
   line1: { type: String, required: true },
-  line2: { type: String },
-  line3: { type: String },
-  city: { type: String },
-  county: { type: String },
+  line2: String,
+  line3: String,
+  city: String,
+  county: String,
   postcode: { type: String, required: true },
   country: { type: String, required: true },
-  telephone: { type: String, required: true }, // 11-digit starting with '0'
+  telephone: { type: String, required: true },
 }, { _id: false });
 
 const AuthorisingOfficerSchema = new mongoose.Schema({
-  title: { type: String },
+  title: String,
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  previouslyKnownAs: { type: String },
+  previouslyKnownAs: String,
 
-  phoneNumber: { type: String, required: true }, // 11-digit starting with '0'
+  phoneNumber: { type: String, required: true },
   email: { type: String, required: true },
 
   dateOfBirth: { type: Date, required: true },
@@ -26,17 +27,17 @@ const AuthorisingOfficerSchema = new mongoose.Schema({
   companyRole: { type: String, required: true },
 
   hasNationalInsuranceNumber: { type: Boolean, required: true },
-  nationalInsuranceNumber: { type: String },
-  niNumberExemptReason: { type: String },
+  nationalInsuranceNumber: String,
+  niNumberExemptReason: String,
 
   nationality: { type: String, required: true },
   isSettledWorker: { type: Boolean, required: true },
   immigrationStatus: { type: String, required: true },
 
   hasConvictions: { type: Boolean, required: true },
-  convictionDetails: { type: String },
+  convictionDetails: String,
 
   hasUpcomingHoliday: { type: Boolean, required: true }
-}, { timestamps: true });
+}, { timestamps: true }); // timestamps are fine if this is a top-level model
 
 module.exports = mongoose.model("AuthorisingOfficer", AuthorisingOfficerSchema);

@@ -208,7 +208,6 @@ exports.uploadSupportingDocuments = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 exports.updateSystemAccess = async (req, res) => {
   const { id } = req.params;
   const data = req.body;
@@ -219,9 +218,37 @@ exports.updateSystemAccess = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
-    } if (application.isSubmitted)
-      return res.status(400).json({ error: "Application has already been submitted." });
+    }
 
+    // 🔒 Validate accessEntries
+    for (const entry of data.accessEntries || []) {
+      if (entry.needsLevel1Access && !entry.level1User) {
+        return res.status(400).json({ error: "Level 1 user details are required when Level 1 access is needed." });
+      }
+
+      const user = entry.level1User;
+      if (user) {
+        if (user.hasNINumber && !user.nationalInsuranceNumber) {
+          return res.status(400).json({ error: "NI Number is required if marked as available." });
+        }
+        if (user.hasNINumber === false && !user.niExemptReason) {
+          return res.status(400).json({ error: "NI exemption reason is required." });
+        }
+        if (user.hasConvictions && !user.convictionDetails) {
+          return res.status(400).json({ error: "Conviction details are required." });
+        }
+        if (!user.isSettledWorker) {
+          if (
+            !user.immigrationStatus ||
+            !user.passportNumber ||
+            !user.homeOfficeReference ||
+            !user.permissionExpiryDate
+          ) {
+            return res.status(400).json({ error: "Complete immigration details are required for non-settled workers." });
+          }
+        }
+      }
+    }
 
     let accessDoc;
     if (application.systemAccess) {
@@ -247,54 +274,47 @@ exports.updateSystemAccess = async (req, res) => {
   }
 };
 
-exports.updateAuthorisingOfficer = async (req, res) => {
+
+exports.updateAuthorisingOfficers = async (req, res) => {
   const { id } = req.params;
-  const { data } = req.body;
+  const { authorisingOfficers } = req.body;
+
+  if (!Array.isArray(authorisingOfficers) || authorisingOfficers.length === 0) {
+    return res.status(400).json({ error: "At least one authorising officer is required." });
+  }
 
   try {
-    // basic validation for NIN and Convictions
-    if (data.hasNationalInsuranceNumber && !data.nationalInsuranceNumber) {
-      return res.status(400).json({ error: "National Insurance Number is required." });
-    }
-
-    if (!data.hasNationalInsuranceNumber && !data.niNumberExemptReason) {
-      return res.status(400).json({ error: "Exempt reason is required if no NI Number." });
-    }
-
-    if (data.hasConvictions && !data.convictionDetails) {
-      return res.status(400).json({ error: "Please provide conviction details." });
-    }
-
     const application = await SponsorshipApplication.findById(id);
     if (!application) return res.status(404).json({ error: "Application not found." });
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
-    } if (application.isSubmitted)
-      return res.status(400).json({ error: "Application has already been submitted." });
-
-
-    let officerDoc;
-    if (application.authorisingOfficer) {
-      officerDoc = await AuthorisingOfficer.findByIdAndUpdate(application.authorisingOfficer, data, { new: true });
-    } else {
-      officerDoc = new AuthorisingOfficer(data);
-      await officerDoc.save();
-      application.authorisingOfficer = officerDoc._id;
     }
 
+    // Delete old officers if updating
+    if (application.authorisingOfficer && Array.isArray(application.authorisingOfficer)) {
+      await AuthorisingOfficer.deleteMany({ _id: { $in: application.authorisingOfficer } });
+    }
+
+    // Insert new ones
+    const inserted = await AuthorisingOfficer.insertMany(authorisingOfficers);
+    const ids = inserted.map(officer => officer._id);
+
+    application.authorisingOfficers = ids;
     await application.save();
 
     res.status(200).json({
-      message: "Authorising Officer section updated",
-      authorisingOfficer: officerDoc,
+      message: "Authorising Officers updated",
+      authorisingOfficers: inserted
     });
 
   } catch (err) {
-    console.error("Authorising Officer Update Error:", err);
+    console.error("Authorising Officers Update Error:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
 function validateActivityAndNeeds(data) {
   if (data.employsMigrantWorkers && typeof data.migrantWorkerCount !== "number") {
     return "Please specify how many migrant workers you employ.";
@@ -746,5 +766,45 @@ exports.getDeclarations = async (req, res) => {
   if (!application || !application.declarations) return res.status(404).json({ error: "Not found" });
   if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
   res.json(application.declarations);
+};
+exports.getApplicationProgress = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const application = await SponsorshipApplication.findById(id).lean();
+
+    if (!application) return res.status(404).json({ error: "Application not found." });
+    if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+
+    const sections = [
+      "gettingStarted",
+      "aboutYourCompany",
+      "companyStructure",
+      "activityAndNeeds",
+      "organizationSize",
+      "authorisingOfficers",
+      "systemAccess",
+      "supportingDocuments",
+      "declarations"
+    ];
+
+    const completedSections = sections.filter(section => {
+      if (section === "authorisingOfficers") {
+        return application.authorisingOfficers?.length > 0;
+      }
+      return !!application[section];
+    });
+
+    const pendingSections = sections.filter(s => !completedSections.includes(s));
+    const progress = Math.round((completedSections.length / sections.length) * 100);
+
+    return res.json({
+      completedSections,
+      pendingSections,
+      progress
+    });
+  } catch (err) {
+    console.error("Get Progress Error:", err.message);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 };
 

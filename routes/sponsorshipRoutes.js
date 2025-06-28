@@ -6,12 +6,13 @@ const {
   createSponsorshipApplication,
   updateGettingStarted,
   updateAboutYourCompany,
-  getSponsorshipApplicationById, updateCompanyStructure, updateActivityAndNeeds, updateAuthorisingOfficer, updateSystemAccess, uploadSupportingDocuments, submitOrUpdateDeclarations, updateOrganizationSize, submitApplication
-  , getGettingStarted, getAboutYourCompany, getCompanyStructure, getActivityAndNeeds, getAuthorisingOfficer, getSystemAccess, getSupportingDocuments, getOrganizationSize, getDeclarations
-} = require("../controllers/sponsorshipController");
+  getSponsorshipApplicationById,updateCompanyStructure,updateActivityAndNeeds,updateAuthorisingOfficers,updateSystemAccess,uploadSupportingDocuments,submitOrUpdateDeclarations,updateOrganizationSize,submitApplication
+  ,getGettingStarted,getAboutYourCompany,getCompanyStructure,getActivityAndNeeds,getAuthorisingOfficer,getSystemAccess,getSupportingDocuments,getOrganizationSize,getDeclarations,getApplicationProgress} = require("../controllers/sponsorshipController");
 
 const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
 const upload = require("../utils/uploadDocument");
+router.get("/:id/progress", authenticate, authorizeRecruiter, getApplicationProgress);
+
 // GET APIs per section
 router.get("/:id/getting-started", authenticate, authorizeRecruiter, getGettingStarted);
 router.get("/:id/about-your-company", authenticate, authorizeRecruiter, getAboutYourCompany);
@@ -80,7 +81,7 @@ router.patch(
 
 // PATCH: Update System Access
 router.patch("/:id/system-access", authenticate, authorizeRecruiter, updateSystemAccess);
-router.patch("/:id/authorising-officer", authenticate, authorizeRecruiter, updateAuthorisingOfficer);
+router.patch("/:id/authorising-officer",authenticate, authorizeRecruiter,updateAuthorisingOfficers);
 
 // 🔹 POST: Start sponsorship application (creates empty shell)
 router.post("/", authenticate, authorizeRecruiter, createSponsorshipApplication);
@@ -95,8 +96,6 @@ router.patch("/:id/getting-started", authenticate, authorizeRecruiter, updateGet
 router.patch("/:id/about-your-company", authenticate, authorizeRecruiter, updateAboutYourCompany);
 router.patch("/:id/company-structure", authenticate, authorizeRecruiter, updateCompanyStructure);
 
-// Add more PATCH routes below for other sections:
-// router.patch("/:id/company-structure", ...)
-// router.patch("/:id/supporting-documents", ...)
+
 
 module.exports = router;
