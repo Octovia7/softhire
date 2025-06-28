@@ -131,12 +131,16 @@ exports.updateOrganizationSize = async (req, res) => {
   const { id } = req.params;
   const data = req.body;
 
+  const validTurnover = ["below_15m", "15m_or_more"];
+  const validAssets = ["below_7_5m", "7_5m_or_more"];
+  const validEmployees = ["below_50", "50_or_more"];
+
   if (
-    typeof data.turnoverBelow15M !== "boolean" ||
-    typeof data.assetsBelow7_5M !== "boolean" ||
-    typeof data.employeesBelow50 !== "boolean"
+    !validTurnover.includes(data.turnover) ||
+    !validAssets.includes(data.assets) ||
+    !validEmployees.includes(data.employees)
   ) {
-    return res.status(400).json({ error: "All fields must be boolean values." });
+    return res.status(400).json({ error: "Invalid value provided for one or more fields." });
   }
 
   try {
@@ -146,8 +150,10 @@ exports.updateOrganizationSize = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-    if (application.isSubmitted)
-      return res.status(400).json({ error: "Application has already been submitted." });
+
+    // if (application.isSubmitted) {
+    //   return res.status(400).json({ error: "Application has already been submitted." });
+    // }
 
     let sizeDoc;
     if (application.organizationSize) {
@@ -165,6 +171,7 @@ exports.updateOrganizationSize = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 exports.uploadSupportingDocuments = async (req, res) => {
   const { id } = req.params;
@@ -263,6 +270,7 @@ exports.updateSystemAccess = async (req, res) => {
     }
 
     await application.save();
+
 
     res.status(200).json({
       message: "System Access section updated",
@@ -735,18 +743,32 @@ exports.getActivityAndNeeds = async (req, res) => {
 };
 
 exports.getAuthorisingOfficer = async (req, res) => {
-  const application = await SponsorshipApplication.findById(req.params.id).populate("authorisingOfficers");
-  if (!application || !application.authorisingOfficers) return res.status(404).json({ error: "Not found" });
+  const application = await SponsorshipApplication.findById(req.params.id).populate("authorisingOfficer");
+  if (!application || !application.authorisingOfficer) return res.status(404).json({ error: "Not found" });
   if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
-  res.json(application.authorisingOfficers);
+  res.json(application.authorisingOfficer);
+};
+exports.getSystemAccess = async (req, res) => {
+  try {
+    const application = await SponsorshipApplication.findById(req.params.id).populate("systemAccess");
+    if (!application || !application.systemAccess) {
+      return res.status(404).json({ error: "Not found" });
+    }
+
+    if (application.user.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    // Return only accessEntries and metadata
+    const { accessEntries, _id, createdAt, updatedAt } = application.systemAccess.toObject();
+    return res.status(200).json({ _id, accessEntries, createdAt, updatedAt });
+
+  } catch (err) {
+    console.error("System Access Fetch Error:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-exports.getSystemAccess = async (req, res) => {
-  const application = await SponsorshipApplication.findById(req.params.id).populate("systemAccess");
-  if (!application || !application.systemAccess) return res.status(404).json({ error: "Not found" });
-  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
-  res.json(application.systemAccess);
-};
 
 exports.getSupportingDocuments = async (req, res) => {
   const application = await SponsorshipApplication.findById(req.params.id).populate("supportingDocuments");
