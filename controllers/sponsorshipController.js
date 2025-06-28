@@ -173,11 +173,14 @@ exports.updateOrganizationSize = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
-
-exports.uploadSupportingDocuments = async (req, res) => {
+exports.uploadSingleSupportingDocument = async (req, res) => {
   const { id } = req.params;
-  const body = req.body;
+  const { fieldName, name } = req.body;
+  const file = req.file;
+
+  if (!fieldName || !file) {
+    return res.status(400).json({ error: "fieldName and file are required" });
+  }
 
   try {
     const application = await SponsorshipApplication.findById(id);
@@ -187,48 +190,32 @@ exports.uploadSupportingDocuments = async (req, res) => {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
-    const files = {};
-    const arrayFields = ["rightToWorkChecks", "additionalDocuments"]; // Multi-upload fields
+    let documentRecord;
 
-    for (const [key, value] of Object.entries(req.files || {})) {
-      // Check if the field is an array type (multi-file)
-      if (arrayFields.includes(key)) {
-        files[key] = value.map(file => ({
-          url: file.path,
-          name: file.originalname
-        }));
-      } else {
-        files[key] = {
-          url: value[0].path,
-          name: value[0].originalname
-        };
-      }
+    if (application.supportingDocuments) {
+      documentRecord = await SupportingDocuments.findById(application.supportingDocuments);
     }
 
-    const docData = {
-      ...body,
-      ...files,
-      application: application._id,
+    if (!documentRecord) {
+      documentRecord = new SupportingDocuments({
+        application: application._id
+      });
+      await documentRecord.save();
+      application.supportingDocuments = documentRecord._id;
+      await application.save();
+    }
+
+    documentRecord[fieldName] = {
+      name: name || file.originalname,
+      url: file.path
     };
 
-    let docs;
-    if (application.supportingDocuments) {
-      docs = await SupportingDocuments.findByIdAndUpdate(
-        application.supportingDocuments,
-        { $set: docData },
-        { new: true, runValidators: true }
-      );
-    } else {
-      docs = new SupportingDocuments(docData);
-      await docs.save();
-      application.supportingDocuments = docs._id;
-    }
-
-    await application.save();
+    await documentRecord.save();
 
     res.status(200).json({
-      message: "Supporting documents uploaded",
-      documents: docs
+      message: "Document uploaded successfully.",
+      field: fieldName,
+      document: documentRecord[fieldName]
     });
 
   } catch (err) {
@@ -236,6 +223,50 @@ exports.uploadSupportingDocuments = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+
+exports.uploadSupportingDocuments = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  const files = req.files || {};
+
+  try {
+    const application = await SponsorshipApplication.findById(id);
+    if (!application) return res.status(404).json({ error: "Application not found." });
+    if (application.user.toString() !== req.user.id)
+      return res.status(403).json({ error: "Unauthorized" });
+
+    let docs = await SupportingDocuments.findById(application.supportingDocuments);
+
+    // If no docs exist, create a new one
+    if (!docs) {
+      docs = new SupportingDocuments({ application: id });
+    }
+
+    // 🔁 Update only the specific field that came in
+    for (const [field, fileArr] of Object.entries(files)) {
+      docs[field] = {
+        name: body?.[`${field}Name`] || "", // optional name input
+        url: fileArr[0].path
+      };
+    }
+
+    await docs.save();
+
+    if (!application.supportingDocuments) {
+      application.supportingDocuments = docs._id;
+      await application.save();
+    }
+
+    res.status(200).json({ message: "Document uploaded", updated: files });
+
+  } catch (err) {
+    console.error("Document Upload Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 
 exports.updateSingleLevel1AccessEntry = async (req, res) => {
   const { id, accessId } = req.params;
