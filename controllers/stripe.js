@@ -119,34 +119,35 @@ exports.handleWebhook = async (req, res) => {
         return res.status(404).json({ error: "Application not found" });
       }
 
-      // Populate user + relevant form fields
-      await app.populate("user", "email fullName");
-      await app.populate("aboutYourCompany");
-      await app.populate("authorisingOfficers");
-      await app.populate("organizationSize");
+      // Populate all application sections
+await app.populate("user", "email fullName");
+await app.populate("aboutYourCompany");
+await app.populate("organizationSize");
+await app.populate("companyStructure");
+await app.populate("gettingStarted");
+await app.populate("activityAndNeeds");
+await app.populate("authorisingOfficers");
+await app.populate("level1AccessUsers");
+await app.populate("supportingDocuments");
+await app.populate("declarations");
 
-      // ✅ Mark as paid
-      if (!app.isPaid) {
-        app.isPaid = true;
-        await app.save();
-        console.log("✅ Application marked as paid:", applicationId);
-      } else {
-        console.log("⚠️ Application already marked as paid");
-      }
+// ✅ Mark as paid
+if (!app.isPaid) {
+  app.isPaid = true;
+  await app.save();
+  console.log("✅ Application marked as paid:", applicationId);
+}
 
-      const user = app.user;
+// Send user confirmation
+await transporter.sendMail({
+  from: process.env.EMAIL,
+  to: app.user.email,
+  subject: "✅ Payment Received – Sponsor Licence Application",
+  text: `Hi ${app.user.fullName},\n\nThank you for your payment. We’ve received your sponsor licence application.\n\nRegards,\nTeam SoftHire`,
+});
 
-      // ✅ Send email to client
-      await transporter.sendMail({
-        from: process.env.EMAIL,
-        to: user.email,
-        subject: "✅ Payment Received – Sponsor Licence Application",
-        text: `Hi ${user.fullName},\n\nThank you for your payment. We’ve received your sponsor licence application.\n\nRegards,\nTeam SoftHire`,
-      });
-      console.log("📧 Confirmation email sent to client:", user.email);
-
-      // ✅ Send full details to admin
-      await sendAdminApplicationDetails(app);
+// Send full app to admin
+await sendAdminApplicationDetails(app);
       console.log("📬 Admin notified with full application data");
 
     } catch (error) {
