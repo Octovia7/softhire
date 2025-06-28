@@ -14,10 +14,8 @@ authorisingOfficers: [{
   ref: "AuthorisingOfficer"
 }]
 ,
-systemAccess: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: 'SystemAccess'
-},
+level1AccessUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Level1AccessUser" }],
+
 supportingDocuments: {
   type: mongoose.Schema.Types.ObjectId,
   ref: "SupportingDocuments"
