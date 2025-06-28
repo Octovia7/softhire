@@ -46,46 +46,58 @@ const level1UserSchema = new mongoose.Schema({
   address: { type: addressSchema, required: true }
 }, { _id: false });
 
-const systemAccessSchema = new mongoose.Schema({
+const singleSystemAccessSchema = new mongoose.Schema({
   needsSystemAccess: { type: Boolean, required: true },
   needsLevel1Access: { type: Boolean, required: true },
   level1User: { type: level1UserSchema }
+}, { _id: false });
+
+const systemAccessSchema = new mongoose.Schema({
+  accessEntries: { type: [singleSystemAccessSchema], default: [] }
 }, { timestamps: true });
+
+// module.exports = mongoose.model("SystemAccess", systemAccessSchema);
+
 
 // 🔍 Conditional Validation
 systemAccessSchema.pre("validate", function (next) {
-  const user = this.level1User;
+  for (const entry of this.accessEntries) {
+    const user = entry.level1User;
 
-  if (this.needsLevel1Access && !user) {
-    return next(new Error("Level 1 user information is required."));
-  }
-
-  if (user) {
-    if (user.hasNINumber && !user.nationalInsuranceNumber) {
-      return next(new Error("Please enter the National Insurance Number."));
+    if (entry.needsLevel1Access && !user) {
+      return next(new Error("Level 1 user information is required."));
     }
 
-    if (user.hasNINumber === false && !user.niExemptReason) {
-      return next(new Error("Please provide a National Insurance exemption reason."));
-    }
+    if (user) {
+      if (user.hasNINumber && !user.nationalInsuranceNumber) {
+        return next(new Error("Please enter the National Insurance Number."));
+      }
 
-    if (user.hasConvictions && !user.convictionDetails) {
-      return next(new Error("Please provide details of convictions or penalties."));
-    }
+      if (user.hasNINumber === false && !user.niExemptReason) {
+        return next(new Error("Please provide a National Insurance exemption reason."));
+      }
 
-    if (!user.isSettledWorker) {
-      if (
-        !user.immigrationStatus ||
-        !user.passportNumber ||
-        !user.homeOfficeReference ||
-        !user.permissionExpiryDate
-      ) {
-        return next(new Error("Please complete all immigration details for non-settled workers."));
+      if (user.hasConvictions && !user.convictionDetails) {
+        return next(new Error("Please provide details of convictions or penalties."));
+      }
+
+      if (!user.isSettledWorker) {
+        if (
+          !user.immigrationStatus ||
+          !user.passportNumber ||
+          !user.homeOfficeReference ||
+          !user.permissionExpiryDate
+        ) {
+          return next(
+            new Error("Please complete all immigration details for non-settled workers.")
+          );
+        }
       }
     }
   }
 
   next();
 });
+
 
 module.exports = mongoose.model("SystemAccess", systemAccessSchema);

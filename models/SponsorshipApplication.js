@@ -9,7 +9,11 @@ companyStructure: {
   ref: "CompanyStructure"
 },
 activityAndNeeds: { type: mongoose.Schema.Types.ObjectId, ref: "ActivityAndNeeds" },
-authorisingOfficer: { type: mongoose.Schema.Types.ObjectId, ref: "AuthorisingOfficer" },
+authorisingOfficers: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "AuthorisingOfficer"
+}]
+,
 systemAccess: {
   type: mongoose.Schema.Types.ObjectId,
   ref: 'SystemAccess'
