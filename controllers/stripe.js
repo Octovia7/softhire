@@ -1,6 +1,8 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const SponsorshipApplication = require("../models/SponsorshipApplication");
 const { sendAdminApplicationDetails } = require("../utils/mailer");
+const transporter = require("../utils/transporter");
+
 // Create Stripe Checkout session
 exports.createCheckoutSession = async (req, res) => {
   try {
