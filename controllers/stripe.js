@@ -93,7 +93,7 @@ exports.handleWebhook = async (req, res) => {
       const app = await SponsorshipApplication.findById(applicationId)
         .populate("user", "email fullName")
         .populate("aboutYourCompany")
-        .populate("authorisingOfficer")
+        .populate("authorisingOfficers")
         .populate("organizationSize");
 
       if (!app) {
@@ -108,7 +108,7 @@ exports.handleWebhook = async (req, res) => {
         console.log("✅ Application marked as paid:", applicationId);
       }
 
-      const { user, aboutYourCompany, authorisingOfficer, organizationSize } = app;
+      const { user, aboutYourCompany, authorisingOfficers, organizationSize } = app;
 
       const commonDetails = `
 Sponsor Licence Application - Payment Confirmation
@@ -119,7 +119,7 @@ Sponsor Licence Application - Payment Confirmation
 🏢 Company Name: ${aboutYourCompany?.companyName || "N/A"}
 🏭 Industry: ${aboutYourCompany?.industry || "N/A"}
 🏛️ Company Type: ${aboutYourCompany?.companyType || "N/A"}
-👨‍💼 Authorising Officer: ${authorisingOfficer?.fullName || "N/A"}
+👨‍💼 Authorising Officer: ${authorisingOfficers?.map(officer => officer.fullName).join(", ") || "N/A"}
 👥 Number of Employees: ${organizationSize?.size || "N/A"}
 📄 Application ID: ${applicationId}
 `;

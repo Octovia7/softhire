@@ -776,10 +776,10 @@ exports.getActivityAndNeeds = async (req, res) => {
 };
 
 exports.getAuthorisingOfficer = async (req, res) => {
-  const application = await SponsorshipApplication.findById(req.params.id).populate("authorisingOfficer");
-  if (!application || !application.authorisingOfficer) return res.status(404).json({ error: "Not found" });
+  const application = await SponsorshipApplication.findById(req.params.id).populate("authorisingOfficers");
+  if (!application || !application.authorisingOfficers) return res.status(404).json({ error: "Not found" });
   if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
-  res.json(application.authorisingOfficer);
+  res.json(application.authorisingOfficers);
 };
 exports.getSystemAccess = async (req, res) => {
   const { id } = req.params;
