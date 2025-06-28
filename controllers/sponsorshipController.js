@@ -236,27 +236,27 @@ exports.updateSystemAccess = async (req, res) => {
     }
 
     const user = entry.level1User;
-    if (user) {
-      if (user.hasNINumber && !user.nationalInsuranceNumber) {
-        return res.status(400).json({ error: "NI Number is required if marked as available." });
-      }
-      if (user.hasNINumber === false && !user.niExemptReason) {
-        return res.status(400).json({ error: "NI exemption reason is required." });
-      }
-      if (user.hasConvictions && !user.convictionDetails) {
-        return res.status(400).json({ error: "Conviction details are required." });
-      }
-      if (!user.isSettledWorker) {
-        if (
-          !user.immigrationStatus ||
-          !user.passportNumber ||
-          !user.homeOfficeReference ||
-          !user.permissionExpiryDate
-        ) {
-          return res.status(400).json({ error: "Complete immigration details are required for non-settled workers." });
-        }
-      }
-    }
+    // if (user) {
+    //   if (user.hasNINumber && !user.nationalInsuranceNumber) {
+    //     return res.status(400).json({ error: "NI Number is required if marked as available." });
+    //   }
+    //   if (user.hasNINumber === false && !user.niExemptReason) {
+    //     return res.status(400).json({ error: "NI exemption reason is required." });
+    //   }
+    //   if (user.hasConvictions && !user.convictionDetails) {
+    //     return res.status(400).json({ error: "Conviction details are required." });
+    //   }
+    //   if (!user.isSettledWorker) {
+    //     if (
+    //       !user.immigrationStatus ||
+    //       !user.passportNumber ||
+    //       !user.homeOfficeReference ||
+    //       !user.permissionExpiryDate
+    //     ) {
+    //       return res.status(400).json({ error: "Complete immigration details are required for non-settled workers." });
+    //     }
+    //   }
+    // }
 
     // ✅ Create and save new access entry document
     const level1AccessDoc = new Level1AccessUser(entry);
