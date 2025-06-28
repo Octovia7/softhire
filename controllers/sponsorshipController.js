@@ -11,7 +11,8 @@ const ActivityAndNeeds = require("../models/ActivityAndNeeds");
 // 🔍 Validation logic
 const AuthorisingOfficer = require("../models/AuthorisingOfficer");
 // const SponsorshipApplication = require("../models/SponsorshipApplication");
-const SystemAccess = require("../models/SystemAccess");
+// const SystemAccess = require("../models/SystemAccess");
+const Level1AccessUser = require("../models/SystemAccess");
 // const SponsorshipApplication = require("../models/SponsorshipApplication");
 const SupportingDocuments = require("../models/SupportingDocuments");
 // const SponsorshipApplication = require("../models/SponsorshipApplication");
@@ -218,8 +219,7 @@ exports.uploadSupportingDocuments = async (req, res) => {
 };
 exports.updateSystemAccess = async (req, res) => {
   const { id } = req.params;
-  const { data } = req.body;
-
+  const entry = req.body; // single access entry
 
   try {
     const application = await SponsorshipApplication.findById(id);
@@ -229,55 +229,51 @@ exports.updateSystemAccess = async (req, res) => {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
-    // 🔒 Validate accessEntries
-    for (const entry of data.accessEntries || []) {
-      if (entry.needsLevel1Access && !entry.level1User) {
-        return res.status(400).json({ error: "Level 1 user details are required when Level 1 access is needed." });
-      }
+    // 🛡️ Validate the entry
+    if (entry.needsLevel1Access && !entry.level1User) {
+      return res.status(400).json({ error: "Level 1 user details are required when Level 1 access is needed." });
+    }
 
-      const user = entry.level1User;
-      if (user) {
-        if (user.hasNINumber && !user.nationalInsuranceNumber) {
-          return res.status(400).json({ error: "NI Number is required if marked as available." });
-        }
-        if (user.hasNINumber === false && !user.niExemptReason) {
-          return res.status(400).json({ error: "NI exemption reason is required." });
-        }
-        if (user.hasConvictions && !user.convictionDetails) {
-          return res.status(400).json({ error: "Conviction details are required." });
-        }
-        if (!user.isSettledWorker) {
-          if (
-            !user.immigrationStatus ||
-            !user.passportNumber ||
-            !user.homeOfficeReference ||
-            !user.permissionExpiryDate
-          ) {
-            return res.status(400).json({ error: "Complete immigration details are required for non-settled workers." });
-          }
+    const user = entry.level1User;
+    if (user) {
+      if (user.hasNINumber && !user.nationalInsuranceNumber) {
+        return res.status(400).json({ error: "NI Number is required if marked as available." });
+      }
+      if (user.hasNINumber === false && !user.niExemptReason) {
+        return res.status(400).json({ error: "NI exemption reason is required." });
+      }
+      if (user.hasConvictions && !user.convictionDetails) {
+        return res.status(400).json({ error: "Conviction details are required." });
+      }
+      if (!user.isSettledWorker) {
+        if (
+          !user.immigrationStatus ||
+          !user.passportNumber ||
+          !user.homeOfficeReference ||
+          !user.permissionExpiryDate
+        ) {
+          return res.status(400).json({ error: "Complete immigration details are required for non-settled workers." });
         }
       }
     }
 
-    let accessDoc;
-    if (application.systemAccess) {
-      accessDoc = await SystemAccess.findByIdAndUpdate(application.systemAccess, data, {
-        new: true,
-        runValidators: true,
-      });
-    } else {
-      accessDoc = new SystemAccess(data);
-      await accessDoc.save();
-      application.systemAccess = accessDoc._id;
+    // ✅ Create and save new access entry document
+    const level1AccessDoc = new Level1AccessUser(entry);
+    await level1AccessDoc.save();
+
+    // ✅ Link the new entry to the application
+    if (!Array.isArray(application.level1AccessUsers)) {
+      application.level1AccessUsers = [];
     }
 
+    application.level1AccessUsers.push(level1AccessDoc._id);
     await application.save();
 
-
     res.status(200).json({
-      message: "System Access section updated",
-      systemAccess: accessDoc,
+      message: "System Access entry added",
+      level1AccessUserId: level1AccessDoc._id
     });
+
   } catch (err) {
     console.error("System Access Update Error:", err.message);
     res.status(500).json({ error: err.message || "Internal server error" });
