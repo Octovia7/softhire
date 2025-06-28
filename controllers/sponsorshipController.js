@@ -220,7 +220,6 @@ exports.uploadSupportingDocuments = async (req, res) => {
 exports.updateSystemAccess = async (req, res) => {
   const { id } = req.params;
   const entry = req.body.data; // single access entry
-  console.log(entry)
 
   try {
     const application = await SponsorshipApplication.findById(id);
