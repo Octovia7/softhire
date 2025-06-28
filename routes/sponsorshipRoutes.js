@@ -7,11 +7,12 @@ const {
   updateGettingStarted,
   updateAboutYourCompany,
   getSponsorshipApplicationById,updateCompanyStructure,updateActivityAndNeeds,updateAuthorisingOfficers,updateSystemAccess,uploadSupportingDocuments,submitOrUpdateDeclarations,updateOrganizationSize,submitApplication
-  ,getGettingStarted,getAboutYourCompany,getCompanyStructure,getActivityAndNeeds,getAuthorisingOfficer,getSystemAccess,getSupportingDocuments,getOrganizationSize,getDeclarations
-} = require("../controllers/sponsorshipController");
+  ,getGettingStarted,getAboutYourCompany,getCompanyStructure,getActivityAndNeeds,getAuthorisingOfficer,getSystemAccess,getSupportingDocuments,getOrganizationSize,getDeclarations,getApplicationProgress} = require("../controllers/sponsorshipController");
 
 const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
 const upload = require("../utils/uploadDocument");
+router.get("/:id/progress", authenticate, authorizeRecruiter, getApplicationProgress);
+
 // GET APIs per section
 router.get("/:id/getting-started", authenticate, authorizeRecruiter, getGettingStarted);
 router.get("/:id/about-your-company", authenticate, authorizeRecruiter, getAboutYourCompany);

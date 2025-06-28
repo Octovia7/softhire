@@ -765,4 +765,44 @@ exports.getDeclarations = async (req, res) => {
   if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
   res.json(application.declarations);
 };
+exports.getApplicationProgress = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const application = await SponsorshipApplication.findById(id).lean();
+
+    if (!application) return res.status(404).json({ error: "Application not found." });
+    if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
+
+    const sections = [
+      "gettingStarted",
+      "aboutYourCompany",
+      "companyStructure",
+      "activityAndNeeds",
+      "organizationSize",
+      "authorisingOfficers",
+      "systemAccess",
+      "supportingDocuments",
+      "declarations"
+    ];
+
+    const completedSections = sections.filter(section => {
+      if (section === "authorisingOfficers") {
+        return application.authorisingOfficers?.length > 0;
+      }
+      return !!application[section];
+    });
+
+    const pendingSections = sections.filter(s => !completedSections.includes(s));
+    const progress = Math.round((completedSections.length / sections.length) * 100);
+
+    return res.json({
+      completedSections,
+      pendingSections,
+      progress
+    });
+  } catch (err) {
+    console.error("Get Progress Error:", err.message);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
