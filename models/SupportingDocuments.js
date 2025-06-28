@@ -1,27 +1,27 @@
 const mongoose = require("mongoose");
 
 const fileSchema = new mongoose.Schema({
-  name: { type: String }, // Optional label
+  name: { type: String },
   url: { type: String, required: true }
 }, { _id: false });
 
 const SupportingDocumentsSchema = new mongoose.Schema({
   application: { type: mongoose.Schema.Types.ObjectId, ref: "SponsorshipApplication", required: true },
 
-  // 🟢 If applicable
+  // If applicable
   authorisingOfficerPassport: fileSchema,
   authorisingOfficerBRP: fileSchema,
   letterOfRejection: fileSchema,
   letterOfRevocation: fileSchema,
   recruitersAuthority: fileSchema,
 
-  // 🔴 Required
+  // Required
   auditedAnnualAccounts: fileSchema,
   certificateOfIncorporation: fileSchema,
   businessBankStatement: fileSchema,
   employersLiabilityInsurance: fileSchema,
 
-  // 🟡 Additional
+  // Additional
   governingBodyRegistration: fileSchema,
   franchiseAgreement: fileSchema,
   serviceUserAgreements: fileSchema,
@@ -33,13 +33,15 @@ const SupportingDocumentsSchema = new mongoose.Schema({
   tenderAgreements: fileSchema,
   orgChart: fileSchema,
 
-  // 🟣 Right to Work Checks
+  // Right to Work Checks
   rightToWorkChecks: [fileSchema],
 
-  // 🟤 Optional additional docs
+  // Optional additional docs
   additionalDocuments: [fileSchema]
+
 }, {
   timestamps: true
 });
 
-module.exports = mongoose.model("SupportingDocuments", SupportingDocumentsSchema);
+// ✅ Prevent OverwriteModelError
+module.exports = mongoose.models?.SupportingDocuments || mongoose.model("SupportingDocuments", SupportingDocumentsSchema);

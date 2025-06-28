@@ -177,7 +177,7 @@ exports.updateOrganizationSize = async (req, res) => {
 
 exports.uploadSupportingDocuments = async (req, res) => {
   const { id } = req.params;
-  const body = req.body; // Directly get form fields
+  const body = req.body;
 
   try {
     const application = await SponsorshipApplication.findById(id);
@@ -186,12 +186,23 @@ exports.uploadSupportingDocuments = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-    if (application.isSubmitted)
-      return res.status(400).json({ error: "Application has already been submitted." });
 
     const files = {};
-    for (const [key, file] of Object.entries(req.files || {})) {
-      files[key] = { url: file[0].path }; // Cloudinary URL
+    const arrayFields = ["rightToWorkChecks", "additionalDocuments"]; // Multi-upload fields
+
+    for (const [key, value] of Object.entries(req.files || {})) {
+      // Check if the field is an array type (multi-file)
+      if (arrayFields.includes(key)) {
+        files[key] = value.map(file => ({
+          url: file.path,
+          name: file.originalname
+        }));
+      } else {
+        files[key] = {
+          url: value[0].path,
+          name: value[0].originalname
+        };
+      }
     }
 
     const docData = {
@@ -202,7 +213,11 @@ exports.uploadSupportingDocuments = async (req, res) => {
 
     let docs;
     if (application.supportingDocuments) {
-      docs = await SupportingDocuments.findByIdAndUpdate(application.supportingDocuments, docData, { new: true });
+      docs = await SupportingDocuments.findByIdAndUpdate(
+        application.supportingDocuments,
+        { $set: docData },
+        { new: true, runValidators: true }
+      );
     } else {
       docs = new SupportingDocuments(docData);
       await docs.save();
@@ -210,13 +225,18 @@ exports.uploadSupportingDocuments = async (req, res) => {
     }
 
     await application.save();
-    res.status(200).json({ message: "Supporting documents uploaded", documents: docs });
+
+    res.status(200).json({
+      message: "Supporting documents uploaded",
+      documents: docs
+    });
 
   } catch (err) {
     console.error("Document Upload Error:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 exports.updateSingleLevel1AccessEntry = async (req, res) => {
   const { id, accessId } = req.params;
   const updateData = req.body;
