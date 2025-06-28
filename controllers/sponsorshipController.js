@@ -190,25 +190,45 @@ exports.uploadSingleSupportingDocument = async (req, res) => {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
-    let documentRecord;
-
-    if (application.supportingDocuments) {
-      documentRecord = await SupportingDocuments.findById(application.supportingDocuments);
-    }
+    // ✅ Always get one record
+    let documentRecord = await SupportingDocuments.findOne({ application: id });
 
     if (!documentRecord) {
       documentRecord = new SupportingDocuments({
         application: application._id
       });
-      await documentRecord.save();
-      application.supportingDocuments = documentRecord._id;
-      await application.save();
     }
 
-    documentRecord[fieldName] = {
-      name: name || file.originalname,
-      url: file.path
-    };
+    if (fieldName === "rightToWorkChecks") {
+      let data = req.body.data;
+      if (typeof data === "string") {
+        try {
+          data = JSON.parse(data);
+        } catch (e) {
+          return res.status(400).json({ error: "Invalid JSON in data field" });
+        }
+      }
+      if (!data || !data.employeeName || !data.startDate || !data.rightToWorkDate || !data.isBritishNational) {
+        return res.status(400).json({ error: "Missing required fields for right to work checks" });
+      }
+
+      documentRecord.set(fieldName, {
+        isBritishNational: data.isBritishNational,
+        startDate: new Date(data.startDate),
+        rightToWorkDate: new Date(data.rightToWorkDate),
+        employeeName: data.employeeName,
+        file: {
+          name: file.originalname,
+          url: file.path
+        }
+      });
+      documentRecord.markModified(fieldName);
+    } else {
+      documentRecord[fieldName] = {
+        name: name || file.originalname,
+        url: file.path
+      };
+    }
 
     await documentRecord.save();
 
@@ -223,6 +243,49 @@ exports.uploadSingleSupportingDocument = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+exports.submitSupportingDocument = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const application = await SponsorshipApplication.findById(id);
+    if (!application) return res.status(404).json({ error: "Application not found." });
+    if (application.user.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const supportingDocuments = await SupportingDocuments.findOne({ application: id });
+    if (!supportingDocuments) {
+      return res.status(404).json({ error: "Supporting Documents not found." });
+    }
+
+    const combined = { ...supportingDocuments.toObject() };
+
+    const hasRightToWork = combined.rightToWorkChecks && combined.rightToWorkChecks.file;
+    const hasCertificate = !!combined.certificateOfIncorporation;
+    const hasBank = !!combined.businessBankStatement;
+    const hasInsurance = !!combined.employersLiabilityInsurance;
+
+    if (!hasRightToWork || !hasCertificate || !hasBank || !hasInsurance) {
+      return res.status(400).json({ error: "Required documents are missing." });
+    }
+
+    application.supportingDocuments = supportingDocuments._id;
+    await application.save();
+
+    res.status(200).json({
+      message: "Supporting Documents Submitted successfully.",
+      combinedSupportingDocuments: combined,
+      supportingDocuments: supportingDocuments
+    });
+  } catch (err) {
+    console.error("Supporting Documents Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 
 
 
@@ -855,11 +918,46 @@ exports.getSystemAccess = async (req, res) => {
 };
 
 exports.getSupportingDocuments = async (req, res) => {
-  const application = await SponsorshipApplication.findById(req.params.id).populate("supportingDocuments");
-  if (!application || !application.supportingDocuments) return res.status(404).json({ error: "Not found" });
-  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
-  res.json(application.supportingDocuments);
+  try {
+    const supportingDocuments = await SupportingDocuments.find({ application: req.params.id });
+
+    if (!supportingDocuments || supportingDocuments.length === 0) {
+      return res.status(404).json({ error: "Not found" });
+    }
+
+    const fields = {};
+
+    supportingDocuments.forEach(doc => {
+      const docObj = doc.toObject();
+
+      for (const key in docObj) {
+        if (
+          key !== "__v" &&
+          key !== "_id" &&
+          key !== "createdAt" &&
+          key !== "updatedAt" &&
+          key !== "application" &&
+          docObj[key] !== null &&
+          docObj[key] !== undefined &&
+          !(typeof docObj[key] === "object" && Object.keys(docObj[key]).length === 0)
+        ) {
+          fields[key] = docObj[key];
+        }
+      }
+    });
+
+    res.json({
+      application: req.params.id,
+      fields
+    });
+  } catch (error) {
+    console.error("Error fetching supporting documents:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 };
+
+
+
 
 exports.getOrganizationSize = async (req, res) => {
   const application = await SponsorshipApplication.findById(req.params.id).populate("organizationSize");

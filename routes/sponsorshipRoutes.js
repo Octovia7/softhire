@@ -6,8 +6,9 @@ const {
   createSponsorshipApplication,
   updateGettingStarted,
   updateAboutYourCompany,
-  getSponsorshipApplicationById,updateCompanyStructure,updateActivityAndNeeds,updateAuthorisingOfficers,updateSystemAccess,uploadSupportingDocuments,submitOrUpdateDeclarations,updateOrganizationSize,submitApplication
-  ,getGettingStarted,getAboutYourCompany,getCompanyStructure,getActivityAndNeeds,getAuthorisingOfficer,getSystemAccess,getSupportingDocuments,getOrganizationSize,getDeclarations,getApplicationProgress,uploadSingleSupportingDocument} = require("../controllers/sponsorshipController");
+  getSponsorshipApplicationById, updateCompanyStructure, updateActivityAndNeeds, updateAuthorisingOfficers, updateSystemAccess, uploadSupportingDocuments, submitOrUpdateDeclarations, updateOrganizationSize, submitApplication
+  , getGettingStarted, getAboutYourCompany, getCompanyStructure, getActivityAndNeeds, getAuthorisingOfficer, getSystemAccess, getSupportingDocuments, getOrganizationSize, getDeclarations, getApplicationProgress, uploadSingleSupportingDocument,
+  submitSupportingDocument } = require("../controllers/sponsorshipController");
 
 const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
 const upload = require("../utils/uploadDocument");
@@ -40,12 +41,20 @@ router.patch(
 
 // Multer expects .fields for multiple file fields
 router.patch(
-  '/application/:id/supporting-documents/upload-one',
+  '/:id/supporting-documents/upload-one',
   authenticate,
   authorizeRecruiter,
   upload.single("file"),
   uploadSingleSupportingDocument
 );
+
+router.patch(
+  '/:id/submit-supporting-document',
+  authenticate,
+  authorizeRecruiter,
+  submitSupportingDocument
+);
+
 router.patch(
   '/:id/supporting-documents',
   authenticate,
@@ -87,7 +96,7 @@ router.patch(
 
 // PATCH: Update System Access
 router.patch("/:id/system-access", authenticate, authorizeRecruiter, updateSystemAccess);
-router.patch("/:id/authorising-officer",authenticate, authorizeRecruiter,updateAuthorisingOfficers);
+router.patch("/:id/authorising-officer", authenticate, authorizeRecruiter, updateAuthorisingOfficers);
 
 // 🔹 POST: Start sponsorship application (creates empty shell)
 router.post("/", authenticate, authorizeRecruiter, createSponsorshipApplication);
