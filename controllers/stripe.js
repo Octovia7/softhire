@@ -1,5 +1,7 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const SponsorshipApplication = require("../models/SponsorshipApplication");
+const { sendAdminApplicationDetails } = require("../utils/mailer");
+const transporter = require("../utils/transporter");
 
 // Create Stripe Checkout session
 exports.createCheckoutSession = async (req, res) => {
@@ -9,7 +11,6 @@ exports.createCheckoutSession = async (req, res) => {
     const userId = req.user.id;
 
     console.log("✅ Using email:", email);
-
     console.log("💡 Initiating checkout session for user:", email, "Application ID:", applicationId);
 
     // Validate application exists and belongs to current user
@@ -22,6 +23,11 @@ exports.createCheckoutSession = async (req, res) => {
     if (application.user.toString() !== userId) {
       console.warn("❌ Unauthorized access attempt by user:", userId);
       return res.status(403).json({ error: "Not authorized to pay for this application" });
+    }
+
+    if (!application.isSubmitted) {
+      console.warn("⚠️ Application not submitted yet:", applicationId);
+      return res.status(400).json({ error: "Please complete and submit your application before payment" });
     }
 
     if (application.isPaid) {
@@ -67,7 +73,11 @@ exports.createCheckoutSession = async (req, res) => {
   }
 };
 
+
 // const transporter = require("../utils/email"); 
+
+
+
 
 exports.handleWebhook = async (req, res) => {
   const sig = req.headers["stripe-signature"];
@@ -84,71 +94,66 @@ exports.handleWebhook = async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // ✅ On successful payment
+  // ✅ Handle successful payment
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    const applicationId = session.metadata.applicationId;
+
+    const metadata = session.metadata || {};
+    console.log("📦 Webhook session metadata:", metadata);
+
+    let applicationId = metadata.applicationId;
+    let app = null;
 
     try {
-      const app = await SponsorshipApplication.findById(applicationId)
-        .populate("user", "email fullName")
-        .populate("aboutYourCompany")
-        .populate("authorisingOfficers")
-        .populate("organizationSize");
+      if (applicationId) {
+        app = await SponsorshipApplication.findById(applicationId);
+        console.log("🔎 Found application by applicationId");
+      } else {
+        app = await SponsorshipApplication.findOne({ stripeSessionId: session.id });
+        applicationId = app?._id?.toString();
+        console.warn("⚠️ applicationId not in metadata; used stripeSessionId fallback");
+      }
 
       if (!app) {
-        console.error("❌ Application not found:", applicationId);
+        console.error("❌ SponsorshipApplication not found.");
         return res.status(404).json({ error: "Application not found" });
       }
 
-      // ✅ Mark as paid
-      if (!app.isPaid) {
-        app.isPaid = true;
-        await app.save();
-        console.log("✅ Application marked as paid:", applicationId);
-      }
+      // Populate all application sections
+await app.populate("user", "email fullName");
+await app.populate("aboutYourCompany");
+await app.populate("organizationSize");
+await app.populate("companyStructure");
+await app.populate("gettingStarted");
+await app.populate("activityAndNeeds");
+await app.populate("authorisingOfficers");
+await app.populate("level1AccessUsers");
+await app.populate("supportingDocuments");
+await app.populate("declarations");
 
-      const { user, aboutYourCompany, authorisingOfficers, organizationSize } = app;
+// ✅ Mark as paid
+if (!app.isPaid) {
+  app.isPaid = true;
+  await app.save();
+  console.log("✅ Application marked as paid:", applicationId);
+}
 
-      const commonDetails = `
-Sponsor Licence Application - Payment Confirmation
+// Send user confirmation
+await transporter.sendMail({
+  from: process.env.EMAIL,
+  to: app.user.email,
+  subject: "✅ Payment Received – Sponsor Licence Application",
+  text: `Hi ${app.user.fullName},\n\nThank you for your payment. We’ve received your sponsor licence application.\n\nRegards,\nTeam SoftHire`,
+});
 
-👤 Full Name: ${user.fullName}
-📧 Email: ${user.email}
-
-🏢 Company Name: ${aboutYourCompany?.companyName || "N/A"}
-🏭 Industry: ${aboutYourCompany?.industry || "N/A"}
-🏛️ Company Type: ${aboutYourCompany?.companyType || "N/A"}
-👨‍💼 Authorising Officer: ${authorisingOfficers?.map(officer => officer.fullName).join(", ") || "N/A"}
-👥 Number of Employees: ${organizationSize?.size || "N/A"}
-📄 Application ID: ${applicationId}
-`;
-
-      // ✅ Email to client
-      await transporter.sendMail({
-        from: process.env.EMAIL,
-        to: user.email,
-        subject: "✅ Payment Received – Sponsor Licence Application",
-        text: `Hi ${user.fullName},\n\nThank you for your payment. Your application has been successfully submitted.\n${commonDetails}\n\nRegards,\nSoftHire Team`,
-      });
-
-      console.log("📧 Email sent to client:", user.email);
-
-      // ✅ Email to admin
-      await transporter.sendMail({
-        from: process.env.EMAIL,
-        to: "support@softhire.co.uk", // change to real admin address
-        subject: `📥 New Sponsor Licence Application – ${user.fullName}`,
-        text: `A new sponsor licence application has been paid for.\n\n${commonDetails}`,
-      });
-
-      console.log("📬 Admin notified");
+// Send full app to admin
+await sendAdminApplicationDetails(app);
+      console.log("📬 Admin notified with full application data");
 
     } catch (error) {
-      console.error("❌ Error processing payment:", error);
+      console.error("❌ Error in webhook handler:", error);
     }
   }
 
   res.status(200).json({ received: true });
 };
-

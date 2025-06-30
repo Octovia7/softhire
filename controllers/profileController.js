@@ -307,6 +307,9 @@ exports.getProfileImage = async (req, res) => {
   }
 };
 
+// Utility to escape regex input
+
+
 
 exports.searchApplicants = asyncHandler(async (req, res) => {
   const {
@@ -317,9 +320,7 @@ exports.searchApplicants = asyncHandler(async (req, res) => {
     skill,
     page = 1,
     limit = 10
-  } = req.query;  
-
-  console.log(req.query);
+  } = req.query;
 
   const match = {};
 
@@ -374,6 +375,15 @@ exports.searchApplicants = asyncHandler(async (req, res) => {
     },
     { $unwind: { path: '$profileImageDoc', preserveNullAndEmptyArrays: true } },
     {
+      $lookup: {
+        from: 'candidates',
+        localField: 'user._id',
+        foreignField: 'userId',
+        as: 'candidateData'
+      }
+    },
+    { $unwind: { path: '$candidateData', preserveNullAndEmptyArrays: true } },
+    {
       $project: {
         _id: 1,
         name: 1,
@@ -391,6 +401,7 @@ exports.searchApplicants = asyncHandler(async (req, res) => {
         createdAt: 1,
         updatedAt: 1,
         profileImage: '$profileImageDoc.imageUrl',
+        resume: '$candidateData.resume',
         user: {
           _id: '$user._id',
           fullName: '$user.fullName',
@@ -408,10 +419,7 @@ exports.searchApplicants = asyncHandler(async (req, res) => {
     { $limit: Number(limit) }
   ];
 
-  // Fetch applicants with aggregation
   const applicants = await Profile.aggregate(pipeline);
-
-  // Count total matches
   const total = await Profile.countDocuments(match);
 
   res.status(200).json({
@@ -643,5 +651,6 @@ exports.updateCurrentUserProfile = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 
