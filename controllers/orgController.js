@@ -1,11 +1,45 @@
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
+const Recruiter = require('../models/Recruiter');
 
 // controllers/applicationController.js
 const Application = require('../models/Application');
 // controllers/applicationController.js
 // const Application = require('../models/Application');
 // const Job = require('../models/Job');
+exports.updateRecruiter = async (req, res) => {
+  const userId = req.user.id;
+  const updateData = req.body;
+
+  const recruiter = await Recruiter.findOneAndUpdate(
+    { userId },
+    { $set: updateData },
+    { new: true, runValidators: true }
+  );
+
+  if (!recruiter) {
+    return res.status(404).json({ message: "Recruiter not found" });
+  }
+
+  res.status(200).json({
+    message: "Recruiter profile updated successfully",
+    recruiter,
+  });
+};
+exports.getRecruiter = async (req, res) => {
+  const userId = req.user.id; // assuming middleware attaches `user` to `req`
+
+  const recruiter = await Recruiter.findOne({ userId })
+    .populate("organization", "name") // optional
+    .lean();
+
+  if (!recruiter) {
+    return res.status(404).json({ message: "Recruiter not found" });
+  }
+
+  res.status(200).json(recruiter);
+};
+
 
 exports.getApplicationsForOrg = async (req, res) => {
   try {
