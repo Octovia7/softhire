@@ -38,7 +38,10 @@ submittedAt: {
 stripeSessionId: {
   type: String
 },
-
+  selectedPlan: { type: String, enum: ["basic", "standard", "premium"] },
+  planPrice: { type: Number }, // e.g., 165000 for £1650
+  planPaidAt: { type: Date },
+  planValidUntil: { type: Date },
  // other sections...
 }, { timestamps: true });
 

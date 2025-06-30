@@ -59,6 +59,12 @@ const sendAdminApplicationDetails = async (application) => {
 📅 Submitted At: ${application.submittedAt || "Not submitted"}
 💳 Stripe Session ID: ${application.stripeSessionId || "N/A"}
 
+💼 Plan Information:
+- Selected Plan: ${application.selectedPlan || "N/A"}
+- Price Paid: ${formatPrice(application.planPrice)}
+- Paid At: ${formatDate(application.planPaidAt)}
+- Valid Until: ${formatDate(application.planValidUntil)}
+
 🟢 Getting Started:
 - Already has Sponsor Licence: ${application.gettingStarted?.hasSponsorLicense?.value ? "Yes" : "No"}
   - Licence Number: ${application.gettingStarted?.hasSponsorLicense?.licenseNumber || "N/A"}
