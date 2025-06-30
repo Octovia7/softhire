@@ -90,12 +90,32 @@ exports.getConversationsForUser = async (req, res) => {
                     }
                 }
             },
+            // Add last message lookup for last updated
+            {
+                $lookup: {
+                    from: "messages",
+                    let: { convoId: "$_id" },
+                    pipeline: [
+                        { $match: { $expr: { $eq: ["$conversationId", "$$convoId"] } } },
+                        { $sort: { updatedAt: -1 } },
+                        { $limit: 1 }
+                    ],
+                    as: "lastMessage"
+                }
+            },
+            {
+                $addFields: {
+                    lastMessageUpdatedAt: { $ifNull: [ { $arrayElemAt: ["$lastMessage.updatedAt", 0] }, "$updatedAt" ] }
+                }
+            },
             {
                 $project: {
                     recruiterId: "$otherUser._id",
                     recruiterName: "$otherUser.fullName",
                     companyName: "$recruiter.companyName",
                     unreadCount: 1,
+                    status: 1,
+                    lastMessageUpdatedAt: 1
                 }
             }
         ]);
@@ -125,6 +145,8 @@ exports.getRecentChats = async (req, res) => {
         // Find all conversations where the user is a participant
         const conversations = await Conversation.aggregate([
             { $match: { participants: new mongoose.Types.ObjectId(userId) } },
+            // Save the conversationId for later use
+            { $addFields: { conversationId: '$_id' } },
             { $unwind: '$participants' },
             { $match: { participants: { $ne: new mongoose.Types.ObjectId(userId) } } }, // Get the other participant
             {
@@ -149,12 +171,37 @@ exports.getRecentChats = async (req, res) => {
                 }
             },
             { $unwind: { path: '$profileImageDoc', preserveNullAndEmptyArrays: true } },
+            // Lookup last message for lastUpdated
+            {
+                $lookup: {
+                    from: 'messages',
+                    let: { convoId: '$conversationId' },
+                    pipeline: [
+                        { $match: { $expr: { $eq: ['$conversationId', '$$convoId'] } } },
+                        { $sort: { updatedAt: -1 } },
+                        { $limit: 1 }
+                    ],
+                    as: 'lastMessage'
+                }
+            },
+            {
+                $addFields: {
+                    lastUpdated: {
+                        $ifNull: [
+                            { $arrayElemAt: ['$lastMessage.updatedAt', 0] },
+                            '$updatedAt'
+                        ]
+                    }
+                }
+            },
             {
                 $project: {
                     _id: '$participants',
                     name: '$profile.name',
                     primaryRole: '$profile.primaryRole',
-                    profileImage: '$profileImageDoc.imageUrl'
+                    profileImage: '$profileImageDoc.imageUrl',
+                    status: 1,
+                    lastUpdated: 1
                 }
             }
         ]);
@@ -194,5 +241,32 @@ exports.getChatsWithUser = async (req, res) => {
     } catch (error) {
         console.error('Error fetching chat:', error);
         res.status(500).json({ error: 'Server error' });
+    }
+};
+
+// Toggle chat status (active <-> archived or set to provided status)
+exports.toggleConversationStatus = async (req, res) => {
+    try {
+        const { conversationId } = req.params;
+        const { status } = req.body;
+        const conversation = await Conversation.findById(conversationId);
+        if (!conversation) {
+            return res.status(404).json({ error: "Conversation not found" });
+        }
+        if (status && ["active", "archived"].includes(status)) {
+            conversation.status = status;
+        } else {
+            // Toggle if no valid status provided
+            conversation.status = conversation.status === "active" ? "archived" : "active";
+        }
+        await conversation.save();
+        res.status(200).json({
+            success: true,
+            conversationId: conversation._id,
+            newStatus: conversation.status
+        });
+    } catch (error) {
+        console.error("Error toggling conversation status:", error);
+        res.status(500).json({ error: "Failed to toggle conversation status" });
     }
 };

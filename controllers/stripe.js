@@ -8,7 +8,7 @@ exports.createCheckoutSession = async (req, res) => {
     const email = req.user.email;
     const userId = req.user.id;
 
-  console.log("✅ Using email:", email);
+    console.log("✅ Using email:", email);
 
     console.log("💡 Initiating checkout session for user:", email, "Application ID:", applicationId);
 
@@ -41,7 +41,7 @@ exports.createCheckoutSession = async (req, res) => {
             product_data: {
               name: "Sponsor Licence Application Fee",
             },
-            unit_amount: 25000,
+            unit_amount: 10000,
           },
           quantity: 1,
         },

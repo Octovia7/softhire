@@ -9,7 +9,8 @@ const asyncHandler = require('express-async-handler');
 const JobPreferences = require('../models/JobPreferences');
 const JobExpectations = require('../models/JobExpectations');
 function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (typeof str !== 'string') return '';
+  return str.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
 }
 
 exports.uploadProfileImage = async (req, res) => {
