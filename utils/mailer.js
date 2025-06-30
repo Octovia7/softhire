@@ -48,6 +48,10 @@ You can follow up with the user for next steps.
 };
 const sendAdminApplicationDetails = async (application) => {
   const adminEmail = process.env.EMAIL;
+const formatPrice = (amount) => {
+  if (!amount || typeof amount !== 'number') return 'N/A';
+  return `£${(amount / 100).toFixed(2)}`;
+};
 
   const formatDate = (d) => d ? new Date(d).toLocaleDateString() : "N/A";
 
