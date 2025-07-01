@@ -13,9 +13,9 @@ exports.createCheckoutSession = async (req, res) => {
 
     // ✅ Stripe Price IDs from Stripe Dashboard (One-Time)
     const stripePriceIds = {
-      basic: "prod_SbKey04nm30lXb",     // replace with real price ID from Stripe
-      standard: "prod_SbKlXKbEhL3Udj",
-      premium: "prod_SbKmyX5Ze4fx1J"
+      basic: "price_1Rg7z82acj2EAQETeveypeTD",     // replace with real price ID from Stripe
+      standard: "price_1Rg85d2acj2EAQET7cGjxHMl",
+      premium: "price_1Rg86d2acj2EAQETu6YJzVHX"
     };
 
     const planDurations = {
