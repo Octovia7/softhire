@@ -89,6 +89,7 @@ exports.candidateWebhook = async (req, res) => {
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
+    console.log("✅ Webhook received:", event.type);
   } catch (err) {
     console.error("❌ Webhook signature error:", err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -98,24 +99,35 @@ exports.candidateWebhook = async (req, res) => {
     const session = event.data.object;
     const { applicationId, plan } = session.metadata;
 
+    console.log("📦 Metadata from Stripe session:", session.metadata);
+    console.log("🔍 Finding application with ID:", applicationId);
+
     try {
       const application = await Application.findById(applicationId).populate("candidate job");
 
       if (!application) {
+        console.error("❌ Application not found in DB for ID:", applicationId);
         return res.status(404).json({ error: "Application not found" });
       }
+
+      console.log("✅ Application found. Current payment status:", application.paymentStatus);
 
       if (application.paymentStatus !== "Paid") {
         application.paymentStatus = "Paid";
         application.plan = plan;
         await application.save();
         console.log("✅ Candidate application marked as paid:", applicationId);
+      } else {
+        console.log("⚠️ Application already marked as paid:", applicationId);
       }
 
       // Send email to admin
+      const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL;
+      console.log("📬 Sending admin email to:", adminEmail);
+
       await transporter.sendMail({
         from: process.env.EMAIL,
-        to: process.env.ADMIN_EMAIL || process.env.EMAIL, // fallback
+        to: adminEmail,
         subject: "💳 Candidate Payment Received",
         html: `
           <h3>🧾 Payment Confirmation</h3>
@@ -127,6 +139,8 @@ exports.candidateWebhook = async (req, res) => {
         `
       });
 
+      console.log("✅ Admin email sent successfully");
+
     } catch (err) {
       console.error("❌ Webhook processing error:", err);
     }
@@ -134,6 +148,7 @@ exports.candidateWebhook = async (req, res) => {
 
   res.status(200).json({ received: true });
 };
+
 
 // Utility: Check if required documents exist
 const hasRequiredDocuments = async (candidateId) => {
