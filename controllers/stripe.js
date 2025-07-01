@@ -282,7 +282,7 @@ exports.candidateWebhook = async (req, res) => {
         // Admin notification
         await transporter.sendMail({
           from: process.env.EMAIL,
-          to: process.env.ADMIN_EMAIL || process.env.EMAIL,
+          to: process.env.EMAIL || process.env.EMAIL,
           subject: "📅 Subscription Started",
           html: `
             <h3>💼 Subscription Activated</h3>
