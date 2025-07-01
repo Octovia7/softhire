@@ -219,7 +219,7 @@ exports.candidateWebhook = async (req, res) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET
+      process.env.STRIPE_CANDIDATE_WEBHOOK_SECRET
     );
     console.log("✅ Webhook received:", event.type);
   } catch (err) {
