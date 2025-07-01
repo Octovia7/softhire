@@ -3,6 +3,7 @@ const SponsorshipApplication = require("../models/SponsorshipApplication");
 const { sendAdminApplicationDetails } = require("../utils/mailer");
 const transporter = require("../utils/transporter");
 const Candidate = require("../models/Candidate");
+const Application = require("../models/Application");
 
 // Create Stripe Checkout Session for Recurring Yearly Plan
 exports.createCheckoutSession = async (req, res) => {
@@ -142,6 +143,7 @@ exports.handleWebhook = async (req, res) => {
 
 
 
+// Create Stripe Checkout Session (Candidate)
 exports.createCandidateCheckoutSession = async (req, res) => {
   try {
     const { applicationId, plan, planType, cosRefNumber, priceId } = req.body;
@@ -152,10 +154,10 @@ exports.createCandidateCheckoutSession = async (req, res) => {
       return res.status(400).json({ error: "Missing required payment information" });
     }
 
-    // ONE-TIME payment must have applicationId and cosRefNumber
     if (planType === "one-time") {
+      // Required: applicationId & CoS Ref
       if (!cosRefNumber || !applicationId) {
-        return res.status(400).json({ error: "Application ID and CoS ref required for one-time payments" });
+        return res.status(400).json({ error: "Application ID and CoS reference number are required" });
       }
 
       const application = await Application.findById(applicationId);
@@ -167,18 +169,18 @@ exports.createCandidateCheckoutSession = async (req, res) => {
         return res.status(400).json({ error: "Already paid" });
       }
 
-      // Save CoS and plan before payment
       application.cosRefNumber = cosRefNumber;
       application.cosSubmittedAt = new Date();
-      application.plan = plan;
+      application.oneTimePlan = plan; // ✅ Must match schema field
       await application.save();
     }
 
-    // Prepare checkout session
+    // Create Stripe session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: planType === "subscription" ? "subscription" : "payment",
       customer_email: email,
+      client_reference_id: userId, // Useful for subscriptions
       line_items: [
         {
           price: priceId,
@@ -194,7 +196,7 @@ exports.createCandidateCheckoutSession = async (req, res) => {
       }
     });
 
-    // Save session ID to application (if one-time)
+    // Save session ID in application for one-time
     if (planType === "one-time") {
       await Application.findByIdAndUpdate(applicationId, {
         stripeSessionId: session.id
@@ -228,61 +230,63 @@ exports.candidateWebhook = async (req, res) => {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
     const { applicationId, plan, planType } = session.metadata;
-
     const email = session.customer_email;
-    console.log(`🔔 Webhook for: ${email}, Plan: ${plan}, Type: ${planType}`);
+
+    console.log(`📦 Webhook session for ${email} | Plan: ${plan} | Type: ${planType}`);
 
     try {
       if (planType === "one-time") {
         const application = await Application.findById(applicationId).populate("candidate job");
+
         if (!application) {
-          return res.status(404).json({ error: "Application not found" });
+          console.error("❌ Application not found for one-time payment");
+          return res.status(404).send();
         }
 
         if (application.paymentStatus !== "Paid") {
           application.paymentStatus = "Paid";
           await application.save();
-          console.log("✅ Marked application as paid:", applicationId);
+          console.log("✅ One-time application marked as paid:", applicationId);
         }
 
-        // Notify Admin
+        // Admin notification
         await transporter.sendMail({
           from: process.env.EMAIL,
           to: process.env.ADMIN_EMAIL || process.env.EMAIL,
-          subject: "💳 One-time Visa Fee Paid",
+          subject: "💳 One-time Payment Received",
           html: `
-            <h3>✅ Visa Application Paid</h3>
+            <h3>🧾 Visa Fee Paid</h3>
             <p><strong>Candidate:</strong> ${application.candidate.fullName} (${application.candidate.email})</p>
             <p><strong>Job:</strong> ${application.job.title}</p>
-            <p><strong>Plan:</strong> ${application.plan}</p>
+            <p><strong>Plan:</strong> ${application.oneTimePlan}</p>
             <p><strong>CoS Ref:</strong> ${application.cosRefNumber}</p>
           `
         });
 
       } else if (planType === "subscription") {
-        const user = await Candidate.findOne({ userId: session.client_reference_id || req.user.id }).populate("userId");
+        const candidate = await Candidate.findOne({ userId: session.client_reference_id }).populate("userId");
 
-        if (!user) {
+        if (!candidate) {
           console.error("❌ Candidate not found for subscription webhook");
           return res.status(404).send();
         }
 
-        user.subscriptionPlan = plan;
-        user.subscriptionStatus = "Active";
-        user.subscriptionStartedAt = new Date();
-        user.stripeSubscriptionId = session.subscription;
+        candidate.subscriptionPlan = plan;
+        candidate.subscriptionStatus = "Active";
+        candidate.subscriptionStartedAt = new Date();
+        candidate.stripeSubscriptionId = session.subscription;
+        await candidate.save();
 
-        await user.save();
-        console.log("✅ Subscription plan saved for candidate");
+        console.log("✅ Candidate subscription updated");
 
-        // Notify Admin
+        // Admin notification
         await transporter.sendMail({
           from: process.env.EMAIL,
           to: process.env.ADMIN_EMAIL || process.env.EMAIL,
-          subject: "💼 Subscription Plan Started",
+          subject: "📅 Subscription Started",
           html: `
-            <h3>💳 New Subscription</h3>
-            <p><strong>Candidate:</strong> ${user.userId?.fullName} (${user.userId?.email})</p>
+            <h3>💼 Subscription Activated</h3>
+            <p><strong>Candidate:</strong> ${candidate.userId.fullName} (${candidate.userId.email})</p>
             <p><strong>Plan:</strong> ${plan}</p>
             <p><strong>Status:</strong> Active</p>
           `
@@ -296,3 +300,4 @@ exports.candidateWebhook = async (req, res) => {
 
   res.status(200).json({ received: true });
 };
+
