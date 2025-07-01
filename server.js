@@ -44,6 +44,7 @@ const chatSocket = require("./sockets/chat");
 
 const app = express();
 app.use("/api/stripe/webhook", express.raw({ type: "application/json" }));
+app.use("/api/stripe/candidate-webhook", express.raw({ type: "application/json" }));
 const server = http.createServer(app);
 
 // ✅ Socket.IO setup
