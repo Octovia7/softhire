@@ -3,11 +3,7 @@ const SponsorshipApplication = require("../models/SponsorshipApplication");
 const { sendAdminApplicationDetails } = require("../utils/mailer");
 const transporter = require("../utils/transporter");
 
-// Create Stripe Checkout session
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const SponsorshipApplication = require("../models/SponsorshipApplication");
-const { sendAdminApplicationDetails } = require("../utils/mailer");
-const transporter = require("../utils/transporter");
+
 
 // Create Stripe Checkout Session for Recurring Yearly Plan
 exports.createCheckoutSession = async (req, res) => {
