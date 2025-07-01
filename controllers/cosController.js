@@ -8,146 +8,146 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const transporter = require("../utils/transporter");
 
-exports.createCandidateCheckoutSession = async (req, res) => {
-  try {
-    const { applicationId, plan, cosRefNumber } = req.body;
-    const email = req.user.email;
-    const userId = req.user.id;
+// exports.createCandidateCheckoutSession = async (req, res) => {
+//   try {
+//     const { applicationId, plan, cosRefNumber } = req.body;
+//     const email = req.user.email;
+//     const userId = req.user.id;
 
-    if (!cosRefNumber) {
-      return res.status(400).json({ error: "CoS reference number is required" });
-    }
+//     if (!cosRefNumber) {
+//       return res.status(400).json({ error: "CoS reference number is required" });
+//     }
 
-    const application = await Application.findById(applicationId).populate("job");
+//     const application = await Application.findById(applicationId).populate("job");
 
-    if (!application || application.candidate.toString() !== userId) {
-      return res.status(403).json({ error: "Not authorized or application not found" });
-    }
+//     if (!application || application.candidate.toString() !== userId) {
+//       return res.status(403).json({ error: "Not authorized or application not found" });
+//     }
 
-    if (application.paymentStatus === "Paid") {
-      return res.status(400).json({ error: "Already paid" });
-    }
+//     if (application.paymentStatus === "Paid") {
+//       return res.status(400).json({ error: "Already paid" });
+//     }
 
-    // Define plan pricing
-    const planPrices = {
-      "Skilled Worker": 15000, // ₹150.00
-      "Dependant": 10000       // ₹100.00
-    };
+//     // Define plan pricing
+//     const planPrices = {
+//       "Skilled Worker": 15000, // ₹150.00
+//       "Dependant": 10000       // ₹100.00
+//     };
 
-    if (!planPrices[plan]) {
-      return res.status(400).json({ error: "Invalid plan selected" });
-    }
+//     if (!planPrices[plan]) {
+//       return res.status(400).json({ error: "Invalid plan selected" });
+//     }
 
-    // Store CoS ref and update application before payment
-    application.cosRefNumber = cosRefNumber;
-    application.cosSubmittedAt = new Date();
-    application.plan = plan;
+//     // Store CoS ref and update application before payment
+//     application.cosRefNumber = cosRefNumber;
+//     application.cosSubmittedAt = new Date();
+//     application.plan = plan;
 
-    // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      customer_email: email,
-      line_items: [
-        {
-          price_data: {
-            currency: "inr",
-            product_data: {
-              name: `${plan} Visa Fee`,
-            },
-            unit_amount: planPrices[plan],
-          },
-          quantity: 1,
-        },
-      ],
-      success_url: `https://softhire.co.uk/candidate-success`,
-      cancel_url: `https://softhire.co.uk/payment-cancel`,
-      metadata: {
-        applicationId,
-        plan,
-      },
-    });
+//     // Create Stripe checkout session
+//     const session = await stripe.checkout.sessions.create({
+//       payment_method_types: ["card"],
+//       mode: "payment",
+//       customer_email: email,
+//       line_items: [
+//         {
+//           price_data: {
+//             currency: "inr",
+//             product_data: {
+//               name: `${plan} Visa Fee`,
+//             },
+//             unit_amount: planPrices[plan],
+//           },
+//           quantity: 1,
+//         },
+//       ],
+//       success_url: `https://softhire.co.uk/candidate-success`,
+//       cancel_url: `https://softhire.co.uk/payment-cancel`,
+//       metadata: {
+//         applicationId,
+//         plan,
+//       },
+//     });
 
-    application.stripeSessionId = session.id;
-    await application.save();
+//     application.stripeSessionId = session.id;
+//     await application.save();
 
-    res.status(200).json({ url: session.url });
+//     res.status(200).json({ url: session.url });
 
-  } catch (error) {
-    console.error("❌ Error creating checkout session:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
+//   } catch (error) {
+//     console.error("❌ Error creating checkout session:", error);
+//     res.status(500).json({ error: "Internal server error" });
+//   }
+// };
 
-exports.candidateWebhook = async (req, res) => {
-  const sig = req.headers["stripe-signature"];
-  let event;
+// exports.candidateWebhook = async (req, res) => {
+//   const sig = req.headers["stripe-signature"];
+//   let event;
 
-  try {
-    event = stripe.webhooks.constructEvent(
-      req.body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
-    console.log("✅ Webhook received:", event.type);
-  } catch (err) {
-    console.error("❌ Webhook signature error:", err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
+//   try {
+//     event = stripe.webhooks.constructEvent(
+//       req.body,
+//       sig,
+//       process.env.STRIPE_WEBHOOK_SECRET
+//     );
+//     console.log("✅ Webhook received:", event.type);
+//   } catch (err) {
+//     console.error("❌ Webhook signature error:", err.message);
+//     return res.status(400).send(`Webhook Error: ${err.message}`);
+//   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const { applicationId, plan } = session.metadata;
+//   if (event.type === "checkout.session.completed") {
+//     const session = event.data.object;
+//     const { applicationId, plan } = session.metadata;
 
-    console.log("📦 Metadata from Stripe session:", session.metadata);
-    console.log("🔍 Finding application with ID:", applicationId);
+//     console.log("📦 Metadata from Stripe session:", session.metadata);
+//     console.log("🔍 Finding application with ID:", applicationId);
 
-    try {
-      const application = await Application.findById(applicationId).populate("candidate job");
+//     try {
+//       const application = await Application.findById(applicationId).populate("candidate job");
 
-      if (!application) {
-        console.error("❌ Application not found in DB for ID:", applicationId);
-        return res.status(404).json({ error: "Application not found" });
-      }
+//       if (!application) {
+//         console.error("❌ Application not found in DB for ID:", applicationId);
+//         return res.status(404).json({ error: "Application not found" });
+//       }
 
-      console.log("✅ Application found. Current payment status:", application.paymentStatus);
+//       console.log("✅ Application found. Current payment status:", application.paymentStatus);
 
-      if (application.paymentStatus !== "Paid") {
-        application.paymentStatus = "Paid";
-        application.plan = plan;
-        await application.save();
-        console.log("✅ Candidate application marked as paid:", applicationId);
-      } else {
-        console.log("⚠️ Application already marked as paid:", applicationId);
-      }
+//       if (application.paymentStatus !== "Paid") {
+//         application.paymentStatus = "Paid";
+//         application.plan = plan;
+//         await application.save();
+//         console.log("✅ Candidate application marked as paid:", applicationId);
+//       } else {
+//         console.log("⚠️ Application already marked as paid:", applicationId);
+//       }
 
-      // Send email to admin
-      const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL;
-      console.log("📬 Sending admin email to:", adminEmail);
+//       // Send email to admin
+//       const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL;
+//       console.log("📬 Sending admin email to:", adminEmail);
 
-      await transporter.sendMail({
-        from: process.env.EMAIL,
-        to: adminEmail,
-        subject: "💳 Candidate Payment Received",
-        html: `
-          <h3>🧾 Payment Confirmation</h3>
-          <p><strong>Candidate:</strong> ${application.candidate.fullName} (${application.candidate.email})</p>
-          <p><strong>CoS Reference Number:</strong> ${application.cosRefNumber}</p>
-          <p><strong>Job Title:</strong> ${application.job.title}</p>
-          <p><strong>Plan:</strong> ${application.plan}</p>
-          <p><strong>Status:</strong> Paid</p>
-        `
-      });
+//       await transporter.sendMail({
+//         from: process.env.EMAIL,
+//         to: adminEmail,
+//         subject: "💳 Candidate Payment Received",
+//         html: `
+//           <h3>🧾 Payment Confirmation</h3>
+//           <p><strong>Candidate:</strong> ${application.candidate.fullName} (${application.candidate.email})</p>
+//           <p><strong>CoS Reference Number:</strong> ${application.cosRefNumber}</p>
+//           <p><strong>Job Title:</strong> ${application.job.title}</p>
+//           <p><strong>Plan:</strong> ${application.plan}</p>
+//           <p><strong>Status:</strong> Paid</p>
+//         `
+//       });
 
-      console.log("✅ Admin email sent successfully");
+//       console.log("✅ Admin email sent successfully");
 
-    } catch (err) {
-      console.error("❌ Webhook processing error:", err);
-    }
-  }
+//     } catch (err) {
+//       console.error("❌ Webhook processing error:", err);
+//     }
+//   }
 
-  res.status(200).json({ received: true });
-};
+//   res.status(200).json({ received: true });
+// };
 
 
 // Utility: Check if required documents exist

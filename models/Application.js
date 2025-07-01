@@ -1,4 +1,3 @@
-// models/Application.js
 const mongoose = require('mongoose');
 
 const applicationSchema = new mongoose.Schema(
@@ -43,10 +42,12 @@ const applicationSchema = new mongoose.Schema(
     stripeSessionId: {
       type: String
     },
-    plan: {
+
+    // ✅ Updated field: support all 3 one-time plans
+    oneTimePlan: {
       type: String,
-      enum: ['Skilled Worker', 'Dependant'],
-      required: false
+      enum: ['Skilled Worker', 'Dependant', 'Sponsor Licence'],
+      required: true
     }
   },
   { timestamps: true }
