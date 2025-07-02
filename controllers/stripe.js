@@ -35,8 +35,8 @@ exports.createSponsorshipCheckoutSession = async (req, res) => {
           quantity: 1
         }
       ],
-      success_url: `${process.env.LOCAL_CLIENT_URL}/payment/${applicationId}/success`,
-      cancel_url: `${process.env.LOCAL_CLIENT_URL}/payment/${applicationId}/cancel`,
+      success_url: `${process.env.CLIENT_URL}/payment/${applicationId}/success`,
+      cancel_url: `${process.env.CLIENT_URL}/payment/${applicationId}/cancel`,
       metadata: {
         applicationId,
         planType: "sponsorship"
