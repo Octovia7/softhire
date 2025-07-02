@@ -40,19 +40,72 @@ exports.getRecruiter = async (req, res) => {
   res.status(200).json(recruiter);
 };
 
-
 exports.getApplicationsForOrg = async (req, res) => {
   try {
     const orgId = req.organization._id;
 
-    // Step 1: Get job IDs posted by this organization
-    const jobs = await Job.find({ organization: orgId }, '_id');
+    if (!mongoose.Types.ObjectId.isValid(orgId)) {
+      return res.status(400).json({ error: "Invalid organization ID." });
+    }
+
+    const jobs = await Job.find({ organization: orgId }, "_id");
     const jobIds = jobs.map(job => job._id);
 
-    // Step 2: Get applications for these jobs
-    const applications = await Application.find({ job: { $in: jobIds } })
-      .populate('candidate', 'name email')   // optional, populate candidate info
-      .populate('job', 'title visaType');    // optional, populate job info
+    const applications = await Application.aggregate([
+      { $match: { job: { $in: jobIds } } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'candidate',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'candidates',
+          localField: 'candidate',
+          foreignField: 'userId',
+          as: 'candidateData'
+        }
+      },
+      { $unwind: { path: '$candidateData', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'jobs',
+          localField: 'job',
+          foreignField: '_id',
+          as: 'job'
+        }
+      },
+      { $unwind: { path: '$job', preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          coverLetter: 1,
+          status: 1,
+          statusUpdatedAt: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          paymentStatus: 1,
+          cosRefNumber: 1,
+          cosSubmittedAt: 1,
+          oneTimePlan: 1,
+          stripeSessionId: 1,
+          user: {
+            _id: '$user._id',
+            name: '$user.name',
+            email: '$user.email'
+          },
+          resume: '$candidateData.resume',
+          job: {
+            _id: '$job._id',
+            title: '$job.title',
+            visaType: '$job.visaType'
+          }
+        }
+      }
+    ]);
 
     res.status(200).json(applications);
   } catch (err) {
@@ -60,6 +113,7 @@ exports.getApplicationsForOrg = async (req, res) => {
     res.status(500).json({ error: 'Server error while fetching applications' });
   }
 };
+
 
 
 
