@@ -96,7 +96,7 @@ exports.handleWebhook = async (req, res) => {
 
         await transporter.sendMail({
           from: process.env.EMAIL,
-          to: process.env.ADMIN_EMAIL || process.env.EMAIL,
+          to: process.env.EMAIL || process.env.EMAIL,
           subject: "✅ Skilled Worker Visa Payment Received",
           html: `
             <h3>✅ Skilled Worker Visa Application Paid</h3>

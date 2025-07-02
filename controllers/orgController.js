@@ -1,12 +1,128 @@
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
 const Recruiter = require('../models/Recruiter');
-
+const asyncHandler = require("express-async-handler");
 // controllers/applicationController.js
 const Application = require('../models/Application');
 // controllers/applicationController.js
 // const Application = require('../models/Application');
 // const Job = require('../models/Job');
+const Profile = require("../models/Profile");
+exports.getOrgStats = asyncHandler(async (req, res) => {
+  const orgId = req.organization._id;
+
+  // 1. Get all job IDs for this organization
+  const jobs = await Job.find({ organization: orgId }).select("_id primaryRole").lean();
+  const jobIds = jobs.map(job => job._id);
+
+  // 2. Count total applicants for those jobs
+  const totalApplicants = await Application.countDocuments({
+    job: { $in: jobIds }
+  });
+
+  // 3. Get applications and associated candidate userIds
+  const applications = await Application.find({ job: { $in: jobIds } })
+    .select("candidate job")
+    .populate("job", "primaryRole")
+    .lean();
+
+  const candidateUserIds = applications.map(app => app.candidate);
+
+  // 4. Get profiles for those candidates
+  const profiles = await Profile.find({ userId: { $in: candidateUserIds } })
+    .select("userId primaryRole")
+    .lean();
+
+  const profileMap = new Map();
+  profiles.forEach(profile => {
+    profileMap.set(profile.userId.toString(), profile.primaryRole?.toLowerCase());
+  });
+
+  // 5. Count matches: profile.primaryRole == job.primaryRole
+  let matchCount = 0;
+  for (const app of applications) {
+    const userId = app.candidate?.toString();
+    const jobRole = app.job?.primaryRole?.toLowerCase();
+    const profileRole = profileMap.get(userId);
+
+    if (jobRole && profileRole && jobRole === profileRole) {
+      matchCount++;
+    }
+  }
+
+  res.status(200).json({
+    applicants: totalApplicants,
+    matches: matchCount,
+  });
+});
+
+
+exports.getActivityFeedForOrg = asyncHandler(async (req, res) => {
+  const orgId = req.organization._id;
+
+  if (!mongoose.Types.ObjectId.isValid(orgId)) {
+    return res.status(400).json({ error: "Invalid organization ID." });
+  }
+
+  // Fetch jobs posted by org, limit to last 60 days
+  const jobs = await Job.find({
+    organization: orgId,
+    postedAt: { $gte: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000) } // 60 days
+  })
+    .select("_id title postedAt")
+    .sort({ postedAt: -1 })
+    .limit(10)
+    .lean();
+
+  const jobIds = jobs.map(job => job._id);
+
+  const applications = await Application.aggregate([
+    { $match: { job: { $in: jobIds } } },
+    {
+      $group: {
+        _id: "$job",
+        count: { $sum: 1 },
+        latest: { $max: "$createdAt" }
+      }
+    },
+    { $sort: { latest: -1 } },
+    { $limit: 10 }
+  ]);
+
+  // Build a map of jobId → jobTitle for quick lookup
+  const jobMap = {};
+  jobs.forEach(job => {
+    jobMap[job._id.toString()] = job.title;
+  });
+
+  const activity = [];
+
+  // 🟢 Job posts
+  jobs.forEach(job => {
+    activity.push({
+      type: "job_posted",
+      message: `You posted a job for ${job.title}.`,
+      timestamp: job.postedAt
+    });
+  });
+
+  // 🔵 Applications
+  applications.forEach(app => {
+    const jobTitle = jobMap[app._id.toString()];
+    if (jobTitle) {
+      activity.push({
+        type: "candidates_matched",
+        message: `${app.count} candidate(s) matched for ${jobTitle} role.`,
+        timestamp: app.latest
+      });
+    }
+  });
+
+  // Final sort
+  activity.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  res.status(200).json({ activity });
+});
 exports.updateRecruiter = async (req, res) => {
   const userId = req.user.id;
   const updateData = req.body;

@@ -3,8 +3,9 @@ const router = express.Router();
 const jobController = require('../controllers/orgController');
 const isVerifiedOrg = require('../middleware/isVerifiedOrg');
 const { authenticate } = require('../middleware/authMiddleware');
-
+router.get("/org/stats", authenticate,isVerifiedOrg, jobController.getOrgStats);
 // Protect with auth + verified org
+router.get("/org/feed", authenticate,isVerifiedOrg, jobController.getActivityFeedForOrg);
 router.post('/org/jobs', authenticate, isVerifiedOrg, jobController.createJob);
 router.put('/org/jobs/:jobId', authenticate,isVerifiedOrg,  jobController.updateJob);
 router.delete('/org/jobs/:jobId', authenticate,isVerifiedOrg,  jobController.deleteJob);
