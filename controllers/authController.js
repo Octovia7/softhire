@@ -70,15 +70,18 @@ exports.signup = async (req, res) => {
     }
 };
 
+
 exports.verifyOTP = async (req, res) => {
     const { email, otp } = req.body;
 
     try {
+        // Check if the pending user exists
         const pendingUser = await PendingUser.findOne({ email });
         if (!pendingUser) {
             return res.status(400).json({ message: "No signup found. Please register first." });
         }
 
+        // Validate OTP presence and expiry
         if (!pendingUser.otpData || !pendingUser.otpData.expires) {
             await PendingUser.deleteOne({ email });
             return res.status(400).json({ message: "OTP not found or invalid. Please sign up again." });
@@ -89,11 +92,13 @@ exports.verifyOTP = async (req, res) => {
             return res.status(400).json({ message: "OTP expired. Please sign up again." });
         }
 
+        // Compare OTP
         const isMatch = await bcrypt.compare(otp, pendingUser.otpData.otp);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid OTP" });
         }
 
+        // Create verified User
         const newUser = new User({
             fullName: pendingUser.fullName,
             email: pendingUser.email,
@@ -104,6 +109,7 @@ exports.verifyOTP = async (req, res) => {
 
         await newUser.save();
 
+        // Create Recruiter or Candidate sub-docs
         if (pendingUser.role === "recruiter") {
             const organization = new Organization({
                 name: pendingUser.organizationName,
@@ -123,29 +129,32 @@ exports.verifyOTP = async (req, res) => {
         }
 
         if (pendingUser.role === "candidate") {
-            await Candidate.create({ userId: newUser._id, skills: [] });
+            await Candidate.create({
+                userId: newUser._id,
+                skills: [],
+            });
         }
 
+        // Cleanup pending user entry
         await PendingUser.deleteOne({ email });
 
+        // Generate token
         const token = jwt.sign(
-  { id: user._id, role: user.role, email: user.email },
-  process.env.JWT_SECRET,
-  { expiresIn: "1h" }
-);
-
+            { id: newUser._id, role: newUser.role, email: newUser.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
 
         res.status(200).json({
             message: "Account verified successfully",
             token,
-            userId: newUser._id, // ✅ Include userId
+            userId: newUser._id,
         });
     } catch (error) {
         console.error("🚨 Verify OTP Error:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
-
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
