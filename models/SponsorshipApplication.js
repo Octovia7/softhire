@@ -81,8 +81,6 @@ const SponsorshipApplicationSchema = new mongoose.Schema({
     type: Date
   },
 
-  // Removed selectedPlan/basic/standard/premium since not needed
-  // selectedPlan: { type: String, enum: ["basic", "standard", "premium"] },
 
   planValidUntil: {
     type: Date

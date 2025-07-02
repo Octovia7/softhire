@@ -91,19 +91,23 @@ exports.handleWebhook = async (req, res) => {
         application.isPaid = true;
         application.planPaidAt = new Date();
         application.planValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
-        application.isSubmitted = true; // ✅ Mark as submitted after payment
+        application.isSubmitted = true;
+
+        // ✅ Save paidAmount (Stripe stores in smallest currency unit, e.g., pence)
+        application.paidAmount = session.amount_total || 139900; // fallback if not present
+
         await application.save();
       }
 
-      // Send confirmation to recruiter
+      // ✅ Send confirmation to recruiter
       await transporter.sendMail({
         from: process.env.EMAIL,
         to: application.user.email,
         subject: "✅ Payment Received – Sponsor Licence Application",
-        text: `Hi ${application.user.fullName},\n\nThank you for your payment of £1399. Your sponsor licence application has been submitted.\n\nRegards,\nSoftHire Team`
+        text: `Hi ${application.user.fullName},\n\nThank you for your payment of £${(application.paidAmount / 100).toFixed(2)}. Your sponsor licence application has been submitted.\n\nRegards,\nSoftHire Team`
       });
 
-      // Send full data to admin
+      // ✅ Send full data to admin
       await sendAdminApplicationDetails(application);
 
       console.log("✅ Sponsorship marked as paid and admin notified");
