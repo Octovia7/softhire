@@ -48,6 +48,10 @@ You can follow up with the user for next steps.
 };
 const sendAdminApplicationDetails = async (application) => {
   const adminEmail = process.env.EMAIL;
+const formatPrice = (amount) => {
+  if (!amount || typeof amount !== 'number') return 'N/A';
+  return `£${(amount / 100).toFixed(2)}`;
+};
 
   const formatDate = (d) => d ? new Date(d).toLocaleDateString() : "N/A";
 
@@ -58,6 +62,12 @@ const sendAdminApplicationDetails = async (application) => {
 🆔 Application ID: ${application._id}
 📅 Submitted At: ${application.submittedAt || "Not submitted"}
 💳 Stripe Session ID: ${application.stripeSessionId || "N/A"}
+
+💼 Plan Information:
+- Selected Plan: ${application.selectedPlan || "N/A"}
+- Price Paid: ${formatPrice(application.planPrice)}
+- Paid At: ${formatDate(application.planPaidAt)}
+- Valid Until: ${formatDate(application.planValidUntil)}
 
 🟢 Getting Started:
 - Already has Sponsor Licence: ${application.gettingStarted?.hasSponsorLicense?.value ? "Yes" : "No"}

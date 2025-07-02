@@ -18,12 +18,36 @@ const applicationSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Submitted', 'Accepted', 'Rejected', 'Hired', 'Saved'],
+      enum: ['Submitted', 'Accepted', 'Rejected', 'Hired', 'Saved', 'Paid', 'AdminReview'],
       default: 'Submitted'
     },
     statusUpdatedAt: {
       type: Date,
       default: Date.now
+    },
+    cosRefNumber: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true
+    },
+    cosSubmittedAt: {
+      type: Date
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['Pending', 'Paid', 'Failed'],
+      default: 'Pending'
+    },
+    stripeSessionId: {
+      type: String
+    },
+
+    // ✅ Updated field: support all 3 one-time plans
+    oneTimePlan: {
+      type: String,
+      enum: ['Skilled Worker', 'Dependant', 'Sponsor Licence'],
+      required: true
     }
   },
   { timestamps: true }

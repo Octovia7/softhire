@@ -12,5 +12,14 @@ router.post(
   express.raw({ type: "application/json" }),
   stripeController.handleWebhook
 );
+router.post(
+  "/candidate/create-checkout-session",
+  authenticate,
+  stripeController.createCandidateCheckoutSession);
+//   router.post(
+//   "/candidate/webhook",
+//   express.raw({ type: "application/json" }),
+//   stripeController.candidateWebhook
+// );
 
 module.exports = router;
