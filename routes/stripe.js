@@ -4,7 +4,7 @@ const stripeController = require("../controllers/stripe");
 const { authenticate, authorizeRecruiter } = require("../middleware/authMiddleware");
 
 // Create Checkout Session
-router.post("/create-checkout-session", authenticate, authorizeRecruiter, stripeController.createCheckoutSession);
+router.post("/create-checkout-session", authenticate, authorizeRecruiter , stripeController.createSponsorshipCheckoutSession);
 
 // Stripe Webhook (must use raw body)
 router.post(

@@ -24,7 +24,7 @@ router.get("/:id/system-access", authenticate, authorizeRecruiter, getSystemAcce
 router.get("/:id/supporting-documents", authenticate, authorizeRecruiter, getSupportingDocuments);
 router.get("/:id/organization-size", authenticate, authorizeRecruiter, getOrganizationSize);
 router.get("/:id/declarations", authenticate, authorizeRecruiter, getDeclarations);
-router.post("/:id/submit", authenticate, authorizeRecruiter, submitApplication);
+// router.post("/application/:id/submit", authenticate, authorizeRecruiter, submitApplication);
 router.patch(
   "/:id/organization-size",
   authenticate,

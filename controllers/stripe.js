@@ -6,44 +6,32 @@ const Candidate = require("../models/Candidate");
 const Application = require("../models/Application");
 
 // Create Stripe Checkout Session for Recurring Yearly Plan
-exports.createCheckoutSession = async (req, res) => {
+exports.createSponsorshipCheckoutSession = async (req, res) => {
   try {
-    const { applicationId, plan } = req.body;
+    const { applicationId, priceId } = req.body;
     const email = req.user.email;
     const userId = req.user.id;
 
-    // ✅ Stripe Price IDs – Recurring Yearly
-    const stripePriceIds = {
-      basic: "price_1Rg7z82acj2EAQETeveypeTD",
-      standard: "price_1Rg85d2acj2EAQET7cGjxHMl",
-      premium: "price_1Rg86d2acj2EAQETu6YJzVHX"
-    };
-
-    if (!stripePriceIds[plan]) {
-      return res.status(400).json({ error: "Invalid plan selected" });
+    if (!priceId) {
+      return res.status(400).json({ error: "Missing Stripe Price ID" });
     }
 
     const application = await SponsorshipApplication.findById(applicationId);
     if (!application || application.user.toString() !== userId) {
-      return res.status(404).json({ error: "Application not found or unauthorized" });
-    }
-
-    if (!application.isSubmitted) {
-      return res.status(400).json({ error: "Please submit the application before proceeding to payment." });
+      return res.status(403).json({ error: "Unauthorized or application not found" });
     }
 
     if (application.isPaid) {
-      return res.status(400).json({ error: "This application has already been paid for." });
+      return res.status(400).json({ error: "Already paid" });
     }
 
-    // ✅ Create Stripe subscription-based session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      mode: "subscription", // 🔁 recurring
+      mode: "payment",
       customer_email: email,
       line_items: [
         {
-          price: stripePriceIds[plan],
+          price: priceId, // ✅ use your real Stripe Price ID here
           quantity: 1
         }
       ],
@@ -51,24 +39,23 @@ exports.createCheckoutSession = async (req, res) => {
       cancel_url: `https://softhire.co.uk/cancel`,
       metadata: {
         applicationId,
-        selectedPlan: plan
+        planType: "sponsorship"
       }
     });
 
-    // Save session ID and selected plan
     application.stripeSessionId = session.id;
-    application.selectedPlan = plan;
     await application.save();
 
-    return res.status(200).json({ url: session.url });
-  } catch (error) {
-    console.error("❌ Error creating Stripe session:", error);
-    return res.status(500).json({ error: "Could not create Stripe session" });
+    res.status(200).json({ url: session.url });
+
+  } catch (err) {
+    console.error("❌ Error creating checkout session:", err);
+    res.status(500).json({ error: "Something went wrong" });
   }
 };
 
 
-exports.handleWebhook =  async (req, res) => {
+exports.handleWebhook = async (req, res) => {
   const sig = req.headers["stripe-signature"];
   let event;
 
@@ -76,122 +63,62 @@ exports.handleWebhook =  async (req, res) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET // ✅ Only ONE webhook secret
+      process.env.STRIPE_WEBHOOK_SECRET
     );
     console.log("✅ Webhook received:", event.type);
   } catch (err) {
-    console.error("❌ Webhook signature error:", err.message);
+    console.error("❌ Webhook verification failed:", err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    const metadata = session.metadata || {};
-    const { applicationId, plan, planType } = metadata;
-    const email = session.customer_email;
+    const { applicationId, planType } = session.metadata;
 
-    console.log(`📦 Webhook for ${email} | Plan: ${plan} | Type: ${planType}`);
+    if (planType !== "sponsorship") return res.status(200).send(); // ignore non-sponsorship payments
 
     try {
-      // 📌 ONE-TIME: Candidate pays for visa (application-based)
-      if (planType === "one-time") {
-        const application = await Application.findById(applicationId).populate("candidate job");
-        if (!application) {
-          console.error("❌ Application not found");
-          return res.status(404).send();
-        }
+      const application = await SponsorshipApplication.findById(applicationId)
+        .populate("user", "email fullName")
+        .populate("aboutYourCompany organizationSize companyStructure gettingStarted activityAndNeeds authorisingOfficers level1AccessUsers supportingDocuments declarations");
 
-        if (application.paymentStatus !== "Paid") {
-          application.paymentStatus = "Paid";
-          await application.save();
-        }
-
-        await transporter.sendMail({
-          from: process.env.EMAIL,
-          to: process.env.ADMIN_EMAIL || process.env.EMAIL,
-          subject: "💳 One-time Payment Received",
-          html: `
-            <h3>🧾 Visa Fee Paid</h3>
-            <p><strong>Candidate:</strong> ${application.candidate.fullName} (${application.candidate.email})</p>
-            <p><strong>Job:</strong> ${application.job.title}</p>
-            <p><strong>Plan:</strong> ${application.oneTimePlan}</p>
-            <p><strong>CoS Ref:</strong> ${application.cosRefNumber}</p>
-          `
-        });
-
-        console.log("✅ One-time application marked as paid");
-
-      // 📌 SUBSCRIPTION: Candidate subscribes to platform (Candidate model)
-      } else if (planType === "subscription") {
-        const candidate = await Candidate.findOne({ userId: session.client_reference_id }).populate("userId");
-
-        if (!candidate) {
-          console.error("❌ Candidate not found");
-          return res.status(404).send();
-        }
-
-        candidate.subscriptionPlan = plan;
-        candidate.subscriptionStatus = "Active";
-        candidate.subscriptionStartedAt = new Date();
-        candidate.stripeSubscriptionId = session.subscription;
-        await candidate.save();
-
-        await transporter.sendMail({
-          from: process.env.EMAIL,
-          to: process.env.ADMIN_EMAIL || process.env.EMAIL,
-          subject: "📅 Subscription Started",
-          html: `
-            <h3>💼 Subscription Activated</h3>
-            <p><strong>Candidate:</strong> ${candidate.userId.fullName} (${candidate.userId.email})</p>
-            <p><strong>Plan:</strong> ${plan}</p>
-            <p><strong>Status:</strong> Active</p>
-          `
-        });
-
-        console.log("✅ Candidate subscription saved");
-
-      // 📌 SPONSORSHIP: Recruiter pays for sponsorship application
-      } else if (planType === "sponsorship") {
-        const app = await SponsorshipApplication.findById(applicationId).populate("user", "email fullName");
-
-        if (!app) {
-          console.error("❌ Sponsorship application not found");
-          return res.status(404).send();
-        }
-
-        if (!app.isPaid) {
-          const now = new Date();
-          const validUntil = new Date();
-          validUntil.setFullYear(validUntil.getFullYear() + 1);
-
-          app.isPaid = true;
-          app.planPaidAt = now;
-          app.planValidUntil = validUntil;
-          app.selectedPlan = plan;
-          await app.save();
-
-          await transporter.sendMail({
-            from: process.env.EMAIL,
-            to: app.user.email,
-            subject: "✅ Payment Received – Sponsor Licence Application",
-            text: `Hi ${app.user.fullName},\n\nThank you for purchasing the ${plan} plan. Your subscription is now active until ${app.planValidUntil.toDateString()}.\n\nRegards,\nSoftHire Team`
-          });
-
-          await sendAdminApplicationDetails(app);
-          console.log("✅ Sponsorship marked as paid and admin notified");
-        }
-      } else {
-        console.warn("⚠️ Unknown planType or missing data");
+      if (!application) {
+        console.error("❌ Sponsorship application not found");
+        return res.status(404).send();
       }
 
+      if (!application.isPaid) {
+        application.isPaid = true;
+        application.planPaidAt = new Date();
+        application.planValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+        application.isSubmitted = true;
+
+        // ✅ Save paidAmount (Stripe stores in smallest currency unit, e.g., pence)
+        application.paidAmount = session.amount_total || 139900; // fallback if not present
+
+        await application.save();
+      }
+
+      // ✅ Send confirmation to recruiter
+      await transporter.sendMail({
+        from: process.env.EMAIL,
+        to: application.user.email,
+        subject: "✅ Payment Received – Sponsor Licence Application",
+        text: `Hi ${application.user.fullName},\n\nThank you for your payment of £${(application.paidAmount / 100).toFixed(2)}. Your sponsor licence application has been submitted.\n\nRegards,\nSoftHire Team`
+      });
+
+      // ✅ Send full data to admin
+      await sendAdminApplicationDetails(application);
+
+      console.log("✅ Sponsorship marked as paid and admin notified");
+
     } catch (err) {
-      console.error("❌ Webhook processing error:", err);
+      console.error("❌ Webhook handling error:", err);
     }
   }
 
   res.status(200).json({ received: true });
 };
-
 
 
 

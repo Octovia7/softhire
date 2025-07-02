@@ -20,54 +20,54 @@ const OrganizationSize = require("../models/OrganizationSize");
 // const SponsorshipApplication = require("../models/SponsorshipApplication");
 const Declarations = require("../models/Declarations");
 // const SponsorshipApplication = require("../models/SponsorshipApplication");
-exports.submitApplication = async (req, res) => {
-  const { id } = req.params;
+// exports.submitApplication = async (req, res) => {
+//   const { id } = req.params;
 
-  try {
-    const application = await SponsorshipApplication.findById(id);
+//   try {
+//     const application = await SponsorshipApplication.findById(id);
 
-    if (!application) {
-      return res.status(404).json({ error: "Application not found." });
-    }
+//     if (!application) {
+//       return res.status(404).json({ error: "Application not found." });
+//     }
 
-    if (application.user.toString() !== req.user.id) {
-      return res.status(403).json({ error: "Unauthorized." });
-    }
+//     if (application.user.toString() !== req.user.id) {
+//       return res.status(403).json({ error: "Unauthorized." });
+//     }
 
-    if (application.isSubmitted) {
-      return res.status(400).json({ error: "Application has already been submitted." });
-    }
+//     if (application.isSubmitted) {
+//       return res.status(400).json({ error: "Application has already been submitted." });
+//     }
 
-    // ✅ Optional: Validate all required sections exist
-    const requiredSections = [
-      "gettingStarted",
-      "aboutYourCompany",
-      "companyStructure",
-      "activityAndNeeds",
-      "authorisingOfficer",
-      "systemAccess",
-      "supportingDocuments",
-      "organizationSize",
-      "declarations"
-    ];
+//     // ✅ Optional: Validate all required sections exist
+//     const requiredSections = [
+//       "gettingStarted",
+//       "aboutYourCompany",
+//       "companyStructure",
+//       "activityAndNeeds",
+//       "authorisingOfficer",
+//       "systemAccess",
+//       "supportingDocuments",
+//       "organizationSize",
+//       "declarations"
+//     ];
 
-    const missing = requiredSections.filter(section => !application[section]);
-    if (missing.length > 0) {
-      return res.status(400).json({
-        error: "Please complete all sections before submission.",
-        missingSections: missing
-      });
-    }
+//     const missing = requiredSections.filter(section => !application[section]);
+//     if (missing.length > 0) {
+//       return res.status(400).json({
+//         error: "Please complete all sections before submission.",
+//         missingSections: missing
+//       });
+//     }
 
-    application.isSubmitted = true;
-    await application.save();
+//     application.isSubmitted = true;
+//     await application.save();
 
-    res.status(200).json({ message: "Application submitted successfully." });
-  } catch (err) {
-    console.error("Submit Error:", err);
-    res.status(500).json({ error: "Internal server error." });
-  }
-};
+//     res.status(200).json({ message: "Application submitted successfully." });
+//   } catch (err) {
+//     console.error("Submit Error:", err);
+//     res.status(500).json({ error: "Internal server error." });
+//   }
+// };
 
 
 exports.submitOrUpdateDeclarations = async (req, res) => {
