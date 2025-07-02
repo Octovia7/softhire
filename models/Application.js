@@ -47,7 +47,7 @@ const applicationSchema = new mongoose.Schema(
     oneTimePlan: {
       type: String,
       enum: ['Skilled Worker', 'Dependant', 'Sponsor Licence'],
-      required: true
+      // required: true
     }
   },
   { timestamps: true }
