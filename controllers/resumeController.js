@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Candidate = require('../models/Candidate');
 
 // Upload Resume
-const uploadResume = asyncHandler(async (req, res) => {
+exports.uploadResume = asyncHandler(async (req, res) => {
     console.log('📝 Upload Resume route hit by:', req.user.id || 'Unauthenticated');
 
     // ✅ Guard: Check if authenticated user has a valid ID
@@ -58,5 +58,20 @@ const uploadResume = asyncHandler(async (req, res) => {
         resumeUrl,
     });
 });
+exports.getResume = asyncHandler(async (req, res) => {
+    if (!req.user.id) {
+        return res.status(401).json({ message: 'Unauthorized: User ID missing in token' });
+    }
 
-module.exports = uploadResume;
+    const candidate = await Candidate.findOne({ userId: req.user.id });
+
+    if (!candidate || !candidate.resume) {
+        return res.status(404).json({ message: 'Resume not found' });
+    }
+
+    res.status(200).json({
+        message: 'Resume fetched successfully',
+        resumeUrl: candidate.resume,
+    });
+});
+
