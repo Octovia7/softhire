@@ -11,44 +11,33 @@ const addressSchema = new mongoose.Schema({
 }, { _id: false });
 
 const level1AccessUserSchema = new mongoose.Schema({
-  needsSystemAccess: { type: Boolean, required: true },
-  needsLevel1Access: { type: Boolean, required: true },
+  level1Access: { type: Boolean, required: true },
   level1User: {
     title: String,
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+    firstName: String,
+    lastName: String,
     previouslyKnownAs: String,
-
     phoneNumber: {
       type: String,
-      required: true,
-      validate: {
-        validator: v => /^0\d{10}$/.test(v),
-        message: "Phone number must be 11 digits and start with 0"
-      }
     },
-
-    email: { type: String, required: true },
-    dateOfBirth: { type: Date, required: true },
-    roleInCompany: { type: String, required: true },
-
-    hasNINumber: { type: Boolean, required: true },
+    email: String,
+    dateOfBirth: Date,
+    roleInCompany: String,
+    hasNINumber: Boolean,
     nationalInsuranceNumber: String,
     niExemptReason: String,
-
-    nationality: { type: String, required: true },
-    isSettledWorker: { type: Boolean, required: true },
+    nationality: String,
+    isSettledWorker: Boolean,
     immigrationStatus: String,
     passportNumber: String,
     homeOfficeReference: String,
     permissionExpiryDate: Date,
-
-    hasConvictions: { type: Boolean, required: true },
+    hasConvictions: Boolean,
     convictionDetails: String,
-
-    address: { type: addressSchema, required: true }
+    address: { type: addressSchema }
   }
 }, { timestamps: true });
+
 
 module.exports = mongoose.model("Level1AccessUser", level1AccessUserSchema);
 

@@ -71,7 +71,7 @@ const Declarations = require("../models/Declarations");
 
 
 exports.submitOrUpdateDeclarations = async (req, res) => {
-   const { id } = req.params;
+  const { id } = req.params;
   const {
     serviceType,
     canMeetSponsorDuties,
@@ -92,7 +92,7 @@ exports.submitOrUpdateDeclarations = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
-    }   if (application.isSubmitted)
+    } if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
 
@@ -130,19 +130,20 @@ exports.submitOrUpdateDeclarations = async (req, res) => {
 
 exports.updateOrganizationSize = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const data = req.body.data;
+  // console.log(data)
 
-  const validTurnover = ["below_15m", "15m_or_more"];
-  const validAssets = ["below_7_5m", "7_5m_or_more"];
-  const validEmployees = ["below_50", "50_or_more"];
+  // const validTurnover = ["below_15m", "15m_or_more"];
+  // const validAssets = ["below_7_5m", "7_5m_or_more"];
+  // const validEmployees = ["below_50", "50_or_more"];
 
-  if (
-    !validTurnover.includes(data.turnover) ||
-    !validAssets.includes(data.assets) ||
-    !validEmployees.includes(data.employees)
-  ) {
-    return res.status(400).json({ error: "Invalid value provided for one or more fields." });
-  }
+  // if (
+  //   !validTurnover.includes(data.turnover) ||
+  //   !validAssets.includes(data.assets) ||
+  //   !validEmployees.includes(data.employees)
+  // ) {
+  //   return res.status(400).json({ error: "Invalid value provided for one or more fields." });
+  // }
 
   try {
     const application = await SponsorshipApplication.findById(id);
@@ -189,25 +190,45 @@ exports.uploadSingleSupportingDocument = async (req, res) => {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
-    let documentRecord;
-
-    if (application.supportingDocuments) {
-      documentRecord = await SupportingDocuments.findById(application.supportingDocuments);
-    }
+    // ✅ Always get one record
+    let documentRecord = await SupportingDocuments.findOne({ application: id });
 
     if (!documentRecord) {
       documentRecord = new SupportingDocuments({
         application: application._id
       });
-      await documentRecord.save();
-      application.supportingDocuments = documentRecord._id;
-      await application.save();
     }
 
-    documentRecord[fieldName] = {
-      name: name || file.originalname,
-      url: file.path
-    };
+    if (fieldName === "rightToWorkChecks") {
+      let data = req.body.data;
+      if (typeof data === "string") {
+        try {
+          data = JSON.parse(data);
+        } catch (e) {
+          return res.status(400).json({ error: "Invalid JSON in data field" });
+        }
+      }
+      if (!data || !data.employeeName || !data.startDate || !data.rightToWorkDate || !data.isBritishNational) {
+        return res.status(400).json({ error: "Missing required fields for right to work checks" });
+      }
+
+      documentRecord.set(fieldName, {
+        isBritishNational: data.isBritishNational,
+        startDate: new Date(data.startDate),
+        rightToWorkDate: new Date(data.rightToWorkDate),
+        employeeName: data.employeeName,
+        file: {
+          name: file.originalname,
+          url: file.path
+        }
+      });
+      documentRecord.markModified(fieldName);
+    } else {
+      documentRecord[fieldName] = {
+        name: name || file.originalname,
+        url: file.path
+      };
+    }
 
     await documentRecord.save();
 
@@ -222,6 +243,49 @@ exports.uploadSingleSupportingDocument = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+exports.submitSupportingDocument = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const application = await SponsorshipApplication.findById(id);
+    if (!application) return res.status(404).json({ error: "Application not found." });
+    if (application.user.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const supportingDocuments = await SupportingDocuments.findOne({ application: id });
+    if (!supportingDocuments) {
+      return res.status(404).json({ error: "Supporting Documents not found." });
+    }
+
+    const combined = { ...supportingDocuments.toObject() };
+
+    const hasRightToWork = combined.rightToWorkChecks && combined.rightToWorkChecks.file;
+    const hasCertificate = !!combined.certificateOfIncorporation;
+    const hasBank = !!combined.businessBankStatement;
+    const hasInsurance = !!combined.employersLiabilityInsurance;
+
+    if (!hasRightToWork || !hasCertificate || !hasBank || !hasInsurance) {
+      return res.status(400).json({ error: "Required documents are missing." });
+    }
+
+    application.supportingDocuments = supportingDocuments._id;
+    await application.save();
+
+    res.status(200).json({
+      message: "Supporting Documents Submitted successfully.",
+      combinedSupportingDocuments: combined,
+      supportingDocuments: supportingDocuments
+    });
+  } catch (err) {
+    console.error("Supporting Documents Error:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 
 
 
@@ -304,7 +368,7 @@ exports.updateSingleLevel1AccessEntry = async (req, res) => {
 };
 exports.updateSystemAccess = async (req, res) => {
   const { id } = req.params;
-  const entry = req.body; // single access entry
+  const entry = req.body.data; // single access entry
 
   try {
     const application = await SponsorshipApplication.findById(id);
@@ -320,27 +384,27 @@ exports.updateSystemAccess = async (req, res) => {
     }
 
     const user = entry.level1User;
-    if (user) {
-      if (user.hasNINumber && !user.nationalInsuranceNumber) {
-        return res.status(400).json({ error: "NI Number is required if marked as available." });
-      }
-      if (user.hasNINumber === false && !user.niExemptReason) {
-        return res.status(400).json({ error: "NI exemption reason is required." });
-      }
-      if (user.hasConvictions && !user.convictionDetails) {
-        return res.status(400).json({ error: "Conviction details are required." });
-      }
-      if (!user.isSettledWorker) {
-        if (
-          !user.immigrationStatus ||
-          !user.passportNumber ||
-          !user.homeOfficeReference ||
-          !user.permissionExpiryDate
-        ) {
-          return res.status(400).json({ error: "Complete immigration details are required for non-settled workers." });
-        }
-      }
-    }
+    // if (user) {
+    //   if (user.hasNINumber && !user.nationalInsuranceNumber) {
+    //     return res.status(400).json({ error: "NI Number is required if marked as available." });
+    //   }
+    //   if (user.hasNINumber === false && !user.niExemptReason) {
+    //     return res.status(400).json({ error: "NI exemption reason is required." });
+    //   }
+    //   if (user.hasConvictions && !user.convictionDetails) {
+    //     return res.status(400).json({ error: "Conviction details are required." });
+    //   }
+    //   if (!user.isSettledWorker) {
+    //     if (
+    //       !user.immigrationStatus ||
+    //       !user.passportNumber ||
+    //       !user.homeOfficeReference ||
+    //       !user.permissionExpiryDate
+    //     ) {
+    //       return res.status(400).json({ error: "Complete immigration details are required for non-settled workers." });
+    //     }
+    //   }
+    // }
 
     // ✅ Create and save new access entry document
     const level1AccessDoc = new Level1AccessUser(entry);
@@ -368,7 +432,8 @@ exports.updateSystemAccess = async (req, res) => {
 
 exports.updateAuthorisingOfficers = async (req, res) => {
   const { id } = req.params;
-  const { authorisingOfficers } = req.body;
+  const { authorisingOfficers } = req.body.data;
+  console.log(authorisingOfficers);
 
   if (!Array.isArray(authorisingOfficers) || authorisingOfficers.length === 0) {
     return res.status(400).json({ error: "At least one authorising officer is required." });
@@ -454,7 +519,7 @@ function validateActivityAndNeeds(data) {
 // ✅ PATCH: Update Activity & Needs Section
 exports.updateActivityAndNeeds = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const { data } = req.body;
 
   // ✅ Handle passport file (if any) via Cloudinary
   if (req.file?.path) {
@@ -481,7 +546,7 @@ exports.updateActivityAndNeeds = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-   if (application.isSubmitted)
+    if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
     let activityDoc;
@@ -536,7 +601,7 @@ function validateCompanyStructure(data) {
 // ✅ PATCH: Update Company Structure section
 exports.updateCompanyStructure = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const { data } = req.body;
 
   const validationError = validateCompanyStructure(data);
   if (validationError) {
@@ -550,7 +615,7 @@ exports.updateCompanyStructure = async (req, res) => {
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized" });
     }
-   if (application.isSubmitted)
+    if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
     let structureDoc;
@@ -580,23 +645,24 @@ function validateGettingStarted(data) {
     return "You cannot currently hold a sponsor license *and* have previously held one.";
   }
 
- if (data.rejectedBefore?.value === true && !data.rejectedBefore.reason) {
-  return "Please provide a reason for rejection.";
-}
+  if (data.rejectedBefore?.value === true && !data.rejectedBefore.reason) {
+    return "Please provide a reason for rejection.";
+  }
 
-if (data.rejectedBefore?.value === false && data.rejectedBefore.reason?.trim()) {
-  return "Reason should not be provided if not rejected before.";
-}
+  if (data.rejectedBefore?.value === false && data.rejectedBefore.reason?.trim()) {
+    return "Reason should not be provided if not rejected before.";
+  }
 
-   // ✅ Validate recruitment agency logic
+  // ✅ Validate recruitment agency logic
   if (data.isRecruitmentAgency?.value === true) {
     if (typeof data.isRecruitmentAgency.contractsOutToOthers !== "boolean") {
       return "Please specify whether workers are contracted out.";
     }
-  } else {
+  } else if (data.isRecruitmentAgency) {
     if ("contractsOutToOthers" in data.isRecruitmentAgency) {
       return "contractsOutToOthers should not be set if not a recruitment agency.";
-    }}
+    }
+  }
   return null;
 }
 
@@ -639,20 +705,20 @@ exports.createSponsorshipApplication = async (req, res) => {
 
     const existing = await SponsorshipApplication.findOne({ user: userId });
     if (existing) {
-      return res.status(200).json({ 
-        message: "Application already exists", 
-        application: existing, 
-        companyName: recruiter.companyName 
+      return res.status(200).json({
+        message: "Application already exists",
+        application: existing,
+        companyName: recruiter.companyName
       });
     }
 
     const application = new SponsorshipApplication({ user: userId });
     await application.save();
 
-    res.status(201).json({ 
-      message: "Application created", 
+    res.status(201).json({
+      message: "Application created",
       application,
-      companyName: recruiter.companyName 
+      companyName: recruiter.companyName
     });
 
   } catch (err) {
@@ -663,7 +729,8 @@ exports.createSponsorshipApplication = async (req, res) => {
 
 exports.updateGettingStarted = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const { data } = req.body;
+  console.log(data);
 
   const validationError = validateGettingStarted(data);
   if (validationError) {
@@ -718,7 +785,7 @@ exports.updateGettingStarted = async (req, res) => {
 // ✅ PATCH /api/sponsorship/:id/about-your-company
 exports.updateAboutYourCompany = async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
+  const { data } = req.body;
 
   const validationError = validateAboutYourCompany(data);
   if (validationError) {
@@ -731,7 +798,7 @@ exports.updateAboutYourCompany = async (req, res) => {
 
     if (application.user.toString() !== req.user.id) {
       return res.status(403).json({ error: "Unauthorized access" });
-    }   if (application.isSubmitted)
+    } if (application.isSubmitted)
       return res.status(400).json({ error: "Application has already been submitted." });
 
 
@@ -851,11 +918,46 @@ exports.getSystemAccess = async (req, res) => {
 };
 
 exports.getSupportingDocuments = async (req, res) => {
-  const application = await SponsorshipApplication.findById(req.params.id).populate("supportingDocuments");
-  if (!application || !application.supportingDocuments) return res.status(404).json({ error: "Not found" });
-  if (application.user.toString() !== req.user.id) return res.status(403).json({ error: "Unauthorized" });
-  res.json(application.supportingDocuments);
+  try {
+    const supportingDocuments = await SupportingDocuments.find({ application: req.params.id });
+
+    if (!supportingDocuments || supportingDocuments.length === 0) {
+      return res.status(404).json({ error: "Not found" });
+    }
+
+    const fields = {};
+
+    supportingDocuments.forEach(doc => {
+      const docObj = doc.toObject();
+
+      for (const key in docObj) {
+        if (
+          key !== "__v" &&
+          key !== "_id" &&
+          key !== "createdAt" &&
+          key !== "updatedAt" &&
+          key !== "application" &&
+          docObj[key] !== null &&
+          docObj[key] !== undefined &&
+          !(typeof docObj[key] === "object" && Object.keys(docObj[key]).length === 0)
+        ) {
+          fields[key] = docObj[key];
+        }
+      }
+    });
+
+    res.json({
+      application: req.params.id,
+      fields
+    });
+  } catch (error) {
+    console.error("Error fetching supporting documents:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 };
+
+
+
 
 exports.getOrganizationSize = async (req, res) => {
   const application = await SponsorshipApplication.findById(req.params.id).populate("organizationSize");

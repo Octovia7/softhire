@@ -46,22 +46,15 @@ const app = express();
 app.use("/api/stripe/webhook", express.raw({ type: "application/json" }));
 app.use("/api/stripe/candidate-webhook", express.raw({ type: "application/json" }));
 const server = http.createServer(app);
+const allowedOrigins = process.env.CORS_ORIGIN.split(',');
 
-// ✅ Socket.IO setup
-const allowedOrigins = process.env.CORS_ORIGIN
-  ? process.env.CORS_ORIGIN.split(",")
-  : [
-      "http://localhost:5173",
-      "http://127.0.0.1:5500",
-      "https://softhiredev.netlify.app",
-    ];
-
+// ✅ Initialize Socket.IO with the raw HTTP server
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
+    methods: ['GET', 'POST'],
+    credentials: true
+  }
 });
 chatSocket(io);
 

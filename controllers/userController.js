@@ -80,10 +80,24 @@ exports.updateProfile = async (req, res) => {
 // Get Applied Jobs
 exports.getAppliedJobs = async (req, res) => {
     try {
-        const applications = await Application.find({ candidate: req.user.id }).populate("job");
-        res.status(200).json(applications);
+        const applications = await Application.find({ candidate: req.user.id })
+            .populate({
+                path: "job",
+                select: "title companyName location jobType salary currency remotePolicy skills responsibilities qualifications tools visaSponsorship relocationRequired relocationAssistance collaborationHours contactPerson companyOverview jobSummary organization active postedAt hiresIn"
+            })
+            .sort({ createdAt: -1 }); // Sort by newest first
+
+        res.status(200).json({ 
+            success: true, 
+            data: applications,
+            count: applications.length 
+        });
     } catch (error) {
-        res.status(500).json({ message: "Internal server error" });
+        console.error("Error fetching applied jobs:", error);
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        });
     }
 };
 
@@ -135,4 +149,4 @@ exports.getVisaApplications = async (req, res) => {
         console.error("Fetch Visa Applications Error:", error);
         res.status(500).json({ success: false, message: "Server Error" });
     }
-}; 
+};

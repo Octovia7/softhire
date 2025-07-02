@@ -10,4 +10,6 @@ router.get('/recruiter/:receiverId', authenticate, chatController.getChatsWithUs
 
 router.get('/user/recentChats', authenticate, chatController.getConversationsForUser);
 
+router.post('/:conversationId/toggle-status', authenticate, chatController.toggleConversationStatus);
+
 module.exports = router;

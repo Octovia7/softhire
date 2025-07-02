@@ -156,46 +156,46 @@ exports.verifyOTP = async (req, res) => {
     }
 };
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+    const { email, password } = req.body;
 
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "User not found" });
-    if (!user.isVerified) return res.status(400).json({ message: "Please verify your email first" });
+    try {
+        const user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ message: "User not found" });
+        if (!user.isVerified) return res.status(400).json({ message: "Please verify your email first" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
-
- 
-    const token = jwt.sign(
-  { id: user._id, role: user.role, email: user.email },
-  process.env.JWT_SECRET,
-  { expiresIn: "1h" }
-);
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 3600000
-    });
+        const token = jwt.sign(
+            { id: user._id, role: user.role, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
 
-    // ✅ Send full user object (or trimmed)
-    res.status(200).json({
-      message: "Login successful",
-      token,
-      user: {
-        _id: user._id,
-        role: user.role,
-        fullName: user.fullName,
-        email: user.email,
-        // Add more fields if needed
-      }
-    });
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 3600000
+        });
+
+        // ✅ Send full user object (or trimmed)
+        res.status(200).json({
+            message: "Login successful",
+            token,
+            user: {
+                _id: user._id,
+                role: user.role,
+                fullName: user.fullName,
+                email: user.email,
+                // Add more fields if needed
+            }
+        });
+    } catch (error) {
+        console.error("Login error:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
 };
 
 

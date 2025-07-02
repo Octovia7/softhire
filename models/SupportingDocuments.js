@@ -12,7 +12,7 @@ const SupportingDocumentsSchema = new mongoose.Schema({
   authorisingOfficerPassport: fileSchema,
   authorisingOfficerBRP: fileSchema,
   letterOfRejection: fileSchema,
-  letterOfRevocation: fileSchema,
+  letterOfRevocationOrSuspension: fileSchema,
   recruitersAuthority: fileSchema,
 
   // Required
@@ -26,18 +26,20 @@ const SupportingDocumentsSchema = new mongoose.Schema({
   franchiseAgreement: fileSchema,
   serviceUserAgreements: fileSchema,
   vatRegistration: fileSchema,
-  payeConfirmation: fileSchema,
+  payeHMRCAcountsOfficeConfirmation: fileSchema,
   businessPremiseProof: fileSchema,
   hmrcTaxReturns: fileSchema,
   currentVacancies: fileSchema,
-  tenderAgreements: fileSchema,
-  orgChart: fileSchema,
+  contractsTenderAgreements: fileSchema,
+  organisationChart: fileSchema,
 
-  // Right to Work Checks
-  rightToWorkChecks: [fileSchema],
-
-  // Optional additional docs
-  additionalDocuments: [fileSchema]
+  rightToWorkChecks: {
+    isBritishNational: { type: String },
+    startDate: { type: Date },
+    rightToWorkDate: { type: Date },
+    employeeName: { type: String },
+    file: fileSchema
+  },
 
 }, {
   timestamps: true

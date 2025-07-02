@@ -15,12 +15,14 @@ const ActivityAndNeedsSchema = new mongoose.Schema({
 
   undefinedCosRequired: { type: Number, required: true },
   definedCosRequired: { type: Number, required: true },
+  howHaveYouTriedToRecruitForAbovePositions: [String],
 
   reasonsForSponsorship: [{ type: String, required: true }],
   sponsorshipJustification: { type: String, required: true },
 
   hasIdentifiedCandidates: { type: Boolean, required: true },
-  prospectiveEmployees: [prospectiveEmployeeSchema],
+  prospectiveEmployees: { type: Object }, // required if hasIdentifiedCandidates is true
+  prospectiveRoles: { type: Object },
 
   hasHRPlatform: { type: Boolean, required: true },
   hrPlatformName: { type: String }, // required if hasHRPlatform is true
