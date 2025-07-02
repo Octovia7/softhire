@@ -68,7 +68,7 @@ exports.createCheckoutSession = async (req, res) => {
 };
 
 
-exports.handleWebhook = async (req, res) => {
+exports.handleWebhook =  async (req, res) => {
   const sig = req.headers["stripe-signature"];
   let event;
 
@@ -76,8 +76,9 @@ exports.handleWebhook = async (req, res) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET
+      process.env.STRIPE_WEBHOOK_SECRET // ✅ Only ONE webhook secret
     );
+    console.log("✅ Webhook received:", event.type);
   } catch (err) {
     console.error("❌ Webhook signature error:", err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -85,52 +86,103 @@ exports.handleWebhook = async (req, res) => {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    const metadata = session.metadata;
+    const metadata = session.metadata || {};
+    const { applicationId, plan, planType } = metadata;
+    const email = session.customer_email;
+
+    console.log(`📦 Webhook for ${email} | Plan: ${plan} | Type: ${planType}`);
 
     try {
-      const app = await SponsorshipApplication.findById(metadata.applicationId)
-        .populate("user", "email fullName")
-        .populate("aboutYourCompany")
-        .populate("organizationSize")
-        .populate("companyStructure")
-        .populate("gettingStarted")
-        .populate("activityAndNeeds")
-        .populate("authorisingOfficers")
-        .populate("level1AccessUsers")
-        .populate("supportingDocuments")
-        .populate("declarations");
+      // 📌 ONE-TIME: Candidate pays for visa (application-based)
+      if (planType === "one-time") {
+        const application = await Application.findById(applicationId).populate("candidate job");
+        if (!application) {
+          console.error("❌ Application not found");
+          return res.status(404).send();
+        }
 
-      if (!app) {
-        console.error("❌ Sponsorship application not found");
-        return res.status(404).send();
+        if (application.paymentStatus !== "Paid") {
+          application.paymentStatus = "Paid";
+          await application.save();
+        }
+
+        await transporter.sendMail({
+          from: process.env.EMAIL,
+          to: process.env.ADMIN_EMAIL || process.env.EMAIL,
+          subject: "💳 One-time Payment Received",
+          html: `
+            <h3>🧾 Visa Fee Paid</h3>
+            <p><strong>Candidate:</strong> ${application.candidate.fullName} (${application.candidate.email})</p>
+            <p><strong>Job:</strong> ${application.job.title}</p>
+            <p><strong>Plan:</strong> ${application.oneTimePlan}</p>
+            <p><strong>CoS Ref:</strong> ${application.cosRefNumber}</p>
+          `
+        });
+
+        console.log("✅ One-time application marked as paid");
+
+      // 📌 SUBSCRIPTION: Candidate subscribes to platform (Candidate model)
+      } else if (planType === "subscription") {
+        const candidate = await Candidate.findOne({ userId: session.client_reference_id }).populate("userId");
+
+        if (!candidate) {
+          console.error("❌ Candidate not found");
+          return res.status(404).send();
+        }
+
+        candidate.subscriptionPlan = plan;
+        candidate.subscriptionStatus = "Active";
+        candidate.subscriptionStartedAt = new Date();
+        candidate.stripeSubscriptionId = session.subscription;
+        await candidate.save();
+
+        await transporter.sendMail({
+          from: process.env.EMAIL,
+          to: process.env.ADMIN_EMAIL || process.env.EMAIL,
+          subject: "📅 Subscription Started",
+          html: `
+            <h3>💼 Subscription Activated</h3>
+            <p><strong>Candidate:</strong> ${candidate.userId.fullName} (${candidate.userId.email})</p>
+            <p><strong>Plan:</strong> ${plan}</p>
+            <p><strong>Status:</strong> Active</p>
+          `
+        });
+
+        console.log("✅ Candidate subscription saved");
+
+      // 📌 SPONSORSHIP: Recruiter pays for sponsorship application
+      } else if (planType === "sponsorship") {
+        const app = await SponsorshipApplication.findById(applicationId).populate("user", "email fullName");
+
+        if (!app) {
+          console.error("❌ Sponsorship application not found");
+          return res.status(404).send();
+        }
+
+        if (!app.isPaid) {
+          const now = new Date();
+          const validUntil = new Date();
+          validUntil.setFullYear(validUntil.getFullYear() + 1);
+
+          app.isPaid = true;
+          app.planPaidAt = now;
+          app.planValidUntil = validUntil;
+          app.selectedPlan = plan;
+          await app.save();
+
+          await transporter.sendMail({
+            from: process.env.EMAIL,
+            to: app.user.email,
+            subject: "✅ Payment Received – Sponsor Licence Application",
+            text: `Hi ${app.user.fullName},\n\nThank you for purchasing the ${plan} plan. Your subscription is now active until ${app.planValidUntil.toDateString()}.\n\nRegards,\nSoftHire Team`
+          });
+
+          await sendAdminApplicationDetails(app);
+          console.log("✅ Sponsorship marked as paid and admin notified");
+        }
+      } else {
+        console.warn("⚠️ Unknown planType or missing data");
       }
-
-      // ✅ Mark as paid if not already
-      if (!app.isPaid) {
-        const now = new Date();
-        const validUntil = new Date();
-        validUntil.setFullYear(validUntil.getFullYear() + 1); // 1 year from now
-
-        app.isPaid = true;
-        app.planPaidAt = now;
-        app.planValidUntil = validUntil;
-        app.selectedPlan = metadata.selectedPlan;
-        await app.save();
-
-        console.log("✅ Application marked as paid:", app._id);
-      }
-
-      // ✅ Send confirmation email to client
-      await transporter.sendMail({
-        from: process.env.EMAIL,
-        to: app.user.email,
-        subject: "✅ Payment Received – Sponsor Licence Application",
-        text: `Hi ${app.user.fullName},\n\nThank you for purchasing the ${app.selectedPlan} plan. Your subscription is now active until ${app.planValidUntil.toDateString()}.\n\nRegards,\nSoftHire Team`
-      });
-
-      // ✅ Notify admin with full application details
-      await sendAdminApplicationDetails(app);
-      console.log("📬 Admin notified with full application data");
 
     } catch (err) {
       console.error("❌ Webhook processing error:", err);
@@ -211,93 +263,93 @@ exports.createCandidateCheckoutSession = async (req, res) => {
   }
 };
 
-exports.candidateWebhook = async (req, res) => {
-  const sig = req.headers["stripe-signature"];
-  let event;
+// exports.candidateWebhook = async (req, res) => {
+//   const sig = req.headers["stripe-signature"];
+//   let event;
 
-  try {
-    event = stripe.webhooks.constructEvent(
-      req.body,
-      sig,
-      process.env.STRIPE_CANDIDATE_WEBHOOK_SECRET
-    );
-    console.log("✅ Webhook received:", event.type);
-  } catch (err) {
-    console.error("❌ Webhook signature error:", err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
+//   try {
+//     event = stripe.webhooks.constructEvent(
+//       req.body,
+//       sig,
+//       process.env.STRIPE_CANDIDATE_WEBHOOK_SECRET
+//     );
+//     console.log("✅ Webhook received:", event.type);
+//   } catch (err) {
+//     console.error("❌ Webhook signature error:", err.message);
+//     return res.status(400).send(`Webhook Error: ${err.message}`);
+//   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const { applicationId, plan, planType } = session.metadata;
-    const email = session.customer_email;
+//   if (event.type === "checkout.session.completed") {
+//     const session = event.data.object;
+//     const { applicationId, plan, planType } = session.metadata;
+//     const email = session.customer_email;
 
-    console.log(`📦 Webhook session for ${email} | Plan: ${plan} | Type: ${planType}`);
+//     console.log(`📦 Webhook session for ${email} | Plan: ${plan} | Type: ${planType}`);
 
-    try {
-      if (planType === "one-time") {
-        const application = await Application.findById(applicationId).populate("candidate job");
+//     try {
+//       if (planType === "one-time") {
+//         const application = await Application.findById(applicationId).populate("candidate job");
 
-        if (!application) {
-          console.error("❌ Application not found for one-time payment");
-          return res.status(404).send();
-        }
+//         if (!application) {
+//           console.error("❌ Application not found for one-time payment");
+//           return res.status(404).send();
+//         }
 
-        if (application.paymentStatus !== "Paid") {
-          application.paymentStatus = "Paid";
-          await application.save();
-          console.log("✅ One-time application marked as paid:", applicationId);
-        }
+//         if (application.paymentStatus !== "Paid") {
+//           application.paymentStatus = "Paid";
+//           await application.save();
+//           console.log("✅ One-time application marked as paid:", applicationId);
+//         }
 
-        // Admin notification
-        await transporter.sendMail({
-          from: process.env.EMAIL,
-          to: process.env.ADMIN_EMAIL || process.env.EMAIL,
-          subject: "💳 One-time Payment Received",
-          html: `
-            <h3>🧾 Visa Fee Paid</h3>
-            <p><strong>Candidate:</strong> ${application.candidate.fullName} (${application.candidate.email})</p>
-            <p><strong>Job:</strong> ${application.job.title}</p>
-            <p><strong>Plan:</strong> ${application.oneTimePlan}</p>
-            <p><strong>CoS Ref:</strong> ${application.cosRefNumber}</p>
-          `
-        });
+//         // Admin notification
+//         await transporter.sendMail({
+//           from: process.env.EMAIL,
+//           to: process.env.ADMIN_EMAIL || process.env.EMAIL,
+//           subject: "💳 One-time Payment Received",
+//           html: `
+//             <h3>🧾 Visa Fee Paid</h3>
+//             <p><strong>Candidate:</strong> ${application.candidate.fullName} (${application.candidate.email})</p>
+//             <p><strong>Job:</strong> ${application.job.title}</p>
+//             <p><strong>Plan:</strong> ${application.oneTimePlan}</p>
+//             <p><strong>CoS Ref:</strong> ${application.cosRefNumber}</p>
+//           `
+//         });
 
-      } else if (planType === "subscription") {
-        const candidate = await Candidate.findOne({ userId: session.client_reference_id }).populate("userId");
+//       } else if (planType === "subscription") {
+//         const candidate = await Candidate.findOne({ userId: session.client_reference_id }).populate("userId");
 
-        if (!candidate) {
-          console.error("❌ Candidate not found for subscription webhook");
-          return res.status(404).send();
-        }
+//         if (!candidate) {
+//           console.error("❌ Candidate not found for subscription webhook");
+//           return res.status(404).send();
+//         }
 
-        candidate.subscriptionPlan = plan;
-        candidate.subscriptionStatus = "Active";
-        candidate.subscriptionStartedAt = new Date();
-        candidate.stripeSubscriptionId = session.subscription;
-        await candidate.save();
+//         candidate.subscriptionPlan = plan;
+//         candidate.subscriptionStatus = "Active";
+//         candidate.subscriptionStartedAt = new Date();
+//         candidate.stripeSubscriptionId = session.subscription;
+//         await candidate.save();
 
-        console.log("✅ Candidate subscription updated");
+//         console.log("✅ Candidate subscription updated");
 
-        // Admin notification
-        await transporter.sendMail({
-          from: process.env.EMAIL,
-          to: process.env.EMAIL || process.env.EMAIL,
-          subject: "📅 Subscription Started",
-          html: `
-            <h3>💼 Subscription Activated</h3>
-            <p><strong>Candidate:</strong> ${candidate.userId.fullName} (${candidate.userId.email})</p>
-            <p><strong>Plan:</strong> ${plan}</p>
-            <p><strong>Status:</strong> Active</p>
-          `
-        });
-      }
+//         // Admin notification
+//         await transporter.sendMail({
+//           from: process.env.EMAIL,
+//           to: process.env.EMAIL || process.env.EMAIL,
+//           subject: "📅 Subscription Started",
+//           html: `
+//             <h3>💼 Subscription Activated</h3>
+//             <p><strong>Candidate:</strong> ${candidate.userId.fullName} (${candidate.userId.email})</p>
+//             <p><strong>Plan:</strong> ${plan}</p>
+//             <p><strong>Status:</strong> Active</p>
+//           `
+//         });
+//       }
 
-    } catch (err) {
-      console.error("❌ Webhook processing error:", err);
-    }
-  }
+//     } catch (err) {
+//       console.error("❌ Webhook processing error:", err);
+//     }
+//   }
 
-  res.status(200).json({ received: true });
-};
+//   res.status(200).json({ received: true });
+// };
 
