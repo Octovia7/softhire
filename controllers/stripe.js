@@ -182,8 +182,8 @@ exports.createCandidateCheckoutSession = async (req, res) => {
           quantity: 1
         }
       ],
-      success_url: `https://softhire.co.uk/candidate-success`,
-      cancel_url: `https://softhire.co.uk/payment-cancel`,
+      success_url: `https://softhire.co.uk/candidate/success?service_number=${cosRefNumber}&session_id=${session.id}`,
+      cancel_url: `https://softhire.co.uk/candidate/cancel`,
       metadata: {
         planType: "skilled-worker"
       }
