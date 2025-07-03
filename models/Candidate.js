@@ -58,26 +58,24 @@ const candidateSchema = new mongoose.Schema(
       }
     },
 
-    // ✅ Subscription fields (updated)
-    subscriptionPlan: {
+    // ✅ Visa Payment Fields (Moved from Application)
+    stripeSessionId: { type: String },
+    cosRefNumber: { type: String, trim: true, sparse: true },
+    paymentStatus: {
       type: String,
-      enum: ['Starter', 'Growth', 'Enterprise'],
-      default: null
+      enum: ["Pending", "Paid", "Failed"],
+      default: "Pending"
     },
-    subscriptionStatus: {
-      type: String,
-      enum: ['Active', 'Cancelled', 'Expired'],
-      default: null
+    paidAmount: {
+      type: Number, // smallest currency unit (e.g., 35000 for £350)
+      default: 0
     },
-    subscriptionStartedAt: {
+    isSubmitted: {
+      type: Boolean,
+      default: false
+    },
+    cosSubmittedAt: {
       type: Date
-    },
-    subscriptionExpiresAt: {
-      type: Date
-    },
-    stripeSubscriptionId: {
-      type: String,
-      default: null
     }
   },
   { timestamps: true }

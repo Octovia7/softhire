@@ -31,31 +31,6 @@ const applicationSchema = new mongoose.Schema({
   statusUpdatedAt: {
     type: Date,
     default: Date.now
-  },
-  cosRefNumber: {
-    type: String,
-    unique: true,
-    sparse: true,
-    trim: true
-  },
-  cosSubmittedAt: {
-    type: Date
-  },
-  paymentStatus: {
-    type: String,
-    enum: ["Pending", "Paid", "Failed"],
-    default: "Pending"
-  },
-  stripeSessionId: {
-    type: String
-  },
-  isSubmitted: {
-    type: Boolean,
-    default: false
-  },
-  paidAmount: {
-    type: Number, // Amount in smallest currency unit (e.g., 35000 for £350)
-    default: 0
   }
 }, { timestamps: true });
 

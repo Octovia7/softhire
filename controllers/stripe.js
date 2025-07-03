@@ -77,49 +77,43 @@ exports.handleWebhook = async (req, res) => {
     const email = session.customer_email;
 
     try {
-      // ✅ Handle Skilled Worker Visa (Candidate)
       if (planType === "skilled-worker") {
-        const application = await Application.findById(applicationId).populate("candidate job");
+        const application = await Application.findById(applicationId).populate("job");
+        if (!application) return res.status(404).send("Application not found");
 
-        if (!application) {
-          console.error("❌ Candidate application not found");
-          return res.status(404).send();
-        }
+        const candidate = await Candidate.findOne({ userId: application.candidate }).populate("userId");
+        if (!candidate) return res.status(404).send("Candidate not found");
 
-        if (application.paymentStatus !== "Paid") {
-          application.paymentStatus = "Paid";
-          application.isSubmitted = true;
-          application.paidAmount = session.amount_total || 35000;
-          application.cosSubmittedAt = new Date();
-          await application.save();
-        }
+        // ✅ Update payment info in Candidate model
+        candidate.paymentStatus = "Paid";
+        candidate.paidAmount = session.amount_total || 35000;
+        candidate.isSubmitted = true;
+        candidate.cosSubmittedAt = new Date();
+        await candidate.save();
 
+        // ✅ Notify admin
         await transporter.sendMail({
           from: process.env.EMAIL,
-          to: process.env.EMAIL || process.env.EMAIL,
+          to: process.env.ADMIN_EMAIL || process.env.EMAIL,
           subject: "✅ Skilled Worker Visa Payment Received",
           html: `
             <h3>✅ Skilled Worker Visa Application Paid</h3>
-            <p><strong>Candidate:</strong> ${application.candidate.fullName} (${application.candidate.email})</p>
-            <p><strong>Job:</strong> ${application.job.title}</p>
-            <p><strong>CoS Ref:</strong> ${application.cosRefNumber}</p>
-            <p><strong>Amount Paid:</strong> £${(application.paidAmount / 100).toFixed(2)}</p>
+            <p><strong>Candidate:</strong> ${candidate.userId.fullName} (${candidate.userId.email})</p>
+            <p><strong>Job:</strong> ${application.job?.title || "N/A"}</p>
+            <p><strong>CoS Ref:</strong> ${candidate.cosRefNumber}</p>
+            <p><strong>Amount Paid:</strong> £${(candidate.paidAmount / 100).toFixed(2)}</p>
           `
         });
 
-        console.log("✅ Candidate application marked as paid");
+        console.log("✅ Candidate marked as paid");
       }
 
-      // ✅ Handle Sponsorship Application (Recruiter)
       else if (planType === "sponsorship") {
         const application = await SponsorshipApplication.findById(applicationId)
           .populate("user", "email fullName")
           .populate("aboutYourCompany organizationSize companyStructure gettingStarted activityAndNeeds authorisingOfficers level1AccessUsers supportingDocuments declarations");
 
-        if (!application) {
-          console.error("❌ Sponsorship application not found");
-          return res.status(404).send();
-        }
+        if (!application) return res.status(404).send("Sponsorship application not found");
 
         if (!application.isPaid) {
           application.isPaid = true;
@@ -127,7 +121,6 @@ exports.handleWebhook = async (req, res) => {
           application.planValidUntil = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
           application.isSubmitted = true;
           application.paidAmount = session.amount_total || 139900;
-
           await application.save();
         }
 
@@ -139,7 +132,7 @@ exports.handleWebhook = async (req, res) => {
         });
 
         await sendAdminApplicationDetails(application);
-        console.log("✅ Sponsorship application marked as paid");
+        console.log("✅ Sponsorship marked as paid");
       }
 
       else {
@@ -153,7 +146,6 @@ exports.handleWebhook = async (req, res) => {
 
   res.status(200).json({ received: true });
 };
-
 
 
 
@@ -172,13 +164,19 @@ exports.createCandidateCheckoutSession = async (req, res) => {
       return res.status(403).json({ error: "Unauthorized or invalid application." });
     }
 
-    if (application.paymentStatus === "Paid") {
+    const candidate = await Candidate.findOne({ userId });
+    if (!candidate) {
+      return res.status(404).json({ error: "Candidate not found." });
+    }
+
+    if (candidate.paymentStatus === "Paid") {
       return res.status(400).json({ error: "Already paid." });
     }
 
     // Pre-store CoS before payment
-    application.cosRefNumber = cosRefNumber;
-    await application.save();
+    candidate.cosRefNumber = cosRefNumber;
+    candidate.paymentStatus = "Pending";
+    await candidate.save();
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -200,8 +198,8 @@ exports.createCandidateCheckoutSession = async (req, res) => {
     });
 
     // Save session ID
-    application.stripeSessionId = session.id;
-    await application.save();
+    candidate.stripeSessionId = session.id;
+    await candidate.save();
 
     res.status(200).json({ url: session.url });
 
@@ -210,6 +208,7 @@ exports.createCandidateCheckoutSession = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 
 // exports.candidateWebhook = async (req, res) => {
