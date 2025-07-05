@@ -7,7 +7,6 @@ const ObjectId = mongoose.Types.ObjectId;
 exports.getConversationsForUser = async (req, res) => {
     try {
         const userId = new ObjectId(req.user.id);
-
         const conversations = await Conversation.aggregate([
             { $match: { participants: userId } },
             {
