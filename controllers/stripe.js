@@ -36,7 +36,7 @@ exports.createSponsorshipCheckoutSession = async (req, res) => {
         }
       ],
       success_url: `${process.env.CLIENT_URL}/payment/${applicationId}/success`,
-      cancel_url: `${process.env.CLIENT_URL}/payment/${applicationId}/cancel`,
+      cancel_url: `${process.env.CLIENT_URL}/payment/${applicationId}/failed`,
       metadata: {
         applicationId,
         planType: "sponsorship"
@@ -182,8 +182,8 @@ exports.createCandidateCheckoutSession = async (req, res) => {
           quantity: 1
         }
       ],
-      success_url: `https://softhire.co.uk/candidate-success`,
-      cancel_url: `https://softhire.co.uk/payment-cancel`,
+      success_url: `${process.env.CLIENT_URL}/candidate/payment/${cosRefNumber}/success`,
+      cancel_url: `${process.env.CLIENT_URL}/candidate/payment/${cosRefNumber}/failed`,
       metadata: {
         planType: "skilled-worker"
       }
