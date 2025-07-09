@@ -19,22 +19,30 @@ const submitApplication = async (req, res) => {
       });
     }
 
-    // Ensure candidate has resume
+    // ✅ FIXED: Ensure candidate has resume
     const candidateProfile = await Candidate.findOne({ userId: userId });
-    if (!candidateProfile || !candidateProfile.resume) {
-      console.log(`❌ Candidate profile or resume not found for user ${userId}`);
+    if (!candidateProfile) {
+      console.log(`❌ Candidate profile not found for user ${userId}`);
       return res.status(400).json({ 
         success: false, 
-        message: 'Candidate profile or resume not found.' 
+        message: 'Please complete your candidate profile first.' 
       });
     }
 
-    // ✅ FIXED: Use "Submitted" instead of "pending" to match the enum
+    if (!candidateProfile.resume) {
+      console.log(`❌ Resume not found for user ${userId}`);
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Please upload your resume before applying for jobs.' 
+      });
+    }
+
+    // ✅ FIXED: Use "Submitted" status to match enum
     const application = await Application.create({
       candidate: userId,
       job: jobId,
       coverLetter,
-      status: 'Submitted' // ✅ Changed from 'pending' to 'Submitted'
+      status: 'Submitted'
     });
 
     console.log(`✅ Application created successfully - ID: ${application._id}`);
@@ -51,7 +59,6 @@ const submitApplication = async (req, res) => {
   } catch (err) {
     console.error('💥 Application submission error:', err);
     
-    // ✅ Enhanced error handling for validation errors
     if (err.name === 'ValidationError') {
       const validationErrors = Object.values(err.errors).map(e => e.message);
       return res.status(400).json({ 

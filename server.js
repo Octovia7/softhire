@@ -8,6 +8,7 @@ const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const { Server } = require("socket.io");
 const http = require("http");
+const path = require("path");
 
 const stripeRoutes = require("./routes/stripe");
 require("./config/passport");
@@ -119,6 +120,9 @@ mongoose
     process.exit(1);
   });
 
+// ✅ Add this before your routes to serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // ✅ Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
@@ -133,7 +137,7 @@ app.use("/api/isc", iscRoutes);
 app.use("/api", sponsorLicenceRoutes);
 app.use("/api", demoRoutes);
 app.use("/api/profile", profileRoutes);
-app.use("/api/resume", resumeRoutes);
+app.use("/api/resume", resumeRoutes); // ✅ This would create the correct /api/resume route
 app.use("/api", jobpreferenceRoutes);
 app.use("/api", jobExpectationRoutes);
 app.use("/api/jobs", jobRoutes);
