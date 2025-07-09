@@ -29,12 +29,12 @@ const submitApplication = async (req, res) => {
       });
     }
 
-    // Create application
+    // ✅ FIXED: Use "Submitted" instead of "pending" to match the enum
     const application = await Application.create({
       candidate: userId,
       job: jobId,
       coverLetter,
-      status: 'pending'
+      status: 'Submitted' // ✅ Changed from 'pending' to 'Submitted'
     });
 
     console.log(`✅ Application created successfully - ID: ${application._id}`);
@@ -50,6 +50,18 @@ const submitApplication = async (req, res) => {
     });
   } catch (err) {
     console.error('💥 Application submission error:', err);
+    
+    // ✅ Enhanced error handling for validation errors
+    if (err.name === 'ValidationError') {
+      const validationErrors = Object.values(err.errors).map(e => e.message);
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Validation failed',
+        errors: validationErrors,
+        error: err.message 
+      });
+    }
+    
     res.status(500).json({ 
       success: false, 
       message: 'Server error',
@@ -84,7 +96,7 @@ const getMyApplications = async (req, res) => {
   }
 };
 
-// ✅ NEW: Check if user applied to specific job
+// ✅ Check if user applied to specific job
 const checkApplicationStatus = async (req, res) => {
   try {
     const { jobId } = req.params;
