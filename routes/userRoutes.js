@@ -20,7 +20,7 @@ router.get("/profile", authenticate, getProfile);
 router.put("/profile", authenticate, updateProfile);
 
 // Upload resume
-router.post("/upload-resume", authenticate, upload.single("resume"), uploadResume);
+// router.post("/upload-resume", authenticate, upload.single("resume"), uploadResume);
 
 // Get all applied jobs
 router.get("/applied-jobs", authenticate, getAppliedJobs);

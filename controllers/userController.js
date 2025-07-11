@@ -7,35 +7,35 @@ const upload = require("../middleware/upload"); // Import the multer config
 const validator = require("validator");
 
 // Upload Resume
-exports.uploadResume = async (req, res) => {
-    try {
-        const candidate = await Candidate.findOne({ userId: req.user.id });
-        if (!candidate) return res.status(404).json({ message: "Candidate not found" });
+// exports.uploadResume = async (req, res) => {
+//     try {
+//         const candidate = await Candidate.findOne({ userId: req.user.id });
+//         if (!candidate) return res.status(404).json({ message: "Candidate not found" });
 
-        if (!req.file) {
-            return res.status(400).json({ message: "No file uploaded. Please upload a PDF resume." });
-        }
+//         if (!req.file) {
+//             return res.status(400).json({ message: "No file uploaded. Please upload a PDF resume." });
+//         }
 
-        // Construct the resume URL
-        const resumeURL = `/uploads/resumes/${req.file.filename}`;
+//         // Construct the resume URL
+//         const resumeURL = `/uploads/resumes/${req.file.filename}`;
 
-        // Validate the URL format (optional)
-        if (!validator.isURL(resumeURL)) {
-            return res.status(400).json({ message: "Invalid resume URL format" });
-        }
+//         // Validate the URL format (optional)
+//         if (!validator.isURL(resumeURL)) {
+//             return res.status(400).json({ message: "Invalid resume URL format" });
+//         }
 
-        candidate.resume = resumeURL;
-        await candidate.save();
+//         candidate.resume = resumeURL;
+//         await candidate.save();
 
-        res.status(200).json({
-            message: "Resume uploaded successfully",
-            resumeURL: candidate.resume,
-        });
-    } catch (error) {
-        console.error("Resume upload error:", error);
-        res.status(500).json({ message: "Internal server error" });
-    }
-};
+//         res.status(200).json({
+//             message: "Resume uploaded successfully",
+//             resumeURL: candidate.resume,
+//         });
+//     } catch (error) {
+//         console.error("Resume upload error:", error);
+//         res.status(500).json({ message: "Internal server error" });
+//     }
+// };
 
 // Get Candidate Profile
 exports.getProfile = async (req, res) => {

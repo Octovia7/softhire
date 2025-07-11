@@ -2,36 +2,27 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-console.log('📁 Resume multer configuration loading...');
-
 // ✅ Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, '../uploads/resumes');
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-    console.log('📁 Created uploads/resumes directory');
+const uploadDir = 'uploads/resumes';
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 // ✅ Configure multer for resume uploads
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadsDir);
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
     },
-    filename: function (req, file, cb) {
-        // Generate unique filename: userId_timestamp_originalname
-        const userId = req.user?.id || 'unknown';
-        const timestamp = Date.now();
-        const originalName = file.originalname.replace(/[^a-zA-Z0-9.-]/g, '_');
-        const filename = `${userId}_${timestamp}_${originalName}`;
-        
-        console.log('📝 Generating filename:', filename);
-        cb(null, filename);
+    filename: (req, file, cb) => {
+        // Generate unique filename
+        const uniqueSuffix = `${req.user.id}_${Date.now()}`;
+        const extension = path.extname(file.originalname);
+        cb(null, `${uniqueSuffix}_${file.originalname}`);
     }
 });
 
-// ✅ File filter for PDF only
+// ✅ File filter - only allow PDFs
 const fileFilter = (req, file, cb) => {
-    console.log('🔍 File filter - Type:', file.mimetype, 'Original name:', file.originalname);
-    
     if (file.mimetype === 'application/pdf') {
         cb(null, true);
     } else {
@@ -39,15 +30,13 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-// ✅ Configure multer
-const uploadResumemulter = multer({
+// ✅ Create multer instance
+const uploadResume = multer({
     storage: storage,
+    fileFilter: fileFilter,
     limits: {
-        fileSize: 5 * 1024 * 1024, // 5MB limit
-    },
-    fileFilter: fileFilter
+        fileSize: 5 * 1024 * 1024 // 5MB limit
+    }
 });
 
-console.log('✅ Resume multer configuration loaded successfully');
-
-module.exports = uploadResumemulter;
+module.exports = uploadResume;

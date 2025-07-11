@@ -1,16 +1,35 @@
 const asyncHandler = require('express-async-handler');
 const Candidate = require('../models/Candidate');
+const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
-const path = require('path');
 
 console.log('📁 Resume controller loading...');
 
-// ✅ Upload Resume
+// ✅ Configure Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// ✅ Test Cloudinary connection on startup
+const testCloudinaryConnection = async () => {
+    try {
+        const result = await cloudinary.api.ping();
+        console.log('✅ Cloudinary connection successful:', result.status);
+    } catch (error) {
+        console.error('❌ Cloudinary connection failed:', error.message);
+    }
+};
+
+testCloudinaryConnection();
+
+// ✅ Upload Resume to Cloudinary
 const uploadResume = asyncHandler(async (req, res) => {
     console.log('📝 Upload Resume route hit by user:', req.user?.id);
-    console.log('📁 File received:', req.file ? req.file.filename : 'No file');
+    console.log('📁 File received:', req.file ? req.file.originalname : 'No file');
 
-    // ✅ Guard: Check if authenticated user has a valid ID
+    // ✅ Validate user
     if (!req.user?.id) {
         return res.status(401).json({ 
             success: false,
@@ -18,15 +37,7 @@ const uploadResume = asyncHandler(async (req, res) => {
         });
     }
 
-    // ✅ Guard: Only allow candidates to upload resumes
-    if (req.user.role !== 'candidate') {
-        return res.status(403).json({ 
-            success: false,
-            message: 'Only candidates can upload resumes' 
-        });
-    }
-
-    // ✅ Check if file was uploaded
+    // ✅ Validate file upload
     if (!req.file) {
         return res.status(400).json({ 
             success: false,
@@ -34,22 +45,9 @@ const uploadResume = asyncHandler(async (req, res) => {
         });
     }
 
-    // ✅ File validation
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (req.file.size > maxSize) {
-        // Delete the uploaded file if it's too large
-        if (fs.existsSync(req.file.path)) {
-            fs.unlinkSync(req.file.path);
-        }
-        return res.status(400).json({ 
-            success: false,
-            message: 'File size exceeds 5MB limit' 
-        });
-    }
-
-    const allowedFileTypes = ['application/pdf'];
-    if (!allowedFileTypes.includes(req.file.mimetype)) {
-        // Delete the uploaded file if it's wrong type
+    // ✅ Validate file type
+    if (req.file.mimetype !== 'application/pdf') {
+        // Clean up uploaded file
         if (fs.existsSync(req.file.path)) {
             fs.unlinkSync(req.file.path);
         }
@@ -59,61 +57,103 @@ const uploadResume = asyncHandler(async (req, res) => {
         });
     }
 
+    // ✅ Validate file size (5MB limit)
+    if (req.file.size > 5 * 1024 * 1024) {
+        // Clean up uploaded file
+        if (fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+        return res.status(400).json({ 
+            success: false,
+            message: 'File size exceeds 5MB limit' 
+        });
+    }
+
     try {
-        // ✅ Generate proper resume URL
-        const resumeUrl = `/uploads/resumes/${req.file.filename}`;
+        console.log('☁️ Starting Cloudinary upload...');
         
-        console.log('📁 Resume file saved at:', req.file.path);
-        console.log('🔗 Resume URL:', resumeUrl);
-
-        // ✅ Find or create Candidate
+        // ✅ Find existing candidate
         let candidate = await Candidate.findOne({ userId: req.user.id });
+        
+        // ✅ Delete old resume from Cloudinary if it exists
+        if (candidate && candidate.resume && candidate.resume.includes('cloudinary.com')) {
+            try {
+                // Extract public_id from Cloudinary URL
+                const urlSegments = candidate.resume.split('/');
+                const publicIdWithExtension = urlSegments[urlSegments.length - 1];
+                const publicId = publicIdWithExtension.split('.')[0];
+                
+                await cloudinary.uploader.destroy(`Resumes/${publicId}`, {
+                    resource_type: 'raw'
+                });
+                console.log('🗑️ Deleted old resume from Cloudinary');
+            } catch (deleteError) {
+                console.log('⚠️ Could not delete old resume:', deleteError.message);
+            }
+        }
 
+        // ✅ Upload to Cloudinary
+        const uploadResult = await cloudinary.uploader.upload(req.file.path, {
+            resource_type: 'raw', // For PDFs
+            folder: 'Resumes',
+            public_id: `resume_${req.user.id}_${Date.now()}`,
+            use_filename: false,
+            unique_filename: true,
+        });
+
+        console.log('✅ Cloudinary upload successful');
+        console.log('🔗 Secure URL:', uploadResult.secure_url);
+
+        // ✅ Clean up local file
+        if (fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+
+        // ✅ Get the secure URL - this will be a valid HTTPS URL
+        const resumeUrl = uploadResult.secure_url;
+
+        // ✅ Validate URL format (should be HTTPS)
+        if (!resumeUrl || !resumeUrl.startsWith('https://')) {
+            throw new Error('Invalid URL format from Cloudinary');
+        }
+
+        // ✅ Create or update candidate profile
         if (!candidate) {
-            // Create new candidate profile
             candidate = new Candidate({
                 userId: req.user.id,
                 resume: resumeUrl,
             });
-            console.log('👤 Creating new candidate profile for user:', req.user.id);
+            console.log('👤 Creating new candidate profile');
         } else {
-            // ✅ Delete old resume file if it exists
-            if (candidate.resume && candidate.resume !== resumeUrl) {
-                const oldResumeFile = candidate.resume.replace('/uploads/resumes/', '');
-                const oldFilePath = path.join(__dirname, '../uploads/resumes', oldResumeFile);
-                if (fs.existsSync(oldFilePath)) {
-                    fs.unlinkSync(oldFilePath);
-                    console.log('🗑️ Deleted old resume file:', oldFilePath);
-                }
-            }
-            
             candidate.resume = resumeUrl;
-            console.log('📝 Updating existing candidate profile for user:', req.user.id);
+            console.log('📝 Updating existing candidate profile');
         }
 
-        await candidate.save();
-        console.log('✅ Resume saved successfully for user:', req.user.id);
+        // ✅ Save candidate with the valid URL
+        const savedCandidate = await candidate.save();
+        console.log('✅ Resume saved successfully');
 
         res.status(201).json({
             success: true,
             message: 'Resume uploaded successfully',
             data: {
-                resumeUrl,
-                uploadedAt: new Date().toISOString()
+                resumeUrl: savedCandidate.resume,
+                uploadedAt: savedCandidate.updatedAt,
+                cloudinaryPublicId: uploadResult.public_id
             }
         });
 
     } catch (error) {
-        console.error('💥 Error saving resume to database:', error);
+        console.error('💥 Error in resume upload:', error);
         
-        // Clean up uploaded file on database error
-        if (fs.existsSync(req.file.path)) {
+        // Clean up local file on error
+        if (req.file && fs.existsSync(req.file.path)) {
             fs.unlinkSync(req.file.path);
         }
         
         res.status(500).json({
             success: false,
-            message: 'Failed to save resume to database',
+            message: 'Failed to upload resume',
             error: error.message
         });
     }
@@ -140,22 +180,6 @@ const getResume = asyncHandler(async (req, res) => {
             });
         }
 
-        // ✅ Check if resume file actually exists
-        const resumeFile = candidate.resume.replace('/uploads/resumes/', '');
-        const filePath = path.join(__dirname, '../uploads/resumes', resumeFile);
-        
-        if (!fs.existsSync(filePath)) {
-            console.log('⚠️ Resume file not found on disk:', filePath);
-            // Clear the resume URL from database since file doesn't exist
-            candidate.resume = null;
-            await candidate.save();
-            
-            return res.status(404).json({
-                success: false,
-                message: 'Resume file not found'
-            });
-        }
-
         res.status(200).json({
             success: true,
             message: 'Resume found',
@@ -175,7 +199,63 @@ const getResume = asyncHandler(async (req, res) => {
     }
 });
 
+// ✅ Delete Resume
+const deleteResume = asyncHandler(async (req, res) => {
+    console.log('🗑️ Delete Resume route hit by user:', req.user?.id);
+
+    if (!req.user?.id) {
+        return res.status(401).json({ 
+            success: false,
+            message: 'Unauthorized: User ID missing in token' 
+        });
+    }
+
+    try {
+        const candidate = await Candidate.findOne({ userId: req.user.id });
+
+        if (!candidate || !candidate.resume) {
+            return res.status(404).json({ 
+                success: false,
+                message: 'No resume found for this user' 
+            });
+        }
+
+        // ✅ Delete from Cloudinary
+        if (candidate.resume.includes('cloudinary.com')) {
+            try {
+                const urlSegments = candidate.resume.split('/');
+                const publicIdWithExtension = urlSegments[urlSegments.length - 1];
+                const publicId = publicIdWithExtension.split('.')[0];
+                
+                await cloudinary.uploader.destroy(`Resumes/${publicId}`, {
+                    resource_type: 'raw'
+                });
+                console.log('🗑️ Deleted resume from Cloudinary');
+            } catch (deleteError) {
+                console.log('⚠️ Could not delete resume from Cloudinary:', deleteError.message);
+            }
+        }
+
+        // ✅ Clear resume from database
+        candidate.resume = null;
+        await candidate.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Resume deleted successfully'
+        });
+
+    } catch (error) {
+        console.error('💥 Error deleting resume:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to delete resume',
+            error: error.message
+        });
+    }
+});
+
 console.log('✅ Resume controller loaded successfully');
 
-module.exports = { uploadResume, getResume };
+module.exports = { uploadResume, getResume, deleteResume };
 
