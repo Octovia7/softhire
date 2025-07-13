@@ -2,11 +2,7 @@ const Job = require('../models/Job');
 const mongoose = require('mongoose');
 const Recruiter = require('../models/Recruiter');
 const asyncHandler = require("express-async-handler");
-// controllers/applicationController.js
 const Application = require('../models/Application');
-// controllers/applicationController.js
-// const Application = require('../models/Application');
-// const Job = require('../models/Job');
 const Profile = require("../models/Profile");
 exports.getOrgStats = asyncHandler(async (req, res) => {
   const orgId = req.organization._id;
@@ -256,26 +252,6 @@ exports.updateStatus = async (req, res) => {
   }
 };
 
-// Get applications for a specific job, filtered by status
-// exports.getApplicationsByJobAndStatus = async (req, res) => {
-//   const { jobId } = req.params;
-//   const { status } = req.query;
-
-//   try {
-//     const filter = { job: jobId };
-//     if (status) filter.status = status;
-
-
-//     const applications = await Application.find(filter)
-//       .populate('candidate', 'name email') // Adjust fields as needed
-//       .sort({ updatedAt: -1 });
-
-//     res.status(200).json(applications);
-//   } catch (error) {
-//     console.error('Error fetching applications:', error);
-//     res.status(500).json({ message: 'Server error', error });
-//   }
-// };
 
 exports.getApplicationsByJobAndStatus = async (req, res) => {
   const { jobId } = req.params;
@@ -466,63 +442,6 @@ exports.createJob = async (req, res) => {
   }
 };
 
-
-// ✅ Create a new job
-// exports.createJob = async (req, res) => {
-//   try {
-//     const user = req.user;
-
-//     if (!req.organization) {
-//       return res.status(403).json({ error: 'Only organization users can post jobs.' });
-//     }
-
-//     const { visaType, ...otherFields } = req.body;
-
-//     if (!visaType) {
-//       return res.status(400).json({ error: 'visaType is required when posting a job.' });
-//     }
-
-//     const newJob = new Job({
-//       ...otherFields,
-//       visaType,
-//       postedBy: user._id,
-//       organization: req.organization._id,
-//     });
-
-//     await newJob.save();
-
-//     res.status(201).json({ message: 'Job created successfully', job: newJob });
-//   } catch (err) {
-//     console.error('Error creating job:', err);
-//     res.status(500).json({ error: 'Server error while creating job' });
-//   }
-// };
-
-// ✅ Update an existing job
-// exports.updateJob = async (req, res) => {
-//   try {
-//     const { jobId } = req.params;
-
-//     const job = await Job.findOne({ _id: jobId, organization: req.organization._id });
-
-//     if (!job) {
-//       return res.status(404).json({ error: 'Job not found or unauthorized.' });
-//     }
-
-//     // Prevent changing visaType after creation
-//     if (req.body.visaType && req.body.visaType !== job.visaType) {
-//       return res.status(400).json({ error: 'Changing visaType is not allowed once the job is created.' });
-//     }
-
-//     Object.assign(job, req.body);
-//     await job.save();
-
-//     res.status(200).json({ message: 'Job updated successfully', job });
-//   } catch (err) {
-//     console.error('Error updating job:', err);
-//     res.status(500).json({ error: 'Server error while updating job' });
-//   }
-// };
 exports.updateJob = async (req, res) => {
   try {
     const user = req.user
