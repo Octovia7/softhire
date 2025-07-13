@@ -91,9 +91,10 @@ exports.handleWebhook = async (req, res) => {
         candidate.cosSubmittedAt = new Date();
         await candidate.save();
 
+        // ✅ Email to Admin
         await transporter.sendMail({
           from: process.env.EMAIL,
-          to: process.env.ADMIN_EMAIL || process.env.EMAIL,
+          to: process.env.CLIENT_CONTACT_EMAIL,
           subject: "✅ Skilled Worker Visa Payment Received",
           html: `
             <h3>✅ Skilled Worker Visa Application Paid</h3>
@@ -104,7 +105,15 @@ exports.handleWebhook = async (req, res) => {
           `
         });
 
-        console.log("✅ Candidate payment marked as paid");
+        // ✅ Confirmation Email to Candidate
+        await transporter.sendMail({
+          from: process.env.EMAIL,
+          to: candidate.userId.email,
+          subject: "✅ Payment Received – Skilled Worker Visa",
+          text: `Hi ${candidate.userId.fullName},\n\nThank you for your payment of £${(candidate.paidAmount / 100).toFixed(2)}. Your skilled worker visa application has been submitted.\n\nRegards,\nSoftHire Team`
+        });
+
+        console.log("✅ Candidate payment marked as paid & confirmation email sent");
       }
 
       // ✅ Handle Sponsorship Application Payment
@@ -147,6 +156,7 @@ exports.handleWebhook = async (req, res) => {
 
   res.status(200).json({ received: true });
 };
+
 exports.createCandidateCheckoutSession = async (req, res) => {
   try {
     const { cosRefNumber, priceId } = req.body;

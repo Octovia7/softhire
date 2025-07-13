@@ -23,7 +23,7 @@ const sendAssessmentEmails = async (assessmentData) => {
 
     const mailOptions = {
         from: process.env.EMAIL,
-        to: process.env.EMAIL,
+        to: process.env.CLIENT_CONTACT_EMAIL,
         subject: "New Sponsor License Eligibility Assessment Submitted",
         text: `
 A new Sponsor License Eligibility Assessment has been submitted.
@@ -47,7 +47,7 @@ You can follow up with the user for next steps.
     }
 };
 const sendAdminApplicationDetails = async (application) => {
-  const adminEmail = process.env.EMAIL;
+  const adminEmail = process.env.CLIENT_CONTACT_EMAIL; // Admin recipient email
 const formatPrice = (amount) => {
   if (!amount || typeof amount !== 'number') return 'N/A';
   return `£${(amount / 100).toFixed(2)}`;
@@ -184,8 +184,8 @@ ${application.supportingDocuments ? Object.entries(application.supportingDocumen
 
   try {
     await transporter.sendMail({
-      from: adminEmail,
-      to: adminEmail,
+        from: process.env.EMAIL, // ✅ Verified sender (SMTP configured)
+  to: adminEmail,           // ✅ Admin recipient
       subject: "✅ New Sponsorship Application Paid – Full Details",
       text: formatted,
     });
