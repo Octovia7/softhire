@@ -192,20 +192,91 @@ cd softhire
 npm install
 ```
 
-### 2. Environment Configuration
+## 2.  Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in your project root with the following variables:
 
 ```env
-MONGODB_URI=mongodb://localhost:27017/softhire
-JWT_SECRET=your-jwt-secret
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-STRIPE_SECRET_KEY=your-stripe-secret
-EMAIL_USER=your-email@example.com
-EMAIL_PASS=your-email-password
-PORT=5000
+# Server
+PORT=5000                                 # Port for the Express server
+
+# Database
+MONGO_URI=your_mongodb_connection_string  # MongoDB connection string
+
+# JWT & Session
+JWT_SECRET=your_jwt_secret                # Secret for JWT signing
+SESSION_SECRET=your_session_secret        # Secret for session management
+
+# OAuth (Google)
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_CALLBACK_URL=https://yourdomain.com/api/auth/google/callback
+
+# URLs
+SERVER_URL=https://your-backend-url.com   # Public server URL (for callbacks, emails, etc.)
+CLIENT_URL=https://your-frontend-url.com  # Frontend/client app URL
+
+# Email (Nodemailer)
+EMAIL=your_email_address                  # Email address for sending notifications
+EMAIL_PASSWORD=your_email_app_password    # Email password or app-specific password
+
+# OTP
+OTP_EXPIRY_MINUTES=10                     # OTP expiry time in minutes
+
+# reCAPTCHA
+RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
+
+# Cloudinary (File uploads)
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+# Stripe (Payments)
+STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+STRIPE_CANDIDATE_WEBHOOK_SECRET=your_stripe_candidate_webhook_secret
+
+# CORS
+CORS_ORIGIN=http://localhost:5173,https://your-frontend-url.com
+
+# Contact
+CLIENT_CONTACT_EMAIL=contact@yourdomain.com
+
+# (Optional) Admin credentials for seeding (not used in public APIs)
+ADMIN_EMAIL=your_admin_email
+ADMIN_PASSWORD=your_admin_password
+
+# Node environment
+NODE_ENV=development
 ```
+
+**Descriptions:**
+
+- **PORT**: Port on which the backend server runs.
+- **MONGO_URI**: MongoDB connection string for your database.
+- **JWT_SECRET**: Used to sign and verify JWT tokens for authentication.
+- **SESSION_SECRET**: Used for session management (e.g., with Passport.js).
+- **GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / GOOGLE_CALLBACK_URL**: For Google OAuth login.
+- **SERVER_URL / CLIENT_URL**: URLs for backend and frontend, used in OAuth, emails, and CORS.
+- **EMAIL / EMAIL_PASSWORD**: Credentials for sending emails (e.g., password resets, notifications).
+- **OTP_EXPIRY_MINUTES**: How long OTPs are valid for.
+- **RECAPTCHA_SECRET_KEY**: Google reCAPTCHA secret for bot/spam protection.
+- **CLOUDINARY_* variables**: For uploading and managing files (resumes, documents, etc.) via Cloudinary.
+- **STRIPE_* variables**: For Stripe payment integration and webhook verification.
+- **CORS_ORIGIN**: Comma-separated list of allowed origins for CORS.
+- **CLIENT_CONTACT_EMAIL**: Contact email shown to users or used in notifications.
+- **ADMIN_EMAIL / ADMIN_PASSWORD**: Used for seeding an admin user (not for public API).
+- **NODE_ENV**: Set to `development` or `production` as appropriate.
+
+> ⚠️ **Never commit your `.env` file to version control.**  
+> Always keep your secrets safe!
+
+---
+
+**Tip:**  
+Update the values to match your deployment and credentials.  
+If you add new features that require more environment variables, document them here for your team!
 
 ### 3. Start MongoDB
 
