@@ -2,7 +2,7 @@ const Candidate = require("../models/Candidate");
 const Application = require("../models/Application");
 const Interview = require("../models/Interview");
 const Job = require("../models/Job");
-const VisaApplication = require("../models/VisaApplication");
+
 const upload = require("../middleware/upload"); // Import the multer config
 const validator = require("validator");
 
@@ -140,13 +140,3 @@ exports.getInterviews = async (req, res) => {
     }
 };
 
-// Get Visa Applications
-exports.getVisaApplications = async (req, res) => {
-    try {
-        const visaApplications = await VisaApplication.find({ candidate: req.user.id }).populate("recruiter");
-        res.status(200).json({ success: true, visaApplications });
-    } catch (error) {
-        console.error("Fetch Visa Applications Error:", error);
-        res.status(500).json({ success: false, message: "Server Error" });
-    }
-};
