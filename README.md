@@ -207,7 +207,6 @@ EMAIL_PASS=your-email-password
 PORT=5000
 ```
 
-
 ### 3. Start MongoDB
 
 ```bash
@@ -218,9 +217,7 @@ mongod
 ### 4. Run the Application
 
 ```bash
-npm start
-# or for development with auto-reload
-npm run dev
+node server.js
 ```
 
 ### 5. Access the API
@@ -329,22 +326,6 @@ npm run dev
 
 ---
 
-## 📊 Logging
-
-- Console and file logging (add Winston or similar for production)
-- Logs stored in `/logs` (if configured)
-
----
-
-## 🧪 Testing
-
-```bash
-# Run all tests (if implemented)
-npm test
-```
-
----
-
 
 ## 🤝 Contributing
 
@@ -356,11 +337,6 @@ npm test
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
-
----
 
 ## 🆘 Troubleshooting
 
@@ -370,9 +346,6 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 **Import Errors:**
 - Ensure `node_modules` is installed (`npm install`)
 - Check your Node.js version
-
-**File Upload Issues:**
-- Ensure `/uploads` directory exists and is writable
 
 **Email/Stripe Issues:**
 - Check credentials in `.env`
