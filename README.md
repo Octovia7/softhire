@@ -16,18 +16,16 @@ SoftHire streamlines the hiring and sponsorship process for organizations and ca
 
 ---
 
-
 ## 🏗️ Architecture
 
 The project follows a modular, layered architecture for maintainability and scalability:
 
+```
 softhire/
 ├── config/                     # Authentication and environment config
 │   └── passport.js             # Google OAuth setup (serialization/deserialization)
 │
 ├── controllers/                # Handles business logic for routes
-│   ├── adminAuthController.js         # Admin login and JWT issuance
-│   ├── adminOrganizationController.js # Admin: approve/reject orgs, list by status
 │   ├── applicationController.js       # Job application submit/status/list
 │   ├── authController.js              # User signup, OTP verify, login/logout/reset
 │   ├── chat.controller.js             # Manages chat endpoints (via sockets)
@@ -47,13 +45,12 @@ softhire/
 │
 ├── middleware/                # Auth and validation logic
 │   ├── authMiddleware.js             # JWT auth, recruiter/candidate protection
-│   ├── authorizeAdmin.js             # Restrict access to admin routes
+│   ├── authorizeAdmin.js             # (Reserved for future admin features)
 │   └── isVerifiedOrg.js              # Ensures user belongs to verified org
 │
 ├── models/                    # MongoDB (Mongoose) schemas
 │   ├── AboutYourCompany.js           # Sponsorship: company details
 │   ├── ActivityAndNeeds.js           # Sponsorship: business activity
-│   ├── Admin.js                      # Admin user with permission level
 │   ├── Application.js                # Job application (candidate, job, status)
 │   ├── AuthorisingOfficer.js         # Sponsorship: officer info
 │   ├── Candidate.js                  # Candidate-specific data
@@ -73,13 +70,11 @@ softhire/
 │   ├── SponsorshipApplication.js     # Full sponsorship workflow (refs sections)
 │   ├── SupportingDocuments.js        # Uploaded sponsorship documents
 │   ├── SystemAccess.js               # Sponsorship: level 1 access details
-│   ├── User.js                       # Main user model (all roles)
+│   └── User.js                       # Main user model (all roles)
 │
 ├── public/                    # Static assets (e.g., images, frontend docs)
 │
 ├── routes/                    # All API endpoint definitions
-│   ├── adminAuth.js                  # Admin login route
-│   ├── adminRoutes.js                # Admin endpoints for org control
 │   ├── applicationRoutes.js          # Apply, track, list jobs
 │   ├── authRoutes.js                 # Signup, login, OTP, password reset
 │   ├── contactRoutes.js              # Contact form endpoint
@@ -100,7 +95,6 @@ softhire/
 │   ├── stripe.js                     # Stripe payments + webhook endpoint
 │   └── userRoutes.js                 # Candidate/recruiter dashboard APIs
 │
-│
 ├── sockets/                   # Real-time communication
 │   └── chat.js                       # Socket.IO chat server logic
 │
@@ -120,29 +114,19 @@ softhire/
 ├── .gitignore                # Prevents secrets/node_modules from being committed
 ├── package.json              # Dependencies and scripts
 ├── README.md                 # You’re reading it!
-├── seedAdmin.js              # Seeds default admin into DB
+├── seedAdmin.js              # Seeds default admin into DB (for future use)
 └── server.js                 # App entry point, connects DB, sets up Express, routes
+```
 
-
-### Key File Descriptions
-
-- **config/passport.js**: Google OAuth setup for recruiter login.
-- **controllers/**: Handles all business logic for users, organizations, jobs, sponsorships, payments, chat, and more.
-- **middleware/**: JWT authentication, admin checks, and organization verification.
-- **models/**: Mongoose schemas for users, organizations, jobs, sponsorship applications, documents, and more.
-- **routes/**: Express routers for all API endpoints.
-- **scripts/**: Data import and admin seeding utilities.
-- **sockets/chat.js**: Real-time chat server logic.
-- **utils/**: Email sending, file upload configuration, and templates.
+> **Note:** Admin features and endpoints are under development and will be documented in future releases. This README currently covers recruiter and candidate functionality only.
 
 ---
 
 ## 🚀 Features
 
-### Organization & Admin Management
+### Organization Management
 
 - ✅ Organization registration and onboarding
-- ✅ Admin approval and verification workflows
 - ✅ Organization dashboard and recruiter management
 
 ### Job & Application Management
@@ -223,20 +207,15 @@ EMAIL_PASS=your-email-password
 PORT=5000
 ```
 
-### 3. Seed Admin User (optional)
 
-```bash
-node seedAdmin.js
-```
-
-### 4. Start MongoDB
+### 3. Start MongoDB
 
 ```bash
 # Local MongoDB
 mongod
 ```
 
-### 5. Run the Application
+### 4. Run the Application
 
 ```bash
 npm start
@@ -244,7 +223,7 @@ npm start
 npm run dev
 ```
 
-### 6. Access the API
+### 5. Access the API
 
 - **API Base URL:** http://localhost:5000/
 - **API Documentation:** (Add Swagger or Postman collection as needed)
@@ -261,30 +240,84 @@ npm run dev
 - `POST /api/auth/verify-otp` – OTP verification
 - `POST /api/auth/reset-password` – Password reset
 
-### Organization & Admin
+### Organization
 
 - `POST /api/org/register` – Register new organization
-- `GET /api/admin/organizations` – List organizations (admin)
-- `PUT /api/admin/organizations/:id/approve` – Approve organization
-- `PUT /api/admin/organizations/:id/reject` – Reject organization
+- `GET /api/org/profile` – Get organization profile
+- `PUT /api/org/profile` – Update organization profile
+- `GET /api/org/jobs` – List jobs posted by organization
+- `GET /api/org/recruiters` – List recruiters in organization
 
 ### Jobs & Applications
 
 - `POST /api/org/jobs` – Post a new job
-- `GET /api/jobs` – List jobs
-- `POST /api/jobs/:id/apply` – Apply to a job
-- `GET /api/applications` – List user applications
+- `PUT /api/org/jobs/:jobId` – Update a job
+- `DELETE /api/org/jobs/:jobId` – Delete a job
+- `GET /api/jobs` – List all jobs
+- `GET /api/jobs/:jobId` – Get job details
+- `POST /api/jobs/:jobId/apply` – Apply to a job
+- `GET /api/applications` – List applications for current user
+- `GET /api/org/applications` – List applications for organization’s jobs
+
+### Candidate Profile
+
+- `GET /api/profile` – Get candidate profile
+- `POST /api/profile` – Create candidate profile
+- `PUT /api/profile` – Update candidate profile
+- `GET /api/profile/search` – Search candidate profiles
+
+### Job Preferences & Expectations
+
+- `GET /api/job-preferences` – Get job preferences
+- `POST /api/job-preferences` – Set job preferences
+- `PUT /api/job-preferences` – Update job preferences
+
+- `GET /api/job-expectations` – Get job expectations
+- `POST /api/job-expectations` – Set job expectations
+- `PUT /api/job-expectations` – Update job expectations
 
 ### Sponsorship
 
 - `POST /api/sponsorship/apply` – Start sponsorship application
-- `PUT /api/sponsorship/:id/section` – Update application section
+- `GET /api/sponsorship/:id` – Get sponsorship application by ID
+- `PUT /api/sponsorship/:id/section` – Update a section of the sponsorship application
 - `POST /api/sponsorship/:id/documents` – Upload supporting documents
+- `GET /api/sponsorship/:id/documents` – List supporting documents
+- `DELETE /api/sponsorship/:id/documents/:docId` – Delete a supporting document
+- `GET /api/sponsorship` – List all sponsorship applications for user/org
+
+### Sponsor Eligibility
+
+- `POST /api/sponsor-eligibility` – Submit sponsor eligibility form
+- `GET /api/sponsor-eligibility/:id` – Get sponsor eligibility submission
+
+### Consultations & Demos
+
+- `POST /api/consult` – Request a consultation
+- `POST /api/demo` – Schedule a product demo
+
+### Documents
+
+- `POST /api/documents/upload` – Upload a document (resume, passport, etc.)
+- `GET /api/documents/:id` – Download a document
+- `DELETE /api/documents/:id` – Delete a document
 
 ### Payments
 
 - `POST /api/payments/stripe/session` – Create Stripe payment session
 - `POST /api/payments/stripe/webhook` – Stripe webhook endpoint
+
+### Communication
+
+- `GET /api/chat/conversations` – List chat conversations
+- `GET /api/chat/:conversationId/messages` – Get messages in a conversation
+- `POST /api/chat/:conversationId/messages` – Send a message
+
+### Miscellaneous
+
+- `POST /api/contact` – Submit a contact form
+- `GET /api/isc` – Get Immigration Skills Charge info
+- `GET /api/salary` – Get salary/SOC code info
 
 ---
 
@@ -293,7 +326,6 @@ npm run dev
 - ✅ JWT authentication and role-based access
 - ✅ Input validation and error handling
 - ✅ Secure file uploads
-- ✅ Admin-only endpoints for sensitive actions
 
 ---
 
