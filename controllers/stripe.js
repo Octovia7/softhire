@@ -210,96 +210,23 @@ exports.createCandidateCheckoutSession = async (req, res) => {
   }
 };
 
-
-
-
-// exports.candidateWebhook = async (req, res) => {
-//   const sig = req.headers["stripe-signature"];
-//   let event;
-
-//   try {
-//     event = stripe.webhooks.constructEvent(
-//       req.body,
-//       sig,
-//       process.env.STRIPE_CANDIDATE_WEBHOOK_SECRET
-//     );
-//     console.log("✅ Webhook received:", event.type);
-//   } catch (err) {
-//     console.error("❌ Webhook signature error:", err.message);
-//     return res.status(400).send(`Webhook Error: ${err.message}`);
-//   }
-
-//   if (event.type === "checkout.session.completed") {
-//     const session = event.data.object;
-//     const { applicationId, plan, planType } = session.metadata;
-//     const email = session.customer_email;
-
-//     console.log(`📦 Webhook session for ${email} | Plan: ${plan} | Type: ${planType}`);
-
-//     try {
-//       if (planType === "one-time") {
-//         const application = await Application.findById(applicationId).populate("candidate job");
-
-//         if (!application) {
-//           console.error("❌ Application not found for one-time payment");
-//           return res.status(404).send();
-//         }
-
-//         if (application.paymentStatus !== "Paid") {
-//           application.paymentStatus = "Paid";
-//           await application.save();
-//           console.log("✅ One-time application marked as paid:", applicationId);
-//         }
-
-//         // Admin notification
-//         await transporter.sendMail({
-//           from: process.env.EMAIL,
-//           to: process.env.ADMIN_EMAIL || process.env.EMAIL,
-//           subject: "💳 One-time Payment Received",
-//           html: `
-//             <h3>🧾 Visa Fee Paid</h3>
-//             <p><strong>Candidate:</strong> ${application.candidate.fullName} (${application.candidate.email})</p>
-//             <p><strong>Job:</strong> ${application.job.title}</p>
-//             <p><strong>Plan:</strong> ${application.oneTimePlan}</p>
-//             <p><strong>CoS Ref:</strong> ${application.cosRefNumber}</p>
-//           `
-//         });
-
-//       } else if (planType === "subscription") {
-//         const candidate = await Candidate.findOne({ userId: session.client_reference_id }).populate("userId");
-
-//         if (!candidate) {
-//           console.error("❌ Candidate not found for subscription webhook");
-//           return res.status(404).send();
-//         }
-
-//         candidate.subscriptionPlan = plan;
-//         candidate.subscriptionStatus = "Active";
-//         candidate.subscriptionStartedAt = new Date();
-//         candidate.stripeSubscriptionId = session.subscription;
-//         await candidate.save();
-
-//         console.log("✅ Candidate subscription updated");
-
-//         // Admin notification
-//         await transporter.sendMail({
-//           from: process.env.EMAIL,
-//           to: process.env.EMAIL || process.env.EMAIL,
-//           subject: "📅 Subscription Started",
-//           html: `
-//             <h3>💼 Subscription Activated</h3>
-//             <p><strong>Candidate:</strong> ${candidate.userId.fullName} (${candidate.userId.email})</p>
-//             <p><strong>Plan:</strong> ${plan}</p>
-//             <p><strong>Status:</strong> Active</p>
-//           `
-//         });
-//       }
-
-//     } catch (err) {
-//       console.error("❌ Webhook processing error:", err);
-//     }
-//   }
-
-//   res.status(200).json({ received: true });
-// };
+// ✅ Candidate payment status check
+exports.getCandidatePaymentStatus = async (req, res) => {
+  try {
+    const candidate = await Candidate.findOne({ userId: req.user.id }).populate("userId", "fullName email");
+    if (!candidate) {
+      return res.status(404).json({ success: false, error: "Candidate not found" });
+    }
+    res.json({
+      success: true,
+      paymentStatus: candidate.paymentStatus || "Unpaid",
+      cosRefNumber: candidate.cosRefNumber || "",
+      stripeSessionId: candidate.stripeSessionId || "",
+      name: candidate.userId?.fullName || "",
+      email: candidate.userId?.email || ""
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: "Server error" });
+  }
+};
 

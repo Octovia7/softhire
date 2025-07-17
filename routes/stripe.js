@@ -22,4 +22,11 @@ router.post(
 //   stripeController.candidateWebhook
 // );
 
+// ✅ Candidate payment status route
+router.get(
+  "/candidate/payment-status",
+  authenticate,
+  stripeController.getCandidatePaymentStatus
+);
+
 module.exports = router;
