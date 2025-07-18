@@ -7,9 +7,12 @@ const Profile = require("../models/Profile");
 exports.getOrgStats = asyncHandler(async (req, res) => {
   const orgId = req.organization._id;
 
-  // 1. Get all job IDs for this organization
-  const jobs = await Job.find({ organization: orgId }).select("_id primaryRole").lean();
+  // 1. Get all jobs and filter by active status
+  const jobs = await Job.find({ organization: orgId }).select("_id primaryRole isHiring isDraft active").lean();
   const jobIds = jobs.map(job => job._id);
+
+  // ✅ Count active jobs correctly
+  const activeJobsCount = jobs.filter(job => job.isHiring && !job.isDraft && job.active).length;
 
   // 2. Count total applicants for those jobs
   const totalApplicants = await Application.countDocuments({
@@ -34,7 +37,7 @@ exports.getOrgStats = asyncHandler(async (req, res) => {
     profileMap.set(profile.userId.toString(), profile.primaryRole?.toLowerCase());
   });
 
-  // 5. Count matches: profile.primaryRole == job.primaryRole
+  // 5. Count matches
   let matchCount = 0;
   for (const app of applications) {
     const userId = app.candidate?.toString();
@@ -46,11 +49,15 @@ exports.getOrgStats = asyncHandler(async (req, res) => {
     }
   }
 
+  // ✅ Return all stats
   res.status(200).json({
     applicants: totalApplicants,
     matches: matchCount,
+    activeJobs: activeJobsCount,
   });
 });
+
+
 
 
 exports.getActivityFeedForOrg = asyncHandler(async (req, res) => {
