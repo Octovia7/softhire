@@ -6,7 +6,7 @@ exports.getRecruiterByOrg = async (req, res) => {
   try {
     const orgId = req.organization._id;
 
-    const recruiter = await Recruiter.findOne({ organization: orgId }).populate("userId", "name email");
+    const recruiter = await Recruiter.findOne({ organization: orgId }).populate("userId", "fullName email avatar");
     if (!recruiter) {
       return res.status(404).json({ error: "Recruiter not found for this organization." });
     }
