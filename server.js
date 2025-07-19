@@ -40,6 +40,8 @@ const orgRoutes = require("./routes/orgRoutes");
 const docRoutes = require("./routes/documentRoutes");
 const chatRoutes = require("./routes/chat.routes.js");
 const sponsorshipRoutes = require("./routes/sponsorshipRoutes");
+const recruiterProfileRoutes = require("./routes/recruiterProfileRoute");
+
 
 // ⬇️ Sockets
 const chatSocket = require("./sockets/chat");
@@ -150,6 +152,8 @@ app.use("/api", orgRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/sponsorship", sponsorshipRoutes);
 app.use("/api/stripe", stripeRoutes);
+app.use("/api/recruiter", recruiterProfileRoutes);
+
 
 // ⬇️ Health check
 app.get("/health", (req, res) => res.json({ status: "ok" }));
