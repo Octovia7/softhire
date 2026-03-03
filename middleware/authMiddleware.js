@@ -2,21 +2,25 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 // ✅ Authenticate using Cookie
+
 const authenticate = (req, res, next) => {
-    const token = req.cookies.token; // Read token from cookie
+  const token =
+    req.cookies.token ||
+    (req.header("Authorization") && req.header("Authorization").split(" ")[1]);
 
-    if (!token) {
-        return res.status(401).json({ message: "Access denied. No token provided." });
-    }
+  if (!token) {
+    return res.status(401).json({ message: "Access denied. No token provided." });
+  }
 
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = { id: decoded.id, role: decoded.role };
-        next();
-    } catch (error) {
-        console.error("❌ Token verification failed:", error.message);
-        return res.status(403).json({ message: "Invalid or expired token." });
-    }
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("✅ Decoded JWT:", decoded);
+    req.user = { id: decoded.id, role: decoded.role, email: decoded.email };
+    next();
+  } catch (error) {
+    console.error("❌ Token verification failed:", error.message);
+    return res.status(403).json({ message: "Invalid or expired token." });
+  }
 };
 
 // ✅ Authorize Recruiter middleware (no changes needed)

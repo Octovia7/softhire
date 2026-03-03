@@ -1,24 +1,230 @@
 const Job = require('../models/Job');
 const mongoose = require('mongoose');
-
-// controllers/applicationController.js
+const Recruiter = require('../models/Recruiter');
+const asyncHandler = require("express-async-handler");
 const Application = require('../models/Application');
-// controllers/applicationController.js
-// const Application = require('../models/Application');
-// const Job = require('../models/Job');
+const Profile = require("../models/Profile");
+exports.getOrgStats = asyncHandler(async (req, res) => {
+  const orgId = req.organization._id;
+
+  // 1. Get all jobs and filter by active status
+  const jobs = await Job.find({ organization: orgId }).select("_id primaryRole isHiring isDraft active").lean();
+  const jobIds = jobs.map(job => job._id);
+
+  // ✅ Count active jobs correctly
+  const activeJobsCount = jobs.filter(job => job.isHiring && !job.isDraft && job.active).length;
+
+  // 2. Count total applicants for those jobs
+  const totalApplicants = await Application.countDocuments({
+    job: { $in: jobIds }
+  });
+
+  // 3. Get applications and associated candidate userIds
+  const applications = await Application.find({ job: { $in: jobIds } })
+    .select("candidate job")
+    .populate("job", "primaryRole")
+    .lean();
+
+  const candidateUserIds = applications.map(app => app.candidate);
+
+  // 4. Get profiles for those candidates
+  const profiles = await Profile.find({ userId: { $in: candidateUserIds } })
+    .select("userId primaryRole")
+    .lean();
+
+  const profileMap = new Map();
+  profiles.forEach(profile => {
+    profileMap.set(profile.userId.toString(), profile.primaryRole?.toLowerCase());
+  });
+
+  // 5. Count matches
+  let matchCount = 0;
+  for (const app of applications) {
+    const userId = app.candidate?.toString();
+    const jobRole = app.job?.primaryRole?.toLowerCase();
+    const profileRole = profileMap.get(userId);
+
+    if (jobRole && profileRole && jobRole === profileRole) {
+      matchCount++;
+    }
+  }
+
+  // ✅ Return all stats
+  res.status(200).json({
+    applicants: totalApplicants,
+    matches: matchCount,
+    activeJobs: activeJobsCount,
+  });
+});
+
+
+
+
+exports.getActivityFeedForOrg = asyncHandler(async (req, res) => {
+  const orgId = req.organization._id;
+
+  if (!mongoose.Types.ObjectId.isValid(orgId)) {
+    return res.status(400).json({ error: "Invalid organization ID." });
+  }
+
+  // Fetch jobs posted by org, limit to last 60 days
+  const jobs = await Job.find({
+    organization: orgId,
+    postedAt: { $gte: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000) } // 60 days
+  })
+    .select("_id title postedAt")
+    .sort({ postedAt: -1 })
+    .limit(10)
+    .lean();
+
+  const jobIds = jobs.map(job => job._id);
+
+  const applications = await Application.aggregate([
+    { $match: { job: { $in: jobIds } } },
+    {
+      $group: {
+        _id: "$job",
+        count: { $sum: 1 },
+        latest: { $max: "$createdAt" }
+      }
+    },
+    { $sort: { latest: -1 } },
+    { $limit: 10 }
+  ]);
+
+  // Build a map of jobId → jobTitle for quick lookup
+  const jobMap = {};
+  jobs.forEach(job => {
+    jobMap[job._id.toString()] = job.title;
+  });
+
+  const activity = [];
+
+  // 🟢 Job posts
+  jobs.forEach(job => {
+    activity.push({
+      type: "job_posted",
+      message: `You posted a job for ${job.title}.`,
+      timestamp: job.postedAt
+    });
+  });
+
+  // 🔵 Applications
+  applications.forEach(app => {
+    const jobTitle = jobMap[app._id.toString()];
+    if (jobTitle) {
+      activity.push({
+        type: "candidates_matched",
+        message: `${app.count} candidate(s) matched for ${jobTitle} role.`,
+        timestamp: app.latest
+      });
+    }
+  });
+
+  // Final sort
+  activity.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  res.status(200).json({ activity });
+});
+exports.updateRecruiter = async (req, res) => {
+  const userId = req.user.id;
+  const updateData = req.body;
+
+  const recruiter = await Recruiter.findOneAndUpdate(
+    { userId },
+    { $set: updateData },
+    { new: true, runValidators: true }
+  );
+
+  if (!recruiter) {
+    return res.status(404).json({ message: "Recruiter not found" });
+  }
+
+  res.status(200).json({
+    message: "Recruiter profile updated successfully",
+    recruiter,
+  });
+};
+exports.getRecruiter = async (req, res) => {
+  const userId = req.user.id; // assuming middleware attaches `user` to `req`
+
+  const recruiter = await Recruiter.findOne({ userId })
+    .populate("organization", "name") // optional
+    .lean();
+
+  if (!recruiter) {
+    return res.status(404).json({ message: "Recruiter not found" });
+  }
+
+  res.status(200).json(recruiter);
+};
 
 exports.getApplicationsForOrg = async (req, res) => {
   try {
     const orgId = req.organization._id;
 
-    // Step 1: Get job IDs posted by this organization
-    const jobs = await Job.find({ organization: orgId }, '_id');
+    if (!mongoose.Types.ObjectId.isValid(orgId)) {
+      return res.status(400).json({ error: "Invalid organization ID." });
+    }
+
+    const jobs = await Job.find({ organization: orgId }, "_id");
     const jobIds = jobs.map(job => job._id);
 
-    // Step 2: Get applications for these jobs
-    const applications = await Application.find({ job: { $in: jobIds } })
-      .populate('candidate', 'name email')   // optional, populate candidate info
-      .populate('job', 'title visaType');    // optional, populate job info
+    const applications = await Application.aggregate([
+      { $match: { job: { $in: jobIds } } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'candidate',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { $unwind: { path: '$user', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'candidates',
+          localField: 'candidate',
+          foreignField: 'userId',
+          as: 'candidateData'
+        }
+      },
+      { $unwind: { path: '$candidateData', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'jobs',
+          localField: 'job',
+          foreignField: '_id',
+          as: 'job'
+        }
+      },
+      { $unwind: { path: '$job', preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          coverLetter: 1,
+          status: 1,
+          statusUpdatedAt: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          paymentStatus: 1,
+          cosRefNumber: 1,
+          cosSubmittedAt: 1,
+          oneTimePlan: 1,
+          stripeSessionId: 1,
+          user: {
+            _id: '$user._id',
+            name: '$user.name',
+            email: '$user.email'
+          },
+          resume: '$candidateData.resume',
+          job: {
+            _id: '$job._id',
+            title: '$job.title',
+            visaType: '$job.visaType'
+          }
+        }
+      }
+    ]);
 
     res.status(200).json(applications);
   } catch (err) {
@@ -26,6 +232,7 @@ exports.getApplicationsForOrg = async (req, res) => {
     res.status(500).json({ error: 'Server error while fetching applications' });
   }
 };
+
 
 
 
@@ -52,26 +259,6 @@ exports.updateStatus = async (req, res) => {
   }
 };
 
-// Get applications for a specific job, filtered by status
-// exports.getApplicationsByJobAndStatus = async (req, res) => {
-//   const { jobId } = req.params;
-//   const { status } = req.query;
-
-//   try {
-//     const filter = { job: jobId };
-//     if (status) filter.status = status;
-
-
-//     const applications = await Application.find(filter)
-//       .populate('candidate', 'name email') // Adjust fields as needed
-//       .sort({ updatedAt: -1 });
-
-//     res.status(200).json(applications);
-//   } catch (error) {
-//     console.error('Error fetching applications:', error);
-//     res.status(500).json({ message: 'Server error', error });
-//   }
-// };
 
 exports.getApplicationsByJobAndStatus = async (req, res) => {
   const { jobId } = req.params;
@@ -262,63 +449,6 @@ exports.createJob = async (req, res) => {
   }
 };
 
-
-// ✅ Create a new job
-// exports.createJob = async (req, res) => {
-//   try {
-//     const user = req.user;
-
-//     if (!req.organization) {
-//       return res.status(403).json({ error: 'Only organization users can post jobs.' });
-//     }
-
-//     const { visaType, ...otherFields } = req.body;
-
-//     if (!visaType) {
-//       return res.status(400).json({ error: 'visaType is required when posting a job.' });
-//     }
-
-//     const newJob = new Job({
-//       ...otherFields,
-//       visaType,
-//       postedBy: user._id,
-//       organization: req.organization._id,
-//     });
-
-//     await newJob.save();
-
-//     res.status(201).json({ message: 'Job created successfully', job: newJob });
-//   } catch (err) {
-//     console.error('Error creating job:', err);
-//     res.status(500).json({ error: 'Server error while creating job' });
-//   }
-// };
-
-// ✅ Update an existing job
-// exports.updateJob = async (req, res) => {
-//   try {
-//     const { jobId } = req.params;
-
-//     const job = await Job.findOne({ _id: jobId, organization: req.organization._id });
-
-//     if (!job) {
-//       return res.status(404).json({ error: 'Job not found or unauthorized.' });
-//     }
-
-//     // Prevent changing visaType after creation
-//     if (req.body.visaType && req.body.visaType !== job.visaType) {
-//       return res.status(400).json({ error: 'Changing visaType is not allowed once the job is created.' });
-//     }
-
-//     Object.assign(job, req.body);
-//     await job.save();
-
-//     res.status(200).json({ message: 'Job updated successfully', job });
-//   } catch (err) {
-//     console.error('Error updating job:', err);
-//     res.status(500).json({ error: 'Server error while updating job' });
-//   }
-// };
 exports.updateJob = async (req, res) => {
   try {
     const user = req.user

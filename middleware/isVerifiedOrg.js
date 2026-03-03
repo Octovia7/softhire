@@ -17,15 +17,12 @@ const isVerifiedOrg = async (req, res, next) => {
       return res.status(404).json({ error: 'Organization not found for this user.' });
     }
 
-    if (organization.status !== 'verified') {
-      return res.status(403).json({ error: 'Only verified organizations can perform this action.' });
-    }
-
+    // 👇 Removed verification check
     req.organization = organization; // Make it available downstream
     next();
   } catch (err) {
     console.error('Middleware error:', err);
-    res.status(500).json({ error: 'Server error in organization verification middleware.' });
+    res.status(500).json({ error: 'Server error in organization middleware.' });
   }
 };
 

@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router();
 const upload = require('../utils/multer');
 
-const { authenticate } = require('../middleware/authMiddleware'); // 👈 import authenticate middleware
+const { authenticate } = require('../middleware/authMiddleware');
 
 const { 
     createProfile,
@@ -10,25 +10,37 @@ const {
     updateProfile,
     deleteProfile, 
     uploadProfileImage,
-    getProfileImage,searchApplicants
+    getProfileImage,
+    searchApplicants,
+    getCurrentUserProfile, // New function
+    updateCurrentUserProfile // New function
 } = require('../controllers/profileController');
-// routes/profile.js or similar
+
+// Get current user's profile image
 router.get("/profile-image", authenticate, getProfileImage);
+
+// Upload profile photo
 router.post('/upload-photo', authenticate, upload.single('profilePhoto'), uploadProfileImage);
-// POST Create Profile (only logged-in user can create)
-router.post('/', authenticate,  createProfile);
+
+// Get current authenticated user's profile (no ID needed)
+router.get("/me", authenticate, getCurrentUserProfile);
+
+// Update current authenticated user's profile (no ID needed)
+router.patch("/me", authenticate, updateCurrentUserProfile);
+
+// Create profile for current user
+router.post('/', authenticate, createProfile);
+
+// Search applicants (public route for recruiters)
 router.get('/search-applicants', searchApplicants);
 
-// GET Profile (optional: protect it if you want only logged-in users to view)
-// router.get("/:id", authenticate, getProfile); 
-
-// or if profiles are public, no authenticate needed:
+// Get profile by user ID (public or protected based on your needs)
 router.get("/:id", getProfile);
 
-// PATCH Update Profile (only logged-in user)
+// Update profile by ID (only owner can update)
 router.patch("/:id", authenticate, updateProfile);
 
-// DELETE Profile (only logged-in user)
+// Delete profile by ID (only owner can delete)
 router.delete("/:id", authenticate, deleteProfile);
 
 module.exports = router;

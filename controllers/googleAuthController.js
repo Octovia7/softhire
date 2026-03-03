@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Organization = require("../models/Organization");
 const { create } = require("connect-mongo");
 const jwt = require("jsonwebtoken");
-
+const Recruiter = require("../models/Recruiter"); // <-- Add this line at top
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const googleLogin = async (req, res) => {
@@ -65,18 +65,21 @@ const googleLogin = async (req, res) => {
 };
 
 // Use aggregation pipeline to return user data with their organization populated
+
+
 const submitRecruiterDetails = async (req, res) => {
   const { userId, organizationName, website, industry } = req.body;
+
   try {
     // Find the user by ID
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
     if (user.role !== "recruiter") {
       return res.status(403).json({ message: "User is not a recruiter" });
     }
-    console.log(user)
 
     const existingOrganization = await Organization.findOne({ createdBy: user._id });
     if (existingOrganization) {
@@ -90,6 +93,19 @@ const submitRecruiterDetails = async (req, res) => {
       industry: industry,
       createdBy: user._id
     });
+
+    // Create Recruiter profile
+    const existingRecruiter = await Recruiter.findOne({ userId: user._id });
+    if (!existingRecruiter) {
+      await Recruiter.create({
+        userId: user._id,
+        organization: newOrganization._id,
+        companyName: organizationName,
+        website: website,
+        position: "Recruiter"
+      });
+    }
+
     await user.save();
 
     // Use aggregation pipeline to get user with organization data
@@ -106,17 +122,18 @@ const submitRecruiterDetails = async (req, res) => {
       { $unwind: "$organization" },
       { $limit: 1 }
     ]);
-    console.log(userWithOrg[0]);
 
     return res.status(200).json({
       message: "Recruiter details updated successfully",
       user: userWithOrg[0],
     });
+
   } catch (error) {
     console.error("Error updating recruiter details:", error);
     return res.status(500).json({ message: "Error updating recruiter details", error: error.message });
   }
 };
+
 
 
 module.exports = { googleLogin, submitRecruiterDetails };

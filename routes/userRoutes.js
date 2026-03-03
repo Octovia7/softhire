@@ -6,8 +6,7 @@ const {
     uploadResume,
     getAppliedJobs,
     applyForJob,
-    getInterviews,
-    getVisaApplications,
+    getInterviews
     
 } = require("../controllers/userController");
 const { authenticate } = require("../middleware/authMiddleware");
@@ -20,7 +19,7 @@ router.get("/profile", authenticate, getProfile);
 router.put("/profile", authenticate, updateProfile);
 
 // Upload resume
-router.post("/upload-resume", authenticate, upload.single("resume"), uploadResume);
+// router.post("/upload-resume", authenticate, upload.single("resume"), uploadResume);
 
 // Get all applied jobs
 router.get("/applied-jobs", authenticate, getAppliedJobs);
@@ -31,8 +30,7 @@ router.post("/apply/:jobId", authenticate, applyForJob);
 // Get scheduled interviews
 router.get("/interviews", authenticate, getInterviews);
 
-// Get visa applications
-router.get("/visa-applications", authenticate, getVisaApplications);
+
 
 // Get job details
 // router.get("/jobs/:jobId", authenticate, getJobDetails);

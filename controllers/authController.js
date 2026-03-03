@@ -70,15 +70,18 @@ exports.signup = async (req, res) => {
     }
 };
 
+
 exports.verifyOTP = async (req, res) => {
     const { email, otp } = req.body;
 
     try {
+        // Check if the pending user exists
         const pendingUser = await PendingUser.findOne({ email });
         if (!pendingUser) {
             return res.status(400).json({ message: "No signup found. Please register first." });
         }
 
+        // Validate OTP presence and expiry
         if (!pendingUser.otpData || !pendingUser.otpData.expires) {
             await PendingUser.deleteOne({ email });
             return res.status(400).json({ message: "OTP not found or invalid. Please sign up again." });
@@ -89,11 +92,13 @@ exports.verifyOTP = async (req, res) => {
             return res.status(400).json({ message: "OTP expired. Please sign up again." });
         }
 
+        // Compare OTP
         const isMatch = await bcrypt.compare(otp, pendingUser.otpData.otp);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid OTP" });
         }
 
+        // Create verified User
         const newUser = new User({
             fullName: pendingUser.fullName,
             email: pendingUser.email,
@@ -104,6 +109,7 @@ exports.verifyOTP = async (req, res) => {
 
         await newUser.save();
 
+        // Create Recruiter or Candidate sub-docs
         if (pendingUser.role === "recruiter") {
             const organization = new Organization({
                 name: pendingUser.organizationName,
@@ -123,66 +129,71 @@ exports.verifyOTP = async (req, res) => {
         }
 
         if (pendingUser.role === "candidate") {
-            await Candidate.create({ userId: newUser._id, skills: [] });
+            await Candidate.create({
+                userId: newUser._id,
+                skills: [],
+            });
         }
 
+        // Cleanup pending user entry
         await PendingUser.deleteOne({ email });
 
+        // Generate token
         const token = jwt.sign(
-            { id: newUser._id, role: newUser.role },
+            { id: newUser._id, role: newUser.role, email: newUser.email },
             process.env.JWT_SECRET,
-            { expiresIn: "7d" }
+            { expiresIn: "1h" }
         );
 
         res.status(200).json({
             message: "Account verified successfully",
             token,
-            userId: newUser._id, // ✅ Include userId
+            userId: newUser._id,
         });
     } catch (error) {
         console.error("🚨 Verify OTP Error:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
-
 exports.login = async (req, res) => {
     const { email, password } = req.body;
+
     try {
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ message: "User not found" });
         if (!user.isVerified) return res.status(400).json({ message: "Please verify your email first" });
-        if (!(await bcrypt.compare(password, user.password))) return res.status(400).json({ message: "Invalid credentials" });
 
-        // const token = jwt.sign(
-        //     { id: user._id, role: user.role },
-        //     process.env.JWT_SECRET,
-        //     { expiresIn: "1h" }
-        // );
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
 
-
-        // res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 3600000 });
-
-        const jwtToken = jwt.sign(
-            { id: user._id, role: user.role },
+        const token = jwt.sign(
+            { id: user._id, role: user.role, email: user.email },
             process.env.JWT_SECRET,
-            { expiresIn: "7d" }
+            { expiresIn: "1h" }
         );
 
-        // Set token in HTTP-only cookie
-        res.cookie("token", jwtToken, {
+
+        res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "None", // or "None" if cross-site and using HTTPS
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            maxAge: 3600000
         });
 
+        // ✅ Send full user object (or trimmed)
         res.status(200).json({
             message: "Login successful",
-            token: jwtToken,
-            userId: user._id, // ✅ Include userId
+            token,
+            user: {
+                _id: user._id,
+                role: user.role,
+                fullName: user.fullName,
+                email: user.email,
+                // Add more fields if needed
+            }
         });
     } catch (error) {
+        console.error("Login error:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
